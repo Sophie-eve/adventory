@@ -1,0 +1,14 @@
+{
+  "name": "stock-inventory-d2c",
+  "version": "1.0.0",
+  "description": "Autonomous D2C Ad Engine with Firebase Authentication",
+  "main": "main.py",
+  "scripts": {
+    "deploy": "firebase deploy --only hosting",
+    "deploy:all": "firebase deploy"
+  },
+  "dependencies": {
+    "firebase": "^10.14.1",
+    "ogl": "^1.0.11"
+  }
+}

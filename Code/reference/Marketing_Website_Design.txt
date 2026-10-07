@@ -1,0 +1,83 @@
+Build a modern, responsive marketing website for a B2B marketing-measurement SaaS 
+called "[YOUR BRAND NAME]". It sells media mix modeling and marketing measurement 
+to brands and agencies. Style: clean, premium, lots of white space, a calm blue 
+or green accent color, rounded cards, subtle animations. Use React + Tailwind CSS 
+(or plain HTML/CSS/JS if React isn't available). Front end only; use mock 
+handlers for anything that needs a backend.
+
+LAYOUT
+- Desktop: a fixed LEFT SIDEBAR (about 260px) plus a main area. The top of the 
+  main area holds the center navigation bar.
+- Mobile: the sidebar collapses into a hamburger drawer.
+
+LEFT SIDEBAR (top to bottom)
+1. Logo.
+2. Search bar, with a "Ctrl + K" hint badge (show "⌘ K" on Mac). Pressing 
+   Ctrl+K / Cmd+K anywhere focuses it and opens a command-palette modal that 
+   searches all pages and menu items below, with keyboard up/down/enter/escape.
+3. "Log in" button opening a modal with "Continue with Google" and 
+   "Continue with Apple" buttons (UI only, mock the sign-in), plus a note 
+   about terms and privacy.
+4. "Book a demo" button (prominent, accent color). It opens a modal form with:
+   - First name (required)
+   - Business website (required, validate as a URL)
+   - Phone number (required, validate format)
+   - "Are you looking to sign up as a Brand or an Agency?" (required, radio 
+     buttons or a toggle: Brand / Agency)
+   - Submit button. Show inline validation errors and a success message 
+     ("Thanks! We'll be in touch shortly."). Log the data to the console.
+
+CENTER NAVIGATION (top bar of the main area, three items with large dropdown mega-menus 
+that open on hover and on click, and are keyboard accessible)
+
+1. PRODUCT
+   Left column, "Product":
+   - Overview: See the full platform at a glance
+   - Media Mix Model: Measure the true impact of every channel
+   - Performance: Track and analyze campaign results
+   - Optimization: Allocate spend for maximum ROAS
+   - Retail: Measure omnichannel retail performance
+   - Integrations: Connect your marketing stack seamlessly
+   Right column, "Value":
+   - Measure halo effects: See how each channel lifts the others
+   - Validate measurement sources: Cross-check platform data against real outcomes
+   - Scale with confidence: Increase spend knowing what will drive growth
+
+2. SOLUTIONS
+   Column "By role":
+   - Marketing: Prove marketing's impact on revenue
+   - Finance: Tie ad spend to business outcomes
+   - Operations: Streamline data and reporting workflows
+   Column "By type":
+   - Scaling brand: Drive profitable growth online
+   - Omnichannel: Measure across every channel
+   - Holding Company: Portfolio-wide measurement at scale
+   - Agency: Measurement for your clients
+
+3. CUSTOMERS
+   - Customer Stories: Deep dives into client results
+   - Reviews & Testimonials: Real feedback from brands driving growth
+
+Each menu item has a small icon, a bold title and a one-line description. 
+Each item links to its own page (create simple placeholder pages with a title, 
+short intro and a "Book a demo" call-to-action).
+
+HOME PAGE (below the nav)
+- Hero: headline about proving the true impact of every marketing dollar, 
+  a short subheading, a "Book a demo" button, and a clean dashboard-style 
+  illustration built from CSS/SVG charts.
+- A row of placeholder customer logos.
+- Three feature cards (Measure halo effects, Validate measurement sources, 
+  Scale with confidence).
+- A testimonials section and a final call-to-action banner.
+- Footer with links.
+
+QUALITY REQUIREMENTS
+- Fully responsive (mobile, tablet, desktop), keyboard accessible, ARIA labels 
+  on modals and menus, focus trapping inside modals, Escape closes any modal 
+  or menu.
+- Smooth hover and open/close animations; no layout shift.
+- Clean, commented, componentized code (Sidebar, MegaMenu, SearchPalette, 
+  LoginModal, DemoModal, Hero, etc.).
+- Use original text, images and branding. Do NOT copy any other company's logo, 
+  copyright text or images.

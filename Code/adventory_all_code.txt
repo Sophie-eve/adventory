@@ -1,0 +1,4670 @@
+================================================================================
+ADVENTORY - AUTONOMOUS ADVERTISING INTELLIGENCE ENGINE
+Vite + React 19 + TypeScript + Tailwind CSS (Prescient AI Aesthetics)
+================================================================================
+
+
+/* ===========================================================================
+   FILE: .oxlintrc.json
+   =========================================================================== */
+
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+
+
+
+
+/* ===========================================================================
+   FILE: index.html
+   =========================================================================== */
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Adventory — AI-native autonomous advertising intelligence & decision engine for D2C brands. Stop reading dashboards. Start making profitable decisions." />
+    <title>Adventory — Autonomous Advertising Intelligence</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+
+
+/* ===========================================================================
+   FILE: package.json
+   =========================================================================== */
+
+{
+  "name": "adventory",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/geist-mono": "^5.3.0",
+    "@fontsource/geist-sans": "^5.3.0",
+    "lucide-react": "^1.52.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}
+
+
+
+
+/* ===========================================================================
+   FILE: tsconfig.app.json
+   =========================================================================== */
+
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite/client"],
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
+
+
+
+
+/* ===========================================================================
+   FILE: tsconfig.json
+   =========================================================================== */
+
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+
+
+
+/* ===========================================================================
+   FILE: tsconfig.node.json
+   =========================================================================== */
+
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "module": "nodenext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+
+
+
+/* ===========================================================================
+   FILE: vite.config.ts
+   =========================================================================== */
+
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import { viteSingleFile } from 'vite-plugin-singlefile';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss(), viteSingleFile()],
+});
+
+
+
+
+
+/* ===========================================================================
+   FILE: src/App.tsx
+   =========================================================================== */
+
+/**
+ * App.tsx — Root component. Provides the router.
+ */
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/index.css
+   =========================================================================== */
+
+@import "tailwindcss";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-sans/700.css";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/600.css";
+@import "@fontsource/geist-mono/700.css";
+
+/* Font family definitions */
+@theme {
+  --font-sans: "Geist", "Geist Fallback", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PRESCIENT AI DESIGN SYSTEM TOKENS (Dark Mode Default)
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  /* Surfaces */
+  --t-surface-base: #0a0a0a;
+  --t-surface-raised: rgba(23, 23, 23, 0.7);
+  --t-surface-overlay: #171717;
+  --t-nav-bg: rgba(10, 10, 10, 0.85);
+
+  /* Borders */
+  --t-border-default: #3a3a3a;
+  --t-border-subtle: #262626;
+  --t-border-strong: #525252;
+
+  /* Typography Colors */
+  --t-text-primary: #fafafa;
+  --t-text-secondary: #e5e5e5;
+  --t-text-muted: #a3a3a3;
+  --t-text-faint: #525252;
+
+  /* Accents & Status */
+  --t-accent-solid: #fafafa;
+  --t-accent-text: #0a0a0a;
+  --t-accent-green: #22c55e;
+  --t-status-success: #4ade80;
+  --t-status-warning: #eab308;
+  --t-status-error: #ef4444;
+
+  /* Prescient Brag Pill */
+  --t-brag-pill-bg: rgba(34, 197, 94, 0.08);
+  --t-brag-pill-border: rgba(34, 197, 94, 0.22);
+  --t-brag-pill-text: #4ade80;
+  --t-brag-pill-hover-bg: rgba(34, 197, 94, 0.14);
+
+  /* Icon boxes */
+  --t-icon-bg: #1f1f1f;
+  --t-icon-color: #d4d4d4;
+
+  /* Legacy CSS Variable Mappings for backward compatibility */
+  --bg: var(--t-surface-base);
+  --surface: var(--t-surface-overlay);
+  --surface-raised: var(--t-surface-raised);
+  --surface-subtle: rgba(255, 255, 255, 0.03);
+  --hairline: var(--t-border-subtle);
+  --hairline-hover: var(--t-border-default);
+  --hairline-subtle: rgba(255, 255, 255, 0.06);
+  --text: var(--t-text-primary);
+  --text-secondary: var(--t-text-secondary);
+  --muted: var(--t-text-muted);
+  --accent: #22c55e;
+  --accent-dim: rgba(34, 197, 94, 0.12);
+  --accent-border: rgba(34, 197, 94, 0.3);
+  --amber: #ff8a1f;
+  --amber-dim: rgba(255, 138, 31, 0.12);
+  --blue: #5aa9ff;
+  --blue-dim: rgba(90, 169, 255, 0.12);
+
+  --sans: "Geist", "Geist Fallback", system-ui, -apple-system, sans-serif;
+  --mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular, monospace;
+
+  --maxw: 80rem;
+  --gutter: 24px;
+}
+
+/* Metric-matched fallback fonts */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local(Arial);
+  ascent-override: 95.94%;
+  descent-override: 28.16%;
+  size-adjust: 104.76%;
+}
+@font-face {
+  font-family: "Geist Mono Fallback";
+  src: local(Arial);
+  ascent-override: 74.67%;
+  descent-override: 21.92%;
+  size-adjust: 134.59%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BASE RESETS
+   ═══════════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background: var(--t-surface-base);
+}
+body {
+  background: var(--t-surface-base);
+  color: var(--t-text-primary);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+ul { list-style: none; }
+img, svg { display: block; }
+::selection { background: rgba(34, 197, 94, 0.35); color: #fff; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PRESCIENT BUTTON & PILL SYSTEM
+   ═══════════════════════════════════════════════════════════════════ */
+/* Primary White Pill Button (Prescient Book a demo) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  background-color: var(--t-accent-solid);
+  color: var(--t-accent-text);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  user-select: none;
+}
+.btn-primary:hover {
+  background-color: #ebebeb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--t-surface-base), 0 0 0 4px #fafafa;
+}
+
+/* Secondary Outlined Pill Button */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  background-color: transparent;
+  border: 1px solid var(--t-border-default);
+  color: var(--t-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: var(--t-border-strong);
+  color: #fff;
+}
+.btn-secondary:active {
+  transform: translateY(0);
+}
+.btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--t-surface-base), 0 0 0 4px var(--t-border-strong);
+}
+
+/* Prescient Brag Pill (Hero badge) */
+.brag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: var(--t-brag-pill-bg);
+  border: 1px solid var(--t-brag-pill-border);
+  color: var(--t-brag-pill-text);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease;
+  user-select: none;
+  text-decoration: none;
+}
+.brag-pill:hover {
+  background-color: var(--t-brag-pill-hover-bg);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #86efac;
+}
+
+/* Prescient Card */
+.p-card {
+  border: 1px solid var(--t-border-subtle);
+  border-radius: 16px;
+  background-color: var(--t-surface-raised);
+  padding: 28px;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(12px);
+}
+.p-card:hover {
+  border-color: var(--t-border-default);
+}
+
+/* Link Box Utility for existing references */
+.link-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--t-border-subtle);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--t-text-primary);
+  font-weight: 500;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+.link-box:hover {
+  border-color: var(--t-border-default);
+  background: rgba(255, 255, 255, 0.05);
+}
+.link-box:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--t-surface-base), 0 0 0 4px var(--t-accent-green);
+}
+.link-box--primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--t-accent-solid);
+  color: var(--t-accent-text);
+  font-weight: 600;
+  transition: all 0.18s ease;
+}
+.link-box--primary:hover {
+  background-color: #ebebeb;
+}
+.link-box--active {
+  border-color: var(--t-border-default) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+.link-box--card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--t-border-subtle);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--t-text-primary);
+  transition: all 0.18s ease;
+}
+.link-box--card:hover {
+  border-color: var(--t-border-default);
+  background: rgba(255, 255, 255, 0.05);
+}
+.link-box--chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--t-border-subtle);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--t-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.18s ease;
+}
+.link-box--chip:hover {
+  border-color: var(--t-border-default);
+  color: var(--t-text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════════ */
+.f-h0 {
+  font-size: clamp(2.5rem, 5vw + 0.5rem, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.f-h1 {
+  font-size: clamp(2rem, 3.5vw + 0.5rem, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+.f-h2 {
+  font-size: clamp(1.6rem, 2.5vw + 0.25rem, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.f-h3 {
+  font-size: clamp(1.2rem, 1.5vw + 0.25rem, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.f-h4 {
+  font-size: 1.125rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+.f-mono-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Prescient Rotating Hero Word Badge */
+.hero-word-badge {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 6px;
+  background-color: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Hairline Rules */
+.rule {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--t-border-subtle);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+.rule.in { transform: scaleX(1); }
+
+/* Vertical rules */
+.vrules {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.vrules i {
+  position: relative;
+  display: block;
+}
+.vrules i::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.03);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.2s cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+.vrules.in i::before { transform: scaleY(1); }
+
+/* Scroll reveal */
+.reveal-line {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal-line.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card refined */
+.card-refined {
+  border: 1px solid var(--t-border-subtle);
+  padding: 24px;
+  border-radius: 16px;
+  background-color: var(--t-surface-raised);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease;
+}
+.card-refined:hover {
+  border-color: var(--t-border-default);
+}
+.framed {
+  position: relative;
+  border: 1px solid var(--t-border-subtle);
+  padding: 24px;
+  border-radius: 16px;
+  background-color: var(--t-surface-raised);
+}
+.corner { display: none; }
+
+/* Diagonal lines logo cells */
+.with-diagonal-lines {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.with-diagonal-lines:hover {
+  border-color: var(--t-border-default);
+}
+
+/* Keycap button */
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  background-color: var(--t-accent-solid);
+  color: var(--t-accent-text);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.keycap:hover {
+  background-color: #ebebeb;
+}
+
+/* Page enter transition */
+.page-enter {
+  animation: page-fade-in 0.25s ease forwards;
+}
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Blink & cursor */
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pulse { 50% { opacity: 0.5; } }
+.blink-cursor {
+  width: 6px;
+  height: 13px;
+  background: var(--t-text-primary);
+  animation: blink 1s steps(2) infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-line { opacity: 1 !important; transform: none !important; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--t-surface-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+
+
+
+/* ===========================================================================
+   FILE: src/main.tsx
+   =========================================================================== */
+
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);
+
+
+
+
+/* ===========================================================================
+   FILE: src/router.tsx
+   =========================================================================== */
+
+/**
+ * router.tsx — React Router configuration.
+ * Maps all mega-menu items to their routes using PlaceholderPage.
+ */
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
+import { Layout } from './components/layout/Layout';
+import { HomePage } from './pages/HomePage';
+import { PlaceholderPage } from './pages/PlaceholderPage';
+
+const routes = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      // Product routes
+      { path: 'product/overview', element: <PlaceholderPage /> },
+      { path: 'product/data-layer', element: <PlaceholderPage /> },
+      { path: 'product/diagnosis', element: <PlaceholderPage /> },
+      { path: 'product/decision', element: <PlaceholderPage /> },
+      { path: 'product/execution', element: <PlaceholderPage /> },
+      { path: 'product/integrations', element: <PlaceholderPage /> },
+      // Value routes
+      { path: 'value/why-performance-moved', element: <PlaceholderPage /> },
+      { path: 'value/stop-promoting-oos', element: <PlaceholderPage /> },
+      { path: 'value/grow-profitably', element: <PlaceholderPage /> },
+      // Solutions routes
+      { path: 'solutions/marketing', element: <PlaceholderPage /> },
+      { path: 'solutions/finance', element: <PlaceholderPage /> },
+      { path: 'solutions/operations', element: <PlaceholderPage /> },
+      { path: 'solutions/scaling-d2c', element: <PlaceholderPage /> },
+      { path: 'solutions/multichannel', element: <PlaceholderPage /> },
+      { path: 'solutions/portfolio', element: <PlaceholderPage /> },
+      { path: 'solutions/agency', element: <PlaceholderPage /> },
+      // Customer routes
+      { path: 'customers/stories', element: <PlaceholderPage /> },
+      { path: 'customers/reviews', element: <PlaceholderPage /> },
+      // Catch-all
+      { path: '*', element: <PlaceholderPage /> },
+    ],
+  },
+];
+
+const isStandaloneOrFile = typeof window !== 'undefined' && (window.location.protocol === 'file:' || !window.location.host);
+
+export const router = isStandaloneOrFile ? createHashRouter(routes) : createBrowserRouter(routes);
+
+
+
+
+/* ===========================================================================
+   FILE: src/mocks/api.ts
+   =========================================================================== */
+
+/** Mock API handlers — simulate backend calls with realistic latency */
+
+interface DemoFormData {
+  firstName: string;
+  website: string;
+  phone: string;
+  accountType: 'brand' | 'agency';
+}
+
+interface NewsletterData {
+  email: string;
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export async function submitDemoForm(data: DemoFormData): Promise<{ success: boolean; message: string }> {
+  console.log('[Adventory] Demo form submitted:', data);
+  await delay(1200 + Math.random() * 800);
+  return { success: true, message: "Thanks! We'll be in touch shortly." };
+}
+
+export async function submitNewsletter(data: NewsletterData): Promise<{ success: boolean; message: string }> {
+  console.log('[Adventory] Newsletter signup:', data);
+  await delay(800 + Math.random() * 600);
+  return { success: true, message: 'Subscribed! Check your inbox.' };
+}
+
+export async function mockLogin(provider: 'google' | 'apple'): Promise<{ success: boolean }> {
+  console.log('[Adventory] Login with:', provider);
+  await delay(1000);
+  return { success: true };
+}
+
+/** Simulates an ad API call for the Decision Scenario execute step */
+export async function executeAdApiCall(action: {
+  platform: string;
+  campaignId: string;
+  change: string;
+  amount: number;
+}): Promise<string[]> {
+  const lines: string[] = [];
+  const log = (line: string) => lines.push(line);
+
+  log(`> POST /api/v1/${action.platform.toLowerCase()}/campaigns/${action.campaignId}/budget`);
+  log(`  Authorization: Bearer ****-****-adventory-token`);
+  log(`  Content-Type: application/json`);
+  log(`  { "action": "${action.change}", "amount": ${action.amount} }`);
+  log('');
+  log(`< 200 OK`);
+  log(`  { "status": "applied", "effective_at": "${new Date().toISOString()}" }`);
+  log('');
+  log(`✓ Budget ${action.change} of $${action.amount} applied to ${action.platform} / ${action.campaignId}`);
+
+  return lines;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/config/brand.ts
+   =========================================================================== */
+
+/**
+ * brand.ts — Single source of truth for brand name, tagline, and navigation data.
+ */
+
+export const BRAND = {
+  name: 'Adventory',
+  tagline: 'Stop reading dashboards. Start making profitable decisions.',
+  lede: 'Unified cross-platform intelligence meets autonomous, closed-loop decisioning — so every ad dollar drives margin, not vanity.',
+  version: 'v1.0',
+  email: 'hello@adventory.ai',
+  url: 'https://adventory.ai',
+} as const;
+
+export const STATUS_MESSAGES = [
+  'engine@adventory monitoring 42 campaigns',
+  'anomaly detected: Meta / SKU-1042',
+  '3 actions awaiting approval',
+  'ROAS shift +12% on Google Shopping',
+  'inventory alert: SKU-2091 low stock',
+  'budget reallocation executed',
+] as const;
+
+export interface NavItem {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+}
+
+export interface NavColumn {
+  heading: string;
+  items: NavItem[];
+}
+
+export interface MegaMenuData {
+  label: string;
+  columns: NavColumn[];
+}
+
+export const MEGA_MENUS: MegaMenuData[] = [
+  {
+    label: 'Product',
+    columns: [
+      {
+        heading: 'Platform',
+        items: [
+          { title: 'Overview', description: 'The full decision engine at a glance', href: '/product/overview', icon: 'LayoutDashboard' },
+          { title: 'Unified Data Layer', description: 'Reconcile spend, sales, inventory and margin into one schema', href: '/product/data-layer', icon: 'Database' },
+          { title: 'Diagnosis Engine', description: 'Detect anomalies, isolate root causes', href: '/product/diagnosis', icon: 'Search' },
+          { title: 'Decision Engine', description: 'Prioritized, margin- and inventory-aware budget moves', href: '/product/decision', icon: 'Brain' },
+          { title: 'Execution & Learning', description: 'Push approved changes via ad APIs, learn from outcomes', href: '/product/execution', icon: 'Zap' },
+          { title: 'Integrations', description: 'Meta, Google, Amazon, TikTok, programmatic, GA4, ERP', href: '/product/integrations', icon: 'Plug' },
+        ],
+      },
+      {
+        heading: 'Value',
+        items: [
+          { title: 'Know why performance moved', description: 'Replace manual cross-channel correlation', href: '/value/why-performance-moved', icon: 'TrendingUp' },
+          { title: "Stop promoting what you can't ship", description: 'Steer spend away from low-stock, low-margin SKUs', href: '/value/stop-promoting-oos', icon: 'PackageX' },
+          { title: 'Grow profitably on autopilot', description: 'Closed-loop decisions that improve with every outcome', href: '/value/grow-profitably', icon: 'Rocket' },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Solutions',
+    columns: [
+      {
+        heading: 'By role',
+        items: [
+          { title: 'Marketing', description: 'Know which campaign to change and why', href: '/solutions/marketing', icon: 'Megaphone' },
+          { title: 'Finance', description: 'Tie every ad dollar to margin and profit', href: '/solutions/finance', icon: 'DollarSign' },
+          { title: 'Operations', description: 'Keep ad spend in sync with inventory', href: '/solutions/operations', icon: 'Settings' },
+        ],
+      },
+      {
+        heading: 'By type',
+        items: [
+          { title: 'Scaling D2C brand', description: 'Predictable profitable growth from day one', href: '/solutions/scaling-d2c', icon: 'Flame' },
+          { title: 'Multichannel seller', description: 'Unify every platform into one decision layer', href: '/solutions/multichannel', icon: 'Globe' },
+          { title: 'Multi-brand portfolio', description: 'Portfolio-wide intelligence and cross-brand learnings', href: '/solutions/portfolio', icon: 'Layers' },
+          { title: 'Agency', description: 'Manage client budgets with autonomous precision', href: '/solutions/agency', icon: 'Building2' },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Customers',
+    columns: [
+      {
+        heading: '',
+        items: [
+          { title: 'Customer Stories', description: 'Deep dives into how brands transformed their ad ops', href: '/customers/stories', icon: 'BookOpen' },
+          { title: 'Reviews & Testimonials', description: 'What our customers say about the engine', href: '/customers/reviews', icon: 'MessageSquare' },
+        ],
+      },
+    ],
+  },
+];
+
+export const FOOTER_LINKS = {
+  product: [
+    { label: 'Overview', href: '/product/overview' },
+    { label: 'Data Layer', href: '/product/data-layer' },
+    { label: 'Diagnosis', href: '/product/diagnosis' },
+    { label: 'Decision Engine', href: '/product/decision' },
+    { label: 'Execution', href: '/product/execution' },
+    { label: 'Integrations', href: '/product/integrations' },
+  ],
+  solutions: [
+    { label: 'Marketing', href: '/solutions/marketing' },
+    { label: 'Finance', href: '/solutions/finance' },
+    { label: 'Operations', href: '/solutions/operations' },
+    { label: 'Scaling D2C', href: '/solutions/scaling-d2c' },
+    { label: 'Agency', href: '/solutions/agency' },
+  ],
+  company: [
+    { label: 'Customer Stories', href: '/customers/stories' },
+    { label: 'Reviews', href: '/customers/reviews' },
+  ],
+} as const;
+
+export function getAllSearchableItems() {
+  const items: { title: string; description: string; href: string; category: string }[] = [
+    { title: 'Home', description: 'Back to the homepage', href: '/', category: 'Pages' },
+  ];
+  MEGA_MENUS.forEach((menu) => {
+    menu.columns.forEach((col) => {
+      col.items.forEach((item) => {
+        items.push({ title: item.title, description: item.description, href: item.href, category: menu.label });
+      });
+    });
+  });
+  return items;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/CtaBanner.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+
+interface CtaBannerProps {
+  onDemoClick: () => void;
+}
+
+export function CtaBanner({ onDemoClick }: CtaBannerProps) {
+  const { ref, inView } = useInView();
+
+  const scrollToScenario = () => {
+    document.getElementById('decision-scenario')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <section ref={ref} className="px-4 lg:px-8 py-20 lg:py-28 relative">
+      <div className="max-w-[var(--maxw)] mx-auto text-center">
+        <div
+          className={`relative rounded-3xl p-8 sm:p-14 lg:p-20 overflow-hidden border border-neutral-800 bg-gradient-to-b from-neutral-900/90 to-neutral-950/90 shadow-[0_20px_70px_rgba(0,0,0,0.6)] reveal-line ${
+            inView ? 'in' : ''
+          }`}
+        >
+          {/* Subtle green ambient spotlight at center */}
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none opacity-20 blur-3xl"
+            style={{
+              background: 'radial-gradient(circle, #3ddc97 0%, transparent 70%)',
+            }}
+          />
+
+          <div className="relative z-1 max-w-3xl mx-auto flex flex-col items-center">
+            <div className="brag-pill mb-6">
+              <span className="brag-pill-dot" />
+              <span>Ready for Autonomous Intelligence?</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-6" style={{ textWrap: 'balance' }}>
+              Stop guessing. Start growing profitably.
+            </h2>
+
+            <p className="text-base sm:text-lg text-neutral-300 mb-10 max-w-xl mx-auto font-normal leading-relaxed">
+              Transform your ad spend operations into an autonomous engine that unifies spend, defends SKU margins, and executes profitable growth.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={onDemoClick}
+                className="btn-primary h-12 px-8 text-sm font-bold flex items-center gap-2 cursor-pointer shadow-lg hover:shadow-white/10"
+              >
+                <span>Book a 1-on-1 demo</span>
+                <span className="text-black font-mono">→</span>
+              </button>
+              <button
+                type="button"
+                onClick={scrollToScenario}
+                className="btn-secondary h-12 px-7 text-sm font-medium cursor-pointer"
+              >
+                See how it decides
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/DecisionScenario.tsx
+   =========================================================================== */
+
+import { useState, useCallback } from 'react';
+import { useInView } from '../../hooks/useInView';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import {
+  SCENARIO_STEPS,
+  ROAS_TREND,
+  DIAGNOSED_DRIVERS,
+  REALLOCATIONS,
+  LEARNING_DATA,
+} from '../../data/scenario';
+import { executeAdApiCall } from '../../mocks/api';
+
+export function DecisionScenario() {
+  const [step, setStep] = useState(0);
+  const [approvedActions, setApprovedActions] = useState<Set<number>>(new Set());
+  const [apiLog, setApiLog] = useState<string[]>([]);
+  const [executing, setExecuting] = useState(false);
+  const { ref, inView } = useInView();
+  const reduced = usePrefersReducedMotion();
+
+  const nextStep = () => setStep((s) => Math.min(s + 1, SCENARIO_STEPS.length - 1));
+  const prevStep = () => setStep((s) => Math.max(s - 1, 0));
+
+  const handleApprove = useCallback(async (index: number) => {
+    const r = REALLOCATIONS[index];
+    setApprovedActions((prev) => new Set(prev).add(index));
+    setExecuting(true);
+    const lines = await executeAdApiCall({
+      platform: r.from.split(' / ')[0],
+      campaignId: r.from.split(' / ')[1],
+      change: 'reallocate',
+      amount: r.amount,
+    });
+    setApiLog((prev) => [...prev, ...lines]);
+    setExecuting(false);
+  }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextStep();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevStep();
+    }
+  };
+
+  // SVG line chart coordinates for Detect step
+  const chartW = 500,
+    chartH = 120,
+    padX = 40,
+    padY = 20;
+  const roasMin = Math.min(...ROAS_TREND.map((d) => d.roas)) - 0.3;
+  const roasMax = Math.max(...ROAS_TREND.map((d) => d.roas)) + 0.3;
+  const scaleX = (i: number) => padX + (i / (ROAS_TREND.length - 1)) * (chartW - 2 * padX);
+  const scaleY = (v: number) =>
+    padY + (1 - (v - roasMin) / (roasMax - roasMin)) * (chartH - 2 * padY);
+  const linePath = ROAS_TREND.map(
+    (d, i) => `${i === 0 ? 'M' : 'L'}${scaleX(i).toFixed(1)},${scaleY(d.roas).toFixed(1)}`
+  ).join(' ');
+  const anomalyDay = ROAS_TREND.findIndex((d) => d.roas < 2.0) || 19;
+
+  return (
+    <section
+      id="decision-scenario"
+      ref={ref}
+      className="px-4 lg:px-8 py-20 lg:py-28"
+      onKeyDown={handleKeyDown}
+    >
+      <div className="max-w-[var(--maxw)] mx-auto">
+        <div className="flex flex-col items-center text-center mb-12">
+          <div className="brag-pill mb-4">
+            <span className="brag-pill-dot" />
+            <span>Interactive Decision Engine Simulator</span>
+          </div>
+          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-4 reveal-line ${inView ? 'in' : ''}`}>
+            Watch the engine work: from signal to action
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-400 max-w-2xl font-normal leading-relaxed">
+            Adventory ingests cross-channel telemetry, isolates causal margin anomalies, generates constrained reallocations, and learns continuously from post-execution returns.
+          </p>
+        </div>
+
+        {/* Step tabs using Prescient pill tab styling */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex p-1.5 rounded-full bg-neutral-900/90 border border-neutral-800 backdrop-blur-md shadow-lg overflow-x-auto max-w-full" role="tablist" aria-label="Scenario steps">
+            {SCENARIO_STEPS.map((s, i) => {
+              const isSelected = step === i;
+              return (
+                <button
+                  key={s}
+                  role="tab"
+                  type="button"
+                  aria-selected={isSelected}
+                  tabIndex={isSelected ? 0 : -1}
+                  onClick={() => setStep(i)}
+                  className={`h-9 px-4 sm:px-5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-white text-black shadow-md font-bold'
+                      : i < step
+                      ? 'text-neutral-300 hover:text-white hover:bg-neutral-800/60'
+                      : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/40'
+                  }`}
+                >
+                  <span className={`mr-1.5 text-[10px] font-mono ${isSelected ? 'text-black/60 font-bold' : 'text-neutral-500'}`}>0{i + 1}</span>
+                  {s}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Step content card */}
+        <div className="p-card rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden" role="tabpanel">
+          {/* Top card ambient indicator */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#3ddc97]/30 to-transparent" />
+
+          {/* DETECT */}
+          {step === 0 && (
+            <div className="page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#3ddc97] mb-1 block">Step 01 / Anomaly Detection</span>
+                  <h3 className="text-xl sm:text-2xl font-medium text-white">Cross-channel ROAS anomaly isolated</h3>
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  Efficiency Drop: Days 18–22
+                </div>
+              </div>
+              <p className="text-sm text-neutral-400 mb-8 max-w-2xl leading-relaxed">
+                30-day cross-platform ROAS timeline across Meta, Google, Amazon, and TikTok. The causal detector flagged an unexpected 42% efficiency drawdown unexplainable by seasonality.
+              </p>
+              <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full max-w-2xl h-auto" aria-label="ROAS trend chart">
+                {/* Grid lines */}
+                {[roasMin, (roasMin + roasMax) / 2, roasMax].map((v) => (
+                  <g key={v}>
+                    <line x1={padX} y1={scaleY(v)} x2={chartW - padX} y2={scaleY(v)} stroke="rgba(230,230,230,0.06)" />
+                    <text x={padX - 5} y={scaleY(v) + 3} textAnchor="end" fontSize="9" fill="#8b8f96" fontFamily="var(--mono)">
+                      {v.toFixed(1)}
+                    </text>
+                  </g>
+                ))}
+                {/* ROAS line */}
+                <path
+                  d={linePath}
+                  stroke="#3ddc97"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  style={{
+                    strokeDasharray: 1000,
+                    strokeDashoffset: reduced ? 0 : inView ? 0 : 1000,
+                    transition: 'stroke-dashoffset 1.4s ease',
+                  }}
+                />
+                {/* Anomaly marker */}
+                {ROAS_TREND.filter((d) => d.roas < 2.0).map((d) => (
+                  <circle
+                    key={d.day}
+                    cx={scaleX(d.day - 1)}
+                    cy={scaleY(d.roas)}
+                    r="5"
+                    fill="none"
+                    stroke="#ff8a1f"
+                    strokeWidth="2"
+                    style={{ animation: reduced ? 'none' : 'pulse 2s ease-in-out infinite' }}
+                  />
+                ))}
+                <text
+                  x={scaleX(anomalyDay)}
+                  y={scaleY(ROAS_TREND[anomalyDay]?.roas ?? 2) - 12}
+                  textAnchor="middle"
+                  fontSize="9"
+                  fill="#ff8a1f"
+                  fontFamily="var(--mono)"
+                  fontWeight="600"
+                >
+                  ANOMALY
+                </text>
+              </svg>
+            </div>
+          )}
+
+          {/* DIAGNOSE */}
+          {step === 1 && (
+            <div className="page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#3ddc97] mb-1 block">Step 02 / Causal Diagnosis</span>
+                  <h3 className="text-xl sm:text-2xl font-medium text-white">Root-cause drivers ranked by contribution</h3>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-xs font-mono">
+                  Multi-Factor Attribution
+                </div>
+              </div>
+              <p className="text-sm text-neutral-400 mb-8 max-w-2xl leading-relaxed">
+                The causal engine correlates ad auction bids, SKU warehouse inventory levels, and onsite bounce rates to isolate why ROAS compressed.
+              </p>
+              <div className="space-y-3.5 max-w-3xl">
+                {DIAGNOSED_DRIVERS.map((d, i) => (
+                  <div key={d.label} className="p-4 rounded-xl border border-neutral-800/80 bg-neutral-900/60 hover:border-neutral-700 transition-colors">
+                    <div className="flex items-center justify-between gap-4 mb-2">
+                      <span className="text-sm font-semibold text-white">{d.label}</span>
+                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        {d.contribution}% contribution
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-neutral-800 overflow-hidden my-2">
+                      <div
+                        className="h-full rounded-full bg-amber-400 transition-all duration-800 ease-out"
+                        style={{
+                          width: reduced ? `${d.contribution}%` : inView ? `${d.contribution}%` : '0%',
+                          transitionDelay: `${i * 0.1}s`,
+                        }}
+                      />
+                    </div>
+                    <p className="text-xs text-neutral-400 leading-relaxed">{d.evidence}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* DECIDE */}
+          {step === 2 && (
+            <div className="page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#3ddc97] mb-1 block">Step 03 / Autonomous Reallocation</span>
+                  <h3 className="text-xl sm:text-2xl font-medium text-white">Recommended budget directives</h3>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3ddc97]/10 border border-[#3ddc97]/20 text-[#3ddc97] text-xs font-mono">
+                  + $9,700 Expected Net Profit
+                </div>
+              </div>
+              <p className="text-sm text-neutral-400 mb-8 max-w-2xl leading-relaxed">
+                Margin-aware and stock-cover-constrained budget shifts prioritized by expected incremental return.
+              </p>
+              <div className="overflow-x-auto rounded-xl border border-neutral-800/80 bg-neutral-900/40">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-[11px] font-mono uppercase tracking-wider text-neutral-400 border-b border-neutral-800/80 bg-neutral-900/80">
+                      <th className="py-3.5 px-4 font-semibold">From (Underperforming)</th>
+                      <th className="py-3.5 px-4 font-semibold">To (High Margin / Stock)</th>
+                      <th className="py-3.5 px-4 font-semibold">Shift Amount</th>
+                      <th className="py-3.5 px-4 font-semibold">Confidence</th>
+                      <th className="py-3.5 px-4 font-semibold">Expected Profit</th>
+                      <th className="py-3.5 px-4 font-semibold">Safety Constraints</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-800/60">
+                    {REALLOCATIONS.map((r, i) => (
+                      <tr key={i} className="hover:bg-neutral-800/20 transition-colors">
+                        <td className="py-3.5 px-4 text-neutral-400 font-mono text-xs">{r.from}</td>
+                        <td className="py-3.5 px-4 text-white font-medium">{r.to}</td>
+                        <td className="py-3.5 px-4 text-white font-mono font-semibold">${r.amount.toLocaleString()}</td>
+                        <td className="py-3.5 px-4">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#3ddc97]/10 text-[#3ddc97] text-xs font-mono font-bold">
+                            {r.confidence}%
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-[#3ddc97] font-semibold font-mono">
+                          +${r.expectedProfit.toLocaleString()}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.constraints.map((c) => (
+                              <span
+                                key={c}
+                                className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700/60"
+                              >
+                                {c}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* EXECUTE */}
+          {step === 3 && (
+            <div className="page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#3ddc97] mb-1 block">Step 04 / Direct API Execution</span>
+                  <h3 className="text-xl sm:text-2xl font-medium text-white">Operator approval &amp; ad API dispatch</h3>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-xs font-mono">
+                  Human-in-the-Loop Safe
+                </div>
+              </div>
+              <p className="text-sm text-neutral-400 mb-8 max-w-2xl leading-relaxed">
+                Review each autonomous recommendation. Approve to execute immediate budget changes via direct Meta, Google, Amazon, or TikTok ad APIs.
+              </p>
+              <div className="space-y-3.5 max-w-3xl mb-8">
+                {REALLOCATIONS.map((r, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl border border-neutral-800/80 bg-neutral-900/60 hover:border-neutral-700 transition-colors"
+                  >
+                    <div>
+                      <p className="text-sm text-white font-semibold flex items-center gap-2">
+                        <span>{r.from}</span>
+                        <span className="text-neutral-500">→</span>
+                        <span className="text-[#3ddc97]">{r.to}</span>
+                      </p>
+                      <p className="text-xs text-neutral-400 font-mono mt-1">
+                        Budget shift: <span className="text-white font-bold">${r.amount.toLocaleString()}</span> · Expected profit lift: <span className="text-[#3ddc97] font-bold">+${r.expectedProfit.toLocaleString()}</span>
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                      <button
+                        type="button"
+                        onClick={() => handleApprove(i)}
+                        disabled={approvedActions.has(i) || executing}
+                        className={`h-9 px-5 text-xs font-semibold rounded-full transition-all cursor-pointer ${
+                          approvedActions.has(i)
+                            ? 'bg-[#3ddc97]/15 border border-[#3ddc97]/30 text-[#3ddc97] cursor-default'
+                            : 'btn-primary'
+                        }`}
+                      >
+                        {approvedActions.has(i) ? '✓ Dispatched via API' : 'Approve & Push'}
+                      </button>
+                      {!approvedActions.has(i) && (
+                        <button
+                          type="button"
+                          className="btn-secondary h-9 px-4 text-xs font-medium cursor-pointer"
+                        >
+                          Reject
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* API log terminal */}
+              {apiLog.length > 0 && (
+                <div className="rounded-xl bg-black border border-neutral-800 p-4 font-mono text-xs text-[#3ddc97] max-h-52 overflow-y-auto shadow-inner">
+                  <div className="text-[10px] uppercase tracking-wider text-neutral-500 mb-2 border-b border-neutral-900 pb-1">
+                    API Execution Stream — Live Outbound Payload
+                  </div>
+                  {apiLog.map((line, i) => (
+                    <div key={i} className="whitespace-pre">
+                      {line}
+                    </div>
+                  ))}
+                  {executing && <span className="blink-cursor" />}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* LEARN */}
+          {step === 4 && (
+            <div className="page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#3ddc97] mb-1 block">Step 05 / Closed-Loop Feedback</span>
+                  <h3 className="text-xl sm:text-2xl font-medium text-white">Predicted vs. actual outcome convergence</h3>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3ddc97]/10 border border-[#3ddc97]/20 text-[#3ddc97] text-xs font-mono">
+                  +13% Model Accuracy
+                </div>
+              </div>
+              <p className="text-sm text-neutral-400 mb-8 max-w-2xl leading-relaxed">
+                Post-execution tracking. Adventory measures actual revenue vs. model forecast over 21 days, closing the causal loop to improve next-cycle precision.
+              </p>
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="p-4 rounded-xl border border-neutral-800/80 bg-neutral-900/60">
+                  <svg viewBox="0 0 300 160" className="w-full h-auto" aria-label="Predicted vs actual ROAS">
+                    {/* Grid */}
+                    {[2.5, 3.5, 4.5].map((v) => (
+                      <g key={v}>
+                        <line
+                          x1="40"
+                          y1={140 - (v - 2) * 40}
+                          x2="280"
+                          y2={140 - (v - 2) * 40}
+                          stroke="rgba(255,255,255,0.06)"
+                        />
+                        <text x="35" y={143 - (v - 2) * 40} textAnchor="end" fontSize="9" fill="#888" fontFamily="var(--mono)">
+                          {v.toFixed(1)}
+                        </text>
+                      </g>
+                    ))}
+                    {/* Predicted line */}
+                    <polyline
+                      points={LEARNING_DATA.predicted.map((v, i) => `${60 + i * 32},${140 - (v - 2) * 40}`).join(' ')}
+                      stroke="#5aa9ff"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeDasharray="4 3"
+                    />
+                    {/* Actual line */}
+                    <polyline
+                      points={LEARNING_DATA.actual.map((v, i) => `${60 + i * 32},${140 - (v - 2) * 40}`).join(' ')}
+                      stroke="#3ddc97"
+                      strokeWidth="2.5"
+                      fill="none"
+                    />
+                    {/* Days labels */}
+                    {LEARNING_DATA.days.map((d, i) => (
+                      <text key={d} x={60 + i * 32} y="155" textAnchor="middle" fontSize="8" fill="#888" fontFamily="var(--mono)">
+                        {d}
+                      </text>
+                    ))}
+                    {/* Legend */}
+                    <line x1="60" y1="12" x2="75" y2="12" stroke="#5aa9ff" strokeWidth="2" strokeDasharray="4 3" />
+                    <text x="80" y="15" fontSize="9" fill="#5aa9ff" fontFamily="var(--mono)">
+                      Predicted ROAS
+                    </text>
+                    <line x1="160" y1="12" x2="175" y2="12" stroke="#3ddc97" strokeWidth="2.5" />
+                    <text x="180" y="15" fontSize="9" fill="#3ddc97" fontFamily="var(--mono)">
+                      Actual ROAS
+                    </text>
+                  </svg>
+                </div>
+
+                <div className="flex flex-col gap-5">
+                  <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/60">
+                    <p className="text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">Model Confidence Score</p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold font-mono text-neutral-500">
+                        {LEARNING_DATA.confidenceBefore}%
+                      </span>
+                      <span className="text-neutral-500">→</span>
+                      <span className="text-3xl font-bold font-mono text-[#3ddc97]">
+                        {LEARNING_DATA.confidenceAfter}%
+                      </span>
+                    </div>
+                    <p className="text-xs text-neutral-400 mt-2">
+                      Validated over 21 days of continuous closed-loop Bayesian refinement
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[#3ddc97]/10 border border-[#3ddc97]/20 text-sm text-neutral-200 leading-relaxed">
+                    The executed adjustments generated{' '}
+                    <span className="text-white font-semibold">+$9,700 in incremental SKU contribution profit</span>.
+                    Predicted and realized ROAS converged within 4.8%, confirming predictive validity.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Stepper Navigation Buttons */}
+        <div className="flex items-center justify-between mt-8">
+          <button
+            type="button"
+            onClick={prevStep}
+            disabled={step === 0}
+            className="btn-secondary h-10 px-6 text-xs font-medium disabled:opacity-20 disabled:pointer-events-none cursor-pointer"
+          >
+            ← Previous step
+          </button>
+          <button
+            type="button"
+            onClick={nextStep}
+            disabled={step === SCENARIO_STEPS.length - 1}
+            className="btn-primary h-10 px-7 text-xs font-bold disabled:opacity-20 disabled:pointer-events-none cursor-pointer"
+          >
+            Next step →
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/FeatureCards.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+import { Database, Search, Zap, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const FEATURES = [
+  {
+    icon: Database,
+    title: 'Ingest & Reconcile',
+    description:
+      'Continuously unify multi-platform ad spend (Meta, Google, Amazon, TikTok), store revenue, ERP stock levels, and SKU margin data into unified causal vectors.',
+    tag: 'DATA LAYER',
+    href: '/product/data-layer',
+  },
+  {
+    icon: Search,
+    title: 'Diagnose & Reason',
+    description:
+      'Causal inference models detect efficiency anomalies, isolate true root drivers, and evaluate incrementality beyond siloed in-platform reporting.',
+    tag: 'INTELLIGENCE',
+    href: '/product/diagnosis',
+  },
+  {
+    icon: Zap,
+    title: 'Decide, Execute & Learn',
+    description:
+      'Generate margin- and inventory-safe budget reallocations. Execute approved changes directly via ad APIs and continuously reinforce confidence from outcomes.',
+    tag: 'AUTONOMY',
+    href: '/product/decision',
+  },
+];
+
+export function FeatureCards() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref} className="px-6 lg:px-8 py-20 lg:py-28">
+      <div className="max-w-[var(--maxw)] mx-auto">
+        <div className="max-w-2xl mb-14">
+          <span className="brag-pill text-[11px] py-0.5 px-3 mb-3">
+            Platform Pillars
+          </span>
+          <h2 className="f-h1 text-[var(--t-text-primary)] tracking-tight mb-3">
+            From data to decisions in days, not months
+          </h2>
+          <p className="text-base text-[var(--t-text-muted)] leading-relaxed">
+            Eliminate weeks spent wrestling cross-channel spreadsheets. Let autonomous causal models surface exactly where the next dollar generates profitable return.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {FEATURES.map((feat, i) => (
+            <div
+              key={feat.title}
+              className={`p-card flex flex-col justify-between group hover:border-[var(--t-border-default)] hover:-translate-y-1 transition-all duration-300 reveal-line ${
+                inView ? 'in' : ''
+              }`}
+              style={{ transitionDelay: `${i * 0.1}s` }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--t-accent-green)] px-2.5 py-1 rounded-full bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)]">
+                    {feat.tag}
+                  </span>
+                  <div className="w-10 h-10 rounded-xl bg-[var(--t-icon-bg)] border border-[var(--t-border-subtle)] grid place-items-center group-hover:border-[var(--t-border-default)] group-hover:bg-[#262626] transition-colors">
+                    <feat.icon className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-white mb-2.5 tracking-tight">
+                  {feat.title}
+                </h3>
+                <p className="text-sm text-[var(--t-text-muted)] leading-relaxed font-normal">
+                  {feat.description}
+                </p>
+              </div>
+
+              <Link
+                to={feat.href}
+                className="mt-8 pt-4 border-t border-[var(--t-border-subtle)] flex items-center justify-between text-xs font-semibold text-white group-hover:text-[var(--t-accent-green)] transition-colors"
+              >
+                <span>Learn more</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/Hero.tsx
+   =========================================================================== */
+
+import { useState, useEffect } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { useInView } from '../../hooks/useInView';
+import { HeroLoop } from './HeroLoop';
+
+interface HeroProps {
+  onDemoClick: () => void;
+}
+
+const DYNAMIC_WORDS = ['revenue', 'profit', 'efficiency', 'incrementality'];
+
+export function Hero({ onDemoClick }: HeroProps) {
+  const { ref, inView } = useInView();
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % DYNAMIC_WORDS.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
+
+  const scrollToScenario = () => {
+    document.getElementById('decision-scenario')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <section ref={ref} className="relative pt-12 lg:pt-20 pb-16 lg:pb-24 px-4 lg:px-8">
+      {/* Background ambient glow effect */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none overflow-hidden opacity-30">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse_at_center,_var(--t-accent-green)_0%,_transparent_70%)] opacity-20 blur-3xl" />
+      </div>
+
+      <div className="max-w-5xl mx-auto text-center relative z-1 flex flex-col items-center">
+        {/* Prescient Brag Pill (Badge) */}
+        <div
+          onClick={scrollToScenario}
+          className="brag-pill mb-6 cursor-pointer group"
+          role="button"
+          tabIndex={0}
+        >
+          <span className="w-2 h-2 rounded-full bg-[var(--t-accent-green)] shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse" />
+          <span className="font-semibold text-white/90">Autonomous Decision Engine</span>
+          <span className="text-[var(--t-text-muted)]">|</span>
+          <span className="flex items-center gap-1 text-[var(--t-accent-green)] group-hover:underline">
+            See live simulation
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </span>
+        </div>
+
+        {/* Dynamic Typewriter Headline (Prescient AI signature style) */}
+        <h1
+          className="f-h0 text-[var(--t-text-primary)] max-w-4xl tracking-tight leading-[1.08] mb-6"
+          style={{ textWrap: 'balance' }}
+        >
+          The decision engine to maximize your{' '}
+          <span className="hero-word-badge transition-all duration-300">
+            {DYNAMIC_WORDS[wordIndex]}
+          </span>
+          .
+        </h1>
+
+        {/* Crisp Subtitle */}
+        <p
+          className="text-lg lg:text-xl text-[var(--t-text-muted)] max-w-2xl mx-auto leading-relaxed font-normal mb-8"
+          style={{ textWrap: 'pretty' }}
+        >
+          Make every ad dollar count. Adventory gives growth marketing and finance teams the clarity to allocate budgets with confidence using autonomous marketing intelligence.
+        </p>
+
+        {/* Action CTAs: Prescient White Pill + Outlined Pill */}
+        <div className="flex flex-wrap items-center justify-center gap-3.5 mb-14">
+          <button
+            type="button"
+            onClick={onDemoClick}
+            className="btn-primary text-base px-8 py-3.5 shadow-lg cursor-pointer"
+          >
+            Book a demo
+          </button>
+          <button
+            type="button"
+            onClick={scrollToScenario}
+            className="btn-secondary text-base px-8 py-3.5 cursor-pointer"
+          >
+            See how it decides
+          </button>
+        </div>
+
+        {/* Prescient Channel Dashboard & Closed-Loop Visual */}
+        <div className={`w-full max-w-5xl reveal-line ${inView ? 'in' : ''}`}>
+          <HeroLoop />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/HeroLoop.tsx
+   =========================================================================== */
+
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useInView } from '../../hooks/useInView';
+
+const STAGES = ['Ingest', 'Diagnose', 'Decide', 'Execute', 'Learn'] as const;
+
+const CHANNELS = [
+  { name: 'Total Spend', value: '$4,200,000', color: '#ffffff' },
+  { name: 'Meta Ads', value: '$1,360,000', color: '#1F77B4' },
+  { name: 'Google Ads', value: '$1,152,000', color: '#2CA02C' },
+  { name: 'TikTok Ads', value: '$625,000', color: '#EE1D52' },
+  { name: 'Amazon Ads', value: '$431,000', color: '#FF7F0E' },
+];
+
+export function HeroLoop() {
+  const reduced = usePrefersReducedMotion();
+  const { ref: containerRef, inView } = useInView<HTMLDivElement>();
+  const [stage, setStage] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [activeChannel, setActiveChannel] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Auto-cycle stages
+  useEffect(() => {
+    if (reduced || paused || !inView) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    timerRef.current = setInterval(() => {
+      setStage((s) => (s + 1) % STAGES.length);
+    }, 3200);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [reduced, paused, inView]);
+
+  const handleStageSelect = useCallback((i: number) => {
+    setStage(i);
+    setPaused(true);
+  }, []);
+
+  const chartPoints = [42, 45, 41, 48, 52, 49, 53, 56, 54, 59, 56, 43, 34, 30, 33, 40, 44, 50, 54, 58];
+  const anomalyIndex = 13;
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full rounded-2xl border border-[var(--t-border-subtle)] bg-[#0f0f10] shadow-[0_24px_60px_rgba(0,0,0,0.8)] overflow-hidden text-left"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Top Prescient Channel Summary Tabs */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-b border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.015)]">
+        {CHANNELS.map((ch, idx) => {
+          const isActive = activeChannel === idx;
+          return (
+            <button
+              key={ch.name}
+              type="button"
+              onClick={() => setActiveChannel(idx)}
+              className={`p-3.5 sm:p-4 text-left border-r border-[var(--t-border-subtle)] last:border-r-0 transition-colors cursor-pointer ${
+                isActive ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
+              }`}
+            >
+              <div className="flex items-center gap-1.5 mb-1">
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: ch.color }}
+                />
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--t-text-muted)] truncate">
+                  {ch.name}
+                </span>
+              </div>
+              <p className="text-base sm:text-lg font-bold text-white tracking-tight">
+                {ch.value}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main Interactive SVG closed-loop canvas */}
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="w-full aspect-[16/9] max-h-[420px] relative">
+          <svg
+            viewBox="0 0 600 320"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+            role="img"
+            aria-label="Adventory autonomous decision engine closed-loop demonstration"
+          >
+            {/* Background container */}
+            <rect
+              x="2"
+              y="2"
+              width="596"
+              height="316"
+              rx="12"
+              fill="#0d0d0f"
+              stroke="#262626"
+              strokeWidth="1"
+            />
+
+            {/* Left Column: Data ingest channels */}
+            <g>
+              {['META ADS', 'GOOGLE ADS', 'AMAZON', 'TIKTOK', 'ERP & GA4'].map((name, i) => (
+                <g key={name} transform={`translate(20, ${28 + i * 54})`}>
+                  <rect
+                    width="110"
+                    height="38"
+                    rx="8"
+                    fill="#17171a"
+                    stroke={stage === 0 ? 'var(--t-accent-green)' : '#2e2e32'}
+                    strokeWidth="1"
+                  />
+                  <circle
+                    cx="16"
+                    cy="19"
+                    r="4"
+                    fill={stage === 0 ? 'var(--t-accent-green)' : '#525252'}
+                  />
+                  <text
+                    x="28"
+                    y="23"
+                    fontSize="9"
+                    fontFamily="var(--mono)"
+                    fontWeight="600"
+                    fill={stage === 0 ? '#fafafa' : '#a3a3a3'}
+                    letterSpacing="0.08em"
+                  >
+                    {name}
+                  </text>
+                </g>
+              ))}
+            </g>
+
+            {/* Ingest Flow Lines */}
+            {['META', 'GOOGLE', 'AMAZON', 'TIKTOK', 'ERP'].map((_, i) => (
+              <line
+                key={`flow-${i}`}
+                x1="130"
+                y1={47 + i * 54}
+                x2="195"
+                y2="160"
+                stroke={stage >= 0 ? 'rgba(34, 197, 94, 0.4)' : '#262626'}
+                strokeWidth="1.5"
+                strokeDasharray="4 4"
+                style={{
+                  animation: stage === 0 && !reduced ? 'flow-dash 2s linear infinite' : 'none',
+                }}
+              />
+            ))}
+
+            {/* Center Node: Reconciled Schema & Anomaly Detection */}
+            <g transform="translate(195, 80)">
+              <rect
+                width="180"
+                height="160"
+                rx="12"
+                fill="#141416"
+                stroke={stage >= 1 ? '#3a3a3a' : '#262626'}
+                strokeWidth="1"
+              />
+              <text
+                x="14"
+                y="24"
+                fontSize="8"
+                fontFamily="var(--mono)"
+                fontWeight="700"
+                fill="var(--t-accent-green)"
+                letterSpacing="0.12em"
+              >
+                UNIFIED SCHEMA VECTOR
+              </text>
+              <text x="14" y="38" fontSize="11" fontWeight="600" fill="#fafafa">
+                ROAS &amp; Margin Velocity
+              </text>
+
+              {/* Sparkline chart */}
+              <polyline
+                points={chartPoints
+                  .map((y, i) => `${14 + i * 7.8},${140 - (y - 25) * 2.8}`)
+                  .join(' ')}
+                stroke="var(--t-accent-green)"
+                strokeWidth="2"
+                fill="none"
+                strokeLinecap="round"
+              />
+
+              {/* Pulse Anomaly Ring */}
+              <circle
+                cx={14 + anomalyIndex * 7.8}
+                cy={140 - (chartPoints[anomalyIndex] - 25) * 2.8}
+                r="7"
+                fill="none"
+                stroke="#ff8a1f"
+                strokeWidth="2"
+                style={{
+                  animation: stage >= 1 && !reduced ? 'pulse 1.8s ease-in-out infinite' : 'none',
+                }}
+              />
+              <text
+                x={14 + anomalyIndex * 7.8}
+                y={140 - (chartPoints[anomalyIndex] - 25) * 2.8 - 12}
+                textAnchor="middle"
+                fontSize="8"
+                fontFamily="var(--mono)"
+                fontWeight="700"
+                fill="#ff8a1f"
+              >
+                CPM SPIKE -34%
+              </text>
+            </g>
+
+            {/* Right Column: Decisions & Action Directives */}
+            <g transform="translate(400, 30)">
+              {/* Decision Box */}
+              <g opacity={stage >= 2 ? 1 : 0.25} style={{ transition: 'opacity 0.4s' }}>
+                <rect
+                  width="180"
+                  height="110"
+                  rx="10"
+                  fill="#17171a"
+                  stroke={stage === 2 ? 'var(--t-accent-green)' : '#2e2e32'}
+                  strokeWidth="1"
+                />
+                <text
+                  x="14"
+                  y="22"
+                  fontSize="8"
+                  fontFamily="var(--mono)"
+                  fontWeight="700"
+                  fill="var(--t-accent-green)"
+                  letterSpacing="0.1em"
+                >
+                  AUTONOMOUS DIRECTIVE
+                </text>
+                <text x="14" y="38" fontSize="12" fontWeight="700" fill="#ffffff">
+                  Reallocate +$6,500
+                </text>
+                <text x="14" y="54" fontSize="10" fill="#a3a3a3">
+                  Meta / SKU-1042 → SKU-1001
+                </text>
+                <text x="14" y="70" fontSize="9" fontFamily="var(--mono)" fill="#4ade80">
+                  Confidence: 92% · Cover: 45d
+                </text>
+                <rect x="14" y="80" width="152" height="18" rx="4" fill="rgba(34,197,94,0.12)" />
+                <text x="90" y="93" textAnchor="middle" fontSize="9" fontWeight="600" fill="#4ade80">
+                  {stage >= 3 ? '✓ APPROVED & DISPATCHED' : 'AWAITING APPROVAL'}
+                </text>
+              </g>
+
+              {/* Learning closed-loop indicator */}
+              <g
+                transform="translate(0, 130)"
+                opacity={stage >= 4 ? 1 : 0.2}
+                style={{ transition: 'opacity 0.4s' }}
+              >
+                <rect
+                  width="180"
+                  height="90"
+                  rx="10"
+                  fill="#17171a"
+                  stroke={stage === 4 ? 'var(--t-accent-green)' : '#2e2e32'}
+                  strokeWidth="1"
+                />
+                <text
+                  x="14"
+                  y="24"
+                  fontSize="8"
+                  fontFamily="var(--mono)"
+                  fontWeight="700"
+                  fill="#5aa9ff"
+                  letterSpacing="0.1em"
+                >
+                  MODEL REINFORCEMENT
+                </text>
+                <text x="14" y="42" fontSize="11" fontWeight="600" fill="#ffffff">
+                  Accuracy Convergence: 91%
+                </text>
+                <text x="14" y="60" fontSize="10" fill="#a3a3a3">
+                  Predicted ROAS: 4.2 · Actual: 4.1
+                </text>
+                <text x="14" y="76" fontSize="9" fontFamily="var(--mono)" fill="#5aa9ff">
+                  Causal weights updated in schema
+                </text>
+              </g>
+            </g>
+
+            {/* Loop return path arrow */}
+            <path
+              d="M 400 240 C 280 290 120 280 80 230"
+              stroke={stage === 4 ? 'var(--t-accent-green)' : '#2e2e32'}
+              strokeWidth="1.5"
+              strokeDasharray="4 4"
+              fill="none"
+              style={{
+                animation: stage === 4 && !reduced ? 'flow-dash 2s linear infinite' : 'none',
+              }}
+            />
+            <defs>
+              <style>{`
+                @keyframes flow-dash {
+                  to { stroke-dashoffset: -16; }
+                }
+              `}</style>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      {/* Stage Navigator Bar */}
+      <div className="flex items-center justify-between px-6 py-4 border-t border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.02)]">
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Decision engine workflow stages">
+          {STAGES.map((s, idx) => {
+            const isCurrent = stage === idx;
+            return (
+              <button
+                key={s}
+                role="tab"
+                type="button"
+                aria-selected={isCurrent}
+                onClick={() => handleStageSelect(idx)}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  isCurrent
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-[var(--t-text-muted)] hover:text-white hover:bg-white/[0.04]'
+                }`}
+              >
+                <span className="mr-1.5 opacity-50 font-mono text-[10px]">0{idx + 1}</span>
+                {s}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-[var(--t-text-muted)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--t-accent-green)] animate-ping" />
+          <span>Real-time feedback loop active</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/MachineView.tsx
+   =========================================================================== */
+
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { X } from 'lucide-react';
+import { BRAND, MEGA_MENUS } from '../../config/brand';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+
+interface MachineViewProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const TERMINAL_LINES = [
+  `> ${BRAND.name.toUpperCase()} — Machine-Readable Engine Index`,
+  `> Version: ${BRAND.version}`,
+  `> Type: AI-native autonomous advertising intelligence & decision engine`,
+  `> Target: Direct-to-Consumer (D2C) brands`,
+  '',
+  '## Registered Navigation Nodes',
+  '  / .................................. Home Overview',
+  ...(() => {
+    const lines: string[] = [];
+    MEGA_MENUS.forEach((menu) => {
+      lines.push('');
+      lines.push(`## [${menu.label.toUpperCase()}]`);
+      menu.columns.forEach((col) => {
+        if (col.heading) lines.push(`  Category: ${col.heading}`);
+        col.items.forEach((item) => {
+          const pad = item.href + ' ';
+          lines.push(`  ${pad.padEnd(38, '.')} ${item.title}`);
+        });
+      });
+    });
+    return lines;
+  })(),
+  '',
+  '## Core Reconciled Data Sources',
+  '  - Ad Spend: Meta Ads, Google Ads, Amazon Ads, TikTok Ads, Programmatic',
+  '  - Sales & Attribution: Shopify / eCommerce Store, Google Analytics 4',
+  '  - Operations: ERP Inventory Levels, SKU Contribution Margins',
+  '',
+  '## Autonomous Closed-Loop Decision Cycle',
+  '  1. INGEST    -> Continuous schema vectorization',
+  '  2. DIAGNOSE  -> Causal inference anomaly isolation',
+  '  3. DECIDE    -> Margin- & stock-cover constrained budget reallocation',
+  '  4. EXECUTE   -> API-driven platform dispatch with operator approval',
+  '  5. LEARN     -> Outcome feedback convergence & model confidence update',
+  '',
+  '## System Endpoint',
+  `  Contact: ${BRAND.email}`,
+  `  URL: ${BRAND.url}`,
+  '',
+  '> [EOF] Status: All 42 campaigns active. Zero anomalies undetected.',
+];
+
+export function MachineView({ open, onClose }: MachineViewProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visibleLines, setVisibleLines] = useState(0);
+  useFocusTrap(ref, open);
+
+  const handleClose = useCallback(() => {
+    setVisibleLines(0);
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = 'hidden';
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setVisibleLines(i);
+      if (i >= TERMINAL_LINES.length) clearInterval(interval);
+    }, 40);
+    return () => {
+      clearInterval(interval);
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) handleClose();
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, handleClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-10"
+      style={{
+        background: 'rgba(5, 6, 8, 0.94)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
+      <div
+        ref={ref}
+        className="w-full max-w-4xl h-[85vh] flex flex-col rounded-xl border border-[rgba(61,220,151,0.3)] bg-[#07080a] shadow-[0_24px_80px_rgba(0,0,0,0.85)] overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Machine-readable terminal view"
+      >
+        {/* Terminal Header Bar */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--hairline)] bg-[rgba(255,255,255,0.02)]">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
+            <span className="text-xs font-mono font-semibold text-[var(--accent)]">
+              adventory-engine-v1.0.plain
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleClose}
+            className="link-box h-8 px-3 text-xs font-mono font-semibold cursor-pointer gap-1.5"
+            aria-label="Close terminal view"
+          >
+            <X className="w-3.5 h-3.5" />
+            <span>Esc</span>
+          </button>
+        </div>
+
+        {/* Terminal Output */}
+        <div className="flex-1 overflow-y-auto p-6 font-mono text-xs leading-relaxed text-[var(--accent)] bg-[rgba(0,0,0,0.4)]">
+          <pre className="whitespace-pre-wrap font-mono">
+            {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+            {visibleLines < TERMINAL_LINES.length && <span className="blink-cursor" />}
+          </pre>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/MetricsStrip.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+import { useCountUp } from '../../hooks/useCountUp';
+
+const METRICS = [
+  { value: 42, suffix: '%', label: 'Average ROAS lift', note: 'across pilot cohort' },
+  { value: 3.2, suffix: 'x', label: 'Faster root diagnosis', note: 'vs manual correlation' },
+  { value: 9700, prefix: '$', suffix: '', label: 'Incremental profit per cycle', note: '21-day average' },
+  { value: 91, suffix: '%', label: 'Model confidence', note: 'after closed-loop learning' },
+];
+
+export function MetricsStrip() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref} className="px-4 lg:px-8 py-20 lg:py-28 relative">
+      <div className="max-w-[var(--maxw)] mx-auto">
+        <div className="flex flex-col items-center text-center mb-12">
+          <div className="brag-pill mb-4">
+            <span className="brag-pill-dot" />
+            <span>Measured Performance Impact</span>
+          </div>
+          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-4 reveal-line ${inView ? 'in' : ''}`}>
+            Predictable returns, powered by causal intelligence
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-400 max-w-2xl font-normal leading-relaxed">
+            Real outcomes realized by omnichannel brands swapping spreadsheet guesswork for autonomous optimization.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {METRICS.map((m) => (
+            <MetricCard key={m.label} {...m} inView={inView} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MetricCard({
+  value,
+  prefix,
+  suffix,
+  label,
+  note,
+  inView,
+}: {
+  value: number;
+  prefix?: string;
+  suffix: string;
+  label: string;
+  note: string;
+  inView: boolean;
+}) {
+  const isDecimal = !Number.isInteger(value);
+  const count = useCountUp(isDecimal ? value * 10 : value, 1400, inView);
+  const display = isDecimal ? (count / 10).toFixed(1) : count.toLocaleString();
+
+  return (
+    <div className="p-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between text-left relative overflow-hidden group hover:border-neutral-700 transition-all">
+      <div className="flex items-center justify-between mb-6">
+        <span className="w-2 h-2 rounded-full bg-[#3ddc97]" />
+        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
+          Verified
+        </span>
+      </div>
+      <div>
+        <div className="text-4xl sm:text-5xl font-semibold text-white tracking-tight mb-2">
+          {prefix && <span className="text-[#3ddc97] mr-0.5">{prefix}</span>}
+          {display}
+          <span className="text-[#3ddc97] ml-0.5">{suffix}</span>
+        </div>
+        <p className="text-base font-medium text-white mb-1">{label}</p>
+        <p className="text-xs text-neutral-400 leading-relaxed">{note}</p>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/ProblemSection.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+
+const PROBLEMS = [
+  {
+    title: 'Siloed Channel Attribution',
+    description:
+      'Meta, Google, and TikTok each claim credit for the same orders. In-platform ROAS numbers mislead teams into overfunding saturated campaigns.',
+    tag: 'ATTRIBUTION BLIND SPOT',
+    stat: '3.4x overlap',
+  },
+  {
+    title: 'Delayed & Manual Correlation',
+    description:
+      'Pinpointing why ROAS dropped requires days of cross-tab spreadsheet analysis. By the time causes are isolated, thousands in budget have leaked.',
+    tag: 'LATENCY',
+    stat: '48+ hours lost',
+  },
+  {
+    title: 'Stockout & Margin Mismatch',
+    description:
+      'Traditional media managers scale ads on high-velocity items without real-time inventory checks, pouring spend into SKUs about to stock out.',
+    tag: 'INVENTORY RISK',
+    stat: '22% margin drag',
+  },
+  {
+    title: 'Intuitive Budget Allocation',
+    description:
+      'Budgets are shifted based on gut feel rather than diminishing returns curves. High-margin products starve while low-return products consume capital.',
+    tag: 'ALLOCATION DRIFT',
+    stat: '-18% suboptimal',
+  },
+  {
+    title: 'Passive Analytics, Zero Action',
+    description:
+      'Existing dashboards display what happened yesterday but never generate executable directives or measure the causal impact of budget changes.',
+    tag: 'NO EXECUTION LOOP',
+    stat: '0 closed-loop feedback',
+  },
+];
+
+export function ProblemSection() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref} className="px-6 lg:px-8 py-20 lg:py-28 bg-[rgba(255,255,255,0.01)] border-t border-[var(--t-border-subtle)]">
+      <div className="max-w-[var(--maxw)] mx-auto">
+        <div className="max-w-3xl mb-14">
+          <span className="brag-pill text-[11px] py-0.5 px-3 mb-3 bg-[rgba(239,68,68,0.08)] border-[rgba(239,68,68,0.2)] text-red-400">
+            The Multi-Channel Challenge
+          </span>
+
+          <h2
+            className={`f-h1 text-[var(--t-text-primary)] tracking-tight mb-4 reveal-line ${
+              inView ? 'in' : ''
+            }`}
+          >
+            63.2% of ad performance shifts where standard dashboards can&apos;t see them
+          </h2>
+
+          <p
+            className={`text-base lg:text-lg text-[var(--t-text-muted)] leading-relaxed reveal-line ${
+              inView ? 'in' : ''
+            }`}
+            style={{ transitionDelay: '0.1s', textWrap: 'pretty' }}
+          >
+            Growth brands are drowning in disconnected data silos across Meta, Google, Amazon, and TikTok. Without causal intelligence, decisions remain reactive and expensive.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+          {PROBLEMS.map((prob, i) => (
+            <div
+              key={prob.title}
+              className={`p-card flex flex-col justify-between reveal-line ${
+                inView ? 'in' : ''
+              }`}
+              style={{ transitionDelay: `${i * 0.08}s` }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--t-text-muted)]">
+                    {prob.tag}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-red-400">
+                    {prob.stat}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{prob.title}</h3>
+                <p className="text-xs sm:text-sm text-[var(--t-text-muted)] leading-relaxed">
+                  {prob.description}
+                </p>
+              </div>
+            </div>
+          ))}
+
+          {/* Solution Highlight Box */}
+          <div className="p-card border-[rgba(34,197,94,0.3)] bg-[rgba(34,197,94,0.04)] flex flex-col justify-center">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--t-accent-green)] mb-2">
+              THE ADVENTORY SOLUTION
+            </span>
+            <h3 className="text-lg font-bold text-white mb-2">
+              Closed-Loop Autonomous Engine
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--t-text-muted)] leading-relaxed">
+              Adventory continuously vectorizes spend, stock levels, and margins into high-confidence budget allocations that execute directly via platform APIs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/Testimonials.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+
+const TESTIMONIALS = [
+  {
+    quote:
+      'We went from spending two days correlating spreadsheets to getting actionable recommendations in under a minute. The engine caught a Meta CPM spike we would have missed for another week.',
+    name: 'Sarah Chen',
+    role: 'VP Growth, Verdant Skincare',
+  },
+  {
+    quote:
+      "The inventory-aware budgeting alone saved us from promoting three SKUs that were about to go out of stock. That's real money we would have wasted on clicks that couldn't convert.",
+    name: 'Marcus Williams',
+    role: 'Head of D2C, Luminos Health',
+  },
+  {
+    quote:
+      "What convinced our CFO was seeing predicted vs actual ROAS converge within 5% after just 21 days. The engine doesn't just recommend — it proves its own accuracy.",
+    name: 'Priya Patel',
+    role: 'CMO, Peakform Athletics',
+  },
+];
+
+export function Testimonials() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref} className="px-4 lg:px-8 py-20 lg:py-28 relative">
+      <div className="max-w-[var(--maxw)] mx-auto">
+        <div className="flex flex-col items-center text-center mb-14">
+          <div className="brag-pill mb-4">
+            <span className="brag-pill-dot" />
+            <span>Customer Validation</span>
+          </div>
+          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-4 reveal-line ${inView ? 'in' : ''}`}>
+            Trusted by the fastest-growing modern brands
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-400 max-w-2xl font-normal leading-relaxed">
+            See how growth executives and media buyers turn multi-channel uncertainty into high-conviction ad investments.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {TESTIMONIALS.map((t, i) => {
+            const initials = t.name
+              .split(' ')
+              .map((n) => n[0])
+              .join('');
+            return (
+              <div
+                key={t.name}
+                className={`p-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between gap-8 reveal-line hover:border-neutral-700 transition-all ${
+                  inView ? 'in' : ''
+                }`}
+                style={{ transitionDelay: `${i * 0.1}s` }}
+              >
+                <div>
+                  <div className="flex items-center gap-1 text-[#3ddc97] mb-5">
+                    {[...Array(5)].map((_, idx) => (
+                      <svg key={idx} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <blockquote
+                    className="text-sm sm:text-base text-neutral-300 leading-relaxed font-normal"
+                    style={{ textWrap: 'pretty' }}
+                  >
+                    &ldquo;{t.quote}&rdquo;
+                  </blockquote>
+                </div>
+
+                <div className="flex items-center gap-3.5 pt-5 border-t border-neutral-800/80">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 flex items-center justify-center font-mono text-xs font-semibold text-white">
+                    {initials}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{t.name}</p>
+                    <p className="text-xs text-neutral-400 mt-0.5">{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/home/TrustedBy.tsx
+   =========================================================================== */
+
+import { useInView } from '../../hooks/useInView';
+
+const LOGOS = [
+  { name: 'Verdant', style: 'font-semibold tracking-tight text-lg' },
+  { name: 'LUMINOS', style: 'font-bold tracking-[0.18em] uppercase text-xs' },
+  { name: 'Peakform', style: 'font-medium tracking-tight text-lg' },
+  { name: 'ORBITAL', style: 'font-bold tracking-[0.18em] uppercase text-xs' },
+  { name: 'Crescendo', style: 'font-light tracking-tight italic text-lg' },
+  { name: 'NEXTERA', style: 'font-bold tracking-[0.18em] uppercase text-xs font-mono' },
+];
+
+export function TrustedBy() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref} className="px-6 lg:px-8 py-14 lg:py-18 border-y border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.01)]">
+      <div className="max-w-[var(--maxw)] mx-auto text-center">
+        <p className={`text-xs font-mono uppercase tracking-widest text-[var(--t-text-muted)] mb-8 reveal-line ${inView ? 'in' : ''}`}>
+          Supporting leading growth &amp; marketing teams
+        </p>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
+          {LOGOS.map((logo, i) => (
+            <div
+              key={logo.name}
+              className={`h-12 flex items-center justify-center rounded-xl transition-all duration-300 opacity-60 hover:opacity-100 hover:scale-105 reveal-line ${
+                inView ? 'in' : ''
+              }`}
+              style={{ transitionDelay: `${i * 0.05}s` }}
+            >
+              <span className={`text-[var(--t-text-primary)] ${logo.style}`}>
+                {logo.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/footer/Footer.tsx
+   =========================================================================== */
+
+import { useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { useInView } from '../../hooks/useInView';
+import { BRAND, FOOTER_LINKS } from '../../config/brand';
+import { submitNewsletter } from '../../mocks/api';
+
+const CURRENT_YEAR = 2026;
+
+export function Footer() {
+  const { ref } = useInView();
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleNewsletter = async (e: FormEvent) => {
+    e.preventDefault();
+    setEmailError('');
+    if (!email.trim() || !email.includes('@') || !email.includes('.')) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+    setSubmitting(true);
+    await submitNewsletter({ email: email.trim() });
+    setSubmitting(false);
+    setSubscribed(true);
+  };
+
+  return (
+    <footer
+      ref={ref}
+      className="relative mt-20 mx-4 lg:mx-6 mb-6 rounded-2xl border border-[var(--hairline)] overflow-hidden bg-[var(--surface)]"
+    >
+      {/* Subtle animated gradient backdrop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse at 15% 85%, rgba(61,220,151,0.08) 0%, transparent 45%),
+              radial-gradient(ellipse at 85% 15%, rgba(90,169,255,0.05) 0%, transparent 45%),
+              linear-gradient(180deg, rgba(13,15,18,0.7), rgba(7,8,10,0.95))
+            `,
+          }}
+        />
+        {/* Clean faint grid */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(230,230,230,0.02) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(230,230,230,0.02) 1px, transparent 1px)
+            `,
+            backgroundSize: '48px 48px',
+          }}
+        />
+      </div>
+
+      <div className="relative z-1 max-w-[var(--maxw)] mx-auto px-6 lg:px-10 py-14 lg:py-16 flex flex-col gap-12">
+        {/* Newsletter Section */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-12 border-b border-neutral-800">
+          <div className="max-w-xl">
+            <div className="brag-pill mb-3">
+              <span className="brag-pill-dot" />
+              <span>Adventory Intelligence Dispatch</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-medium tracking-tight text-white mb-2">
+              Autonomous ad intelligence in your inbox
+            </h3>
+            <p className="text-sm text-neutral-400 leading-relaxed">
+              Join growth executives moving from delayed attribution to real-time, margin-safe budget optimization. Zero fluff.
+            </p>
+          </div>
+
+          <div className="w-full lg:max-w-md">
+            {subscribed ? (
+              <div className="p-3.5 rounded-full border border-[#3ddc97]/30 bg-[#3ddc97]/10 text-[#3ddc97] text-xs font-semibold flex items-center justify-center gap-2">
+                <span>✓</span> Subscribed! Welcome to the feedback loop.
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row gap-2 w-full">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError('');
+                  }}
+                  placeholder="Enter your work email"
+                  className={`flex-1 h-11 px-5 rounded-full bg-neutral-900 border text-sm text-white outline-none transition-colors placeholder:text-neutral-500 focus:border-white ${
+                    emailError ? 'border-red-500' : 'border-neutral-800'
+                  }`}
+                />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="btn-primary h-11 px-6 whitespace-nowrap text-xs font-bold cursor-pointer"
+                >
+                  {submitting ? 'Subscribing...' : 'Subscribe'}
+                </button>
+              </form>
+            )}
+            {emailError && <p className="text-xs text-red-400 mt-2 px-3">{emailError}</p>}
+          </div>
+        </div>
+
+        {/* Footer Navigation: Bordered chip links wrapping in tidy grids (Requirement 2) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Product links */}
+          <div className="flex flex-col gap-3">
+            <p className="f-mono-label text-[var(--text)]">Product</p>
+            <div className="flex flex-wrap gap-2">
+              {FOOTER_LINKS.product.map((link) => (
+                <Link key={link.href} to={link.href} className="link-box--chip">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Solutions links */}
+          <div className="flex flex-col gap-3">
+            <p className="f-mono-label text-[var(--text)]">Solutions</p>
+            <div className="flex flex-wrap gap-2">
+              {FOOTER_LINKS.solutions.map((link) => (
+                <Link key={link.href} to={link.href} className="link-box--chip">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Company links */}
+          <div className="flex flex-col gap-3">
+            <p className="f-mono-label text-[var(--text)]">Company</p>
+            <div className="flex flex-wrap gap-2">
+              {FOOTER_LINKS.company.map((link) => (
+                <Link key={link.href} to={link.href} className="link-box--chip">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div className="flex flex-col gap-3">
+            <p className="f-mono-label text-[var(--text)]">Direct Contact</p>
+            <div className="flex flex-col gap-2">
+              <a href={`mailto:${BRAND.email}`} className="link-box--chip justify-start w-fit">
+                {BRAND.email}
+              </a>
+              <span className="text-xs text-[var(--muted)] mt-1">
+                San Francisco, CA &amp; Remote
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Giant SVG Wordmark */}
+        <div className="pt-8 border-t border-[var(--hairline)] flex justify-center">
+          <svg
+            viewBox="0 0 800 110"
+            className="w-full max-w-4xl h-auto text-[var(--text)] opacity-15 hover:opacity-25 transition-opacity"
+            fill="currentColor"
+            aria-label={`${BRAND.name} wordmark`}
+          >
+            <text
+              x="50%"
+              y="90"
+              textAnchor="middle"
+              fontSize="104"
+              fontFamily="var(--sans)"
+              fontWeight="700"
+              letterSpacing="-0.05em"
+              fill="currentColor"
+            >
+              {BRAND.name}
+            </text>
+          </svg>
+        </div>
+
+        {/* Bottom Metadata & Social */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[var(--hairline)] text-xs text-[var(--muted)]">
+          <p>© {CURRENT_YEAR} {BRAND.name}. All rights reserved.</p>
+
+          <div className="flex items-center gap-2">
+            {/* Twitter/X */}
+            <a
+              href="#"
+              className="link-box w-8 h-8 grid place-items-center text-[var(--muted)] hover:text-white"
+              aria-label="X / Twitter"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+            {/* LinkedIn */}
+            <a
+              href="#"
+              className="link-box w-8 h-8 grid place-items-center text-[var(--muted)] hover:text-white"
+              aria-label="LinkedIn"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
+            {/* GitHub */}
+            <a
+              href="#"
+              className="link-box w-8 h-8 grid place-items-center text-[var(--muted)] hover:text-white"
+              aria-label="GitHub"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/layout/Layout.tsx
+   =========================================================================== */
+
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { TopNav } from './TopNav';
+import { MobileDrawer } from './MobileDrawer';
+import { SearchPalette } from '../modals/SearchPalette';
+import { LoginModal } from '../modals/LoginModal';
+import { DemoModal } from '../modals/DemoModal';
+import { MachineView } from '../home/MachineView';
+import { useKeyboard } from '../../hooks/useKeyboard';
+
+export function Layout() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [machineOpen, setMachineOpen] = useState(false);
+
+  // Global Cmd/Ctrl + K shortcut to open search palette
+  useKeyboard('k', () => setSearchOpen(true), true);
+
+  return (
+    <div className="min-h-screen bg-[var(--bg)] flex flex-col">
+      {/* Single full-width sticky header replacing sidebar + pill */}
+      <TopNav
+        onSearchClick={() => setSearchOpen(true)}
+        onLoginClick={() => setLoginOpen(true)}
+        onDemoClick={() => setDemoOpen(true)}
+        onBurgerClick={() => setDrawerOpen(true)}
+        onMachineClick={() => setMachineOpen(true)}
+      />
+
+      {/* Main full-width content area (no 260px margin/offset) */}
+      <main className="flex-1 w-full relative z-1 page-enter">
+        <Outlet />
+      </main>
+
+      {/* Global Modals & Overlays */}
+      <SearchPalette open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
+      <MachineView open={machineOpen} onClose={() => setMachineOpen(false)} />
+      <MobileDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onDemoClick={() => { setDrawerOpen(false); setDemoOpen(true); }}
+        onLoginClick={() => { setDrawerOpen(false); setLoginOpen(true); }}
+        onSearchClick={() => setSearchOpen(true)}
+      />
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/layout/MegaMenu.tsx
+   =========================================================================== */
+
+import { useEffect, useRef, useCallback } from 'react';
+import type { ComponentType } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  LayoutDashboard, Database, Search, Brain, Zap, Plug,
+  TrendingUp, PackageX, Rocket,
+  Megaphone, DollarSign, Settings,
+  Flame, Globe, Layers, Building2,
+  BookOpen, MessageSquare, ArrowRight,
+} from 'lucide-react';
+import type { MegaMenuData } from '../../config/brand';
+
+interface MegaMenuProps {
+  menu: MegaMenuData;
+  onClose: () => void;
+}
+
+const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
+  LayoutDashboard, Database, Search, Brain, Zap, Plug,
+  TrendingUp, PackageX, Rocket,
+  Megaphone, DollarSign, Settings,
+  Flame, Globe, Layers, Building2,
+  BookOpen, MessageSquare,
+};
+
+function getIcon(name: string) {
+  const IconComponent = ICON_MAP[name];
+  return IconComponent ? <IconComponent className="w-4 h-4 text-[#d4d4d4] flex-shrink-0" /> : null;
+}
+
+export function MegaMenu({ menu, onClose }: MegaMenuProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<HTMLAnchorElement[]>([]);
+  const focusIndex = useRef(-1);
+
+  const allItems = menu.columns.flatMap((c) => c.items);
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      focusIndex.current = Math.min(focusIndex.current + 1, allItems.length - 1);
+      itemRefs.current[focusIndex.current]?.focus();
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      focusIndex.current = Math.max(focusIndex.current - 1, 0);
+      itemRefs.current[focusIndex.current]?.focus();
+    }
+  }, [onClose, allItems.length]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    const timer = setTimeout(() => document.addEventListener('click', handler), 10);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', handler);
+    };
+  }, [onClose]);
+
+  let itemCounter = 0;
+
+  return (
+    <div
+      ref={ref}
+      className="absolute top-full left-0 pt-2 z-50 pointer-events-auto"
+      style={{
+        animation: 'prescient-menu-enter 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      }}
+      role="menu"
+    >
+      <style>{`
+        @keyframes prescient-menu-enter {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      {/* Prescient Dropdown Panel with 2 columns + Featured teaser */}
+      <div
+        className="p-6 rounded-2xl border border-[var(--t-border-subtle)] bg-[#0f0f10] shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex gap-8"
+        style={{
+          backdropFilter: 'blur(24px)',
+          minWidth: menu.columns.length > 1 ? '760px' : '360px',
+        }}
+      >
+        {/* Navigation Columns */}
+        <div className={`grid gap-8 flex-1 ${menu.columns.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {menu.columns.map((col) => (
+            <div key={col.heading || 'default'}>
+              {col.heading && (
+                <p className="px-3 pb-2 text-[11px] font-semibold tracking-wider uppercase text-[var(--t-text-muted)] font-mono">
+                  {col.heading}
+                </p>
+              )}
+              <div className="flex flex-col gap-1">
+                {col.items.map((item) => {
+                  const currentIdx = itemCounter++;
+                  return (
+                    <Link
+                      key={item.href}
+                      ref={(el) => { if (el) itemRefs.current[currentIdx] = el; }}
+                      to={item.href}
+                      onClick={onClose}
+                      className="group flex items-start gap-3.5 p-3 rounded-xl transition-all hover:bg-white/[0.04] cursor-pointer"
+                      role="menuitem"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-[var(--t-icon-bg)] border border-[var(--t-border-subtle)] grid place-items-center flex-shrink-0 group-hover:border-[var(--t-border-default)] group-hover:bg-[#282828] transition-colors">
+                        {getIcon(item.icon)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 font-semibold text-sm text-[var(--t-text-primary)] group-hover:text-white transition-colors">
+                          <span>{item.title}</span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[var(--t-accent-green)]" />
+                        </div>
+                        <p className="text-xs text-[var(--t-text-muted)] line-clamp-1 mt-0.5 font-normal">
+                          {item.description}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Prescient Featured Teaser Card (Right Column) */}
+        {menu.columns.length > 1 && (
+          <div className="w-[230px] rounded-xl border border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.02)] p-4 flex flex-col justify-between">
+            <div>
+              <span className="brag-pill text-[10px] py-0.5 px-2 mb-3">
+                Featured
+              </span>
+              <h4 className="text-sm font-semibold text-white mb-1.5">
+                The 2026 MMM Forecast Benchmark
+              </h4>
+              <p className="text-xs text-[var(--t-text-muted)] leading-relaxed">
+                How top D2C growth teams reallocated \$140M in ad spend with 91% predictive accuracy.
+              </p>
+            </div>
+            <Link
+              to="/product/overview"
+              onClick={onClose}
+              className="mt-4 flex items-center justify-between text-xs font-semibold text-[var(--t-accent-green)] hover:underline pt-3 border-t border-[var(--t-border-subtle)]"
+            >
+              <span>Explore Benchmark</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/layout/MobileDrawer.tsx
+   =========================================================================== */
+
+import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { X, Search, ChevronRight } from 'lucide-react';
+import { BRAND, MEGA_MENUS } from '../../config/brand';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+
+interface MobileDrawerProps {
+  open: boolean;
+  onClose: () => void;
+  onDemoClick: () => void;
+  onLoginClick: () => void;
+  onSearchClick: () => void;
+}
+
+export function MobileDrawer({
+  open,
+  onClose,
+  onDemoClick,
+  onLoginClick,
+  onSearchClick,
+}: MobileDrawerProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  useFocusTrap(ref, open);
+
+  const isMac = typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac');
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) onClose();
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex justify-end"
+      style={{
+        background: 'rgba(7, 8, 10, 0.85)',
+        backdropFilter: 'blur(16px)',
+        animation: 'drawer-fade 0.2s ease forwards',
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile Navigation Menu"
+    >
+      <style>{`
+        @keyframes drawer-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+
+      {/* Drawer content */}
+      <div
+        ref={ref}
+        className="w-full max-w-md h-full bg-[var(--surface-raised)] border-l border-[var(--hairline)] flex flex-col p-6 overflow-y-auto"
+      >
+        {/* Top bar: Brand + Close */}
+        <div className="flex items-center justify-between pb-5 border-b border-[var(--hairline)]">
+          <Link
+            to="/"
+            onClick={onClose}
+            className="flex items-center gap-1.5 font-bold text-lg text-[var(--text)]"
+          >
+            <span>{BRAND.name}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+          </Link>
+          <button
+            type="button"
+            onClick={onClose}
+            className="link-box w-9 h-9 grid place-items-center"
+            aria-label="Close navigation"
+          >
+            <X className="w-4 h-4 text-[var(--text)]" />
+          </button>
+        </div>
+
+        {/* Top search entry (Requirement 1) */}
+        <div className="py-5 border-b border-[var(--hairline)]">
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              onSearchClick();
+            }}
+            className="link-box w-full h-11 px-3.5 flex items-center justify-between text-xs text-[var(--muted)] hover:text-[var(--text)] cursor-pointer"
+          >
+            <div className="flex items-center gap-2.5">
+              <Search className="w-4 h-4 opacity-70" />
+              <span>Search pages...</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] border border-[var(--hairline)] text-[var(--muted)]">
+              {isMac ? '⌘' : 'Ctrl'} K
+            </kbd>
+          </button>
+        </div>
+
+        {/* Navigation Categories with bounded row cards */}
+        <nav className="flex-1 py-6 flex flex-col gap-6" aria-label="Mobile Menu Links">
+          {/* Home Link Box */}
+          <Link
+            to="/"
+            onClick={onClose}
+            className="link-box w-full h-11 px-4 flex items-center justify-between text-sm font-semibold text-[var(--text)] hover:text-white"
+          >
+            <span>Home</span>
+            <ChevronRight className="w-4 h-4 text-[var(--muted)]" />
+          </Link>
+
+          {MEGA_MENUS.map((menu) => (
+            <div key={menu.label} className="flex flex-col gap-2">
+              <p className="f-mono-label text-[var(--muted)] px-1">{menu.label}</p>
+              <div className="flex flex-col gap-1.5">
+                {menu.columns.map((col) =>
+                  col.items.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={onClose}
+                      className="link-box w-full p-3 flex items-center justify-between gap-3 text-left hover:border-[var(--accent-border)] transition-colors group"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-[var(--text)] group-hover:text-white truncate">
+                          {item.title}
+                        </p>
+                        <p className="text-xs text-[var(--muted)] line-clamp-1 mt-0.5">
+                          {item.description}
+                        </p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] flex-shrink-0 transition-colors" />
+                    </Link>
+                  ))
+                )}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Bottom Actions: Log in + Book a demo */}
+        <div className="pt-6 border-t border-[var(--hairline)] flex flex-col gap-3">
+          <button
+            type="button"
+            onClick={onDemoClick}
+            className="btn-primary w-full h-11 text-sm font-bold cursor-pointer"
+          >
+            Book a demo
+          </button>
+          <button
+            type="button"
+            onClick={onLoginClick}
+            className="btn-secondary w-full h-11 text-sm font-semibold cursor-pointer"
+          >
+            Log in
+          </button>
+          <p className="text-[11px] font-mono text-[var(--muted)] text-center mt-2">
+            {BRAND.email}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/layout/TopNav.tsx
+   =========================================================================== */
+
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { Search, Menu, ChevronDown, ArrowRight, X } from 'lucide-react';
+import { BRAND, MEGA_MENUS, STATUS_MESSAGES } from '../../config/brand';
+import { useTypewriter } from '../../hooks/useTypewriter';
+import { MegaMenu } from './MegaMenu';
+
+interface TopNavProps {
+  onSearchClick: () => void;
+  onLoginClick: () => void;
+  onDemoClick: () => void;
+  onBurgerClick: () => void;
+  onMachineClick?: () => void;
+}
+
+export function TopNav({
+  onSearchClick,
+  onLoginClick,
+  onDemoClick,
+  onBurgerClick,
+  onMachineClick,
+}: TopNavProps) {
+  const [activeMenu, setActiveMenu] = useState<number | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const statusText = useTypewriter(STATUS_MESSAGES, 3000);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isMac = typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac');
+
+  const handleMouseEnter = (index: number) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setActiveMenu(index);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimer.current = setTimeout(() => {
+      setActiveMenu(null);
+    }, 140);
+  };
+
+  return (
+    <div className="sticky top-0 left-0 right-0 z-40 w-full">
+      {/* Prescient AI Top Announcement Banner */}
+      {!bannerDismissed && (
+        <div className="relative w-full bg-[#111111] border-b border-[var(--t-border-subtle)] text-xs text-[var(--t-text-secondary)] py-2 px-4 flex items-center justify-center gap-2 font-medium">
+          <Link
+            to="/product/overview"
+            className="flex items-center gap-2 hover:text-white transition-colors group"
+          >
+            <span className="font-semibold text-[var(--t-accent-green)]">New Release:</span>
+            <span>Introducing The Forecaster — real-time media budget simulation</span>
+            <span className="text-[var(--t-text-muted)] group-hover:text-white flex items-center gap-1">
+              See what&apos;s new
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => setBannerDismissed(true)}
+            className="absolute right-4 text-[var(--t-text-muted)] hover:text-white p-1"
+            aria-label="Dismiss banner"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
+      {/* Main Prescient AI Navigation Bar */}
+      <header className="w-full border-b border-[var(--t-border-subtle)] bg-[var(--t-nav-bg)] backdrop-blur-xl transition-all">
+        <div className="max-w-[var(--maxw)] mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          {/* Left: Brand Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 flex-shrink-0 font-bold text-lg tracking-tight text-[var(--t-text-primary)] hover:opacity-90 transition-opacity"
+            aria-label={`${BRAND.name} Home`}
+          >
+            <svg
+              className="w-5 h-5 text-[var(--t-accent-green)]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13H5.5L12 6.5z" />
+            </svg>
+            <span className="tracking-tight text-white font-bold text-xl">{BRAND.name}</span>
+          </Link>
+
+          {/* Center-Left: Mega Menu Triggers with Chevron */}
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
+            {MEGA_MENUS.map((menu, i) => {
+              const isOpen = activeMenu === i;
+              return (
+                <div
+                  key={menu.label}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveMenu(isOpen ? null : i)}
+                    className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm font-medium transition-all ${
+                      isOpen
+                        ? 'text-white bg-white/[0.08]'
+                        : 'text-[var(--t-text-secondary)] hover:text-white hover:bg-white/[0.04]'
+                    }`}
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                  >
+                    <span>{menu.label}</span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-200 opacity-60 ${
+                        isOpen ? 'rotate-180 opacity-100 text-[var(--t-accent-green)]' : ''
+                      }`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <MegaMenu
+                      menu={menu}
+                      onClose={() => setActiveMenu(null)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+
+          {/* Center: Search Field */}
+          <div className="hidden md:flex flex-1 max-w-[280px] xl:max-w-[320px] mx-1">
+            <button
+              type="button"
+              onClick={onSearchClick}
+              className="w-full h-9 px-3.5 rounded-full border border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.03)] flex items-center justify-between text-xs text-[var(--t-text-muted)] hover:border-[var(--t-border-default)] hover:text-white transition-all cursor-pointer"
+              aria-label="Search pages"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <Search className="w-3.5 h-3.5 opacity-60 flex-shrink-0" />
+                <span className="truncate">Search platform...</span>
+              </div>
+              <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] border border-[var(--t-border-subtle)] text-[var(--t-text-muted)] flex-shrink-0">
+                {isMac ? '⌘' : 'Ctrl'} K
+              </kbd>
+            </button>
+          </div>
+
+          {/* Right: Status Pill + Log In + Book a Demo */}
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+            {/* Status Pill */}
+            <button
+              type="button"
+              onClick={onMachineClick}
+              className="hidden xl:flex items-center gap-2 h-8 px-3 rounded-full border border-[var(--t-border-subtle)] bg-[rgba(255,255,255,0.02)] text-[11px] font-mono whitespace-nowrap cursor-pointer hover:border-[var(--t-border-default)] transition-colors"
+              title="Open machine-readable engine view"
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full bg-[var(--t-accent-green)] shadow-[0_0_8px_rgba(34,197,94,0.7)] flex-shrink-0"
+                style={{ animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }}
+              />
+              <span className="text-[var(--t-text-muted)]">engine:</span>
+              <span className="max-w-[120px] overflow-hidden text-ellipsis text-[var(--t-text-secondary)]">
+                {statusText}
+              </span>
+            </button>
+
+            {/* Log in: clean minimal text link (Prescient AI style) */}
+            <button
+              type="button"
+              onClick={onLoginClick}
+              className="text-sm font-medium text-[var(--t-text-muted)] hover:text-white px-2 py-1.5 transition-colors cursor-pointer"
+            >
+              Log in
+            </button>
+
+            {/* Book a demo: Prescient AI White Pill Button */}
+            <button
+              type="button"
+              onClick={onDemoClick}
+              className="btn-primary"
+            >
+              Book a demo
+            </button>
+          </div>
+
+          {/* Mobile controls (< lg) */}
+          <div className="flex lg:hidden items-center gap-2">
+            <button
+              type="button"
+              onClick={onSearchClick}
+              className="w-9 h-9 rounded-full border border-[var(--t-border-subtle)] grid place-items-center cursor-pointer md:hidden text-[var(--t-text-secondary)] hover:text-white"
+              aria-label="Search pages"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={onBurgerClick}
+              className="w-9 h-9 rounded-full border border-[var(--t-border-subtle)] grid place-items-center cursor-pointer text-[var(--t-text-secondary)] hover:text-white"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/modals/DemoModal.tsx
+   =========================================================================== */
+
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
+import { X, Loader2, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { submitDemoForm } from '../../mocks/api';
+
+interface DemoModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+interface FormErrors {
+  firstName?: string;
+  website?: string;
+  phone?: string;
+  accountType?: string;
+}
+
+export function DemoModal({ open, onClose }: DemoModalProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [firstName, setFirstName] = useState('');
+  const [website, setWebsite] = useState('');
+  const [phone, setPhone] = useState('');
+  const [accountType, setAccountType] = useState<'brand' | 'agency' | ''>('');
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useFocusTrap(ref, open);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  const handleClose = useCallback(() => {
+    setSuccess(false);
+    setErrors({});
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) handleClose();
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, handleClose]);
+
+  const validate = (): FormErrors => {
+    const errs: FormErrors = {};
+    if (!firstName.trim()) errs.firstName = 'First name is required';
+    let url = website.trim();
+    if (!url) {
+      errs.website = 'Business website is required';
+    } else {
+      if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+      try {
+        new URL(url);
+      } catch {
+        errs.website = 'Please enter a valid URL';
+      }
+    }
+    const digits = phone.replace(/\D/g, '');
+    if (!phone.trim()) {
+      errs.phone = 'Phone number is required';
+    } else if (digits.length < 7) {
+      errs.phone = 'Phone must have at least 7 digits';
+    }
+    if (!accountType) errs.accountType = 'Please select Brand or Agency';
+    return errs;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
+    let url = website.trim();
+    if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+
+    setSubmitting(true);
+    await submitDemoForm({
+      firstName: firstName.trim(),
+      website: url,
+      phone: phone.trim(),
+      accountType: accountType as 'brand' | 'agency',
+    });
+    setSubmitting(false);
+    setSuccess(true);
+  };
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      onClick={handleClose}
+      style={{
+        background: 'rgba(5, 5, 7, 0.88)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
+      <div
+        ref={ref}
+        className="relative w-full max-w-2xl rounded-2xl border border-[var(--t-border-subtle)] bg-[#0f0f11] shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden"
+        style={{ animation: 'prescient-modal 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="demo-title"
+      >
+        <style>{`
+          @keyframes prescient-modal {
+            from { opacity: 0; transform: scale(0.96) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+        `}</style>
+
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={handleClose}
+          className="absolute top-5 right-5 w-8 h-8 rounded-full border border-[var(--t-border-subtle)] bg-white/[0.04] grid place-items-center text-[var(--t-text-muted)] hover:text-white hover:border-[var(--t-border-default)] transition-all cursor-pointer z-10"
+          aria-label="Close"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="grid md:grid-cols-5 h-full">
+          {/* Left / Main: The Form */}
+          <div className="md:col-span-3 p-6 sm:p-8">
+            <span className="brag-pill text-[11px] py-0.5 px-2.5 mb-3">
+              ✦ Live 1-on-1 Walkthrough
+            </span>
+
+            <h2 id="demo-title" className="text-2xl font-bold tracking-tight text-white mb-2">
+              See Adventory in action
+            </h2>
+            <p className="text-xs sm:text-sm text-[var(--t-text-muted)] mb-6 leading-relaxed">
+              Tell us about your marketing channels. We&apos;ll show you how autonomous decisioning eliminates dashboard guesswork.
+            </p>
+
+            {success ? (
+              <div className="py-8 text-center flex flex-col items-center">
+                <div className="w-12 h-12 rounded-full bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] grid place-items-center mb-4">
+                  <CheckCircle2 className="w-6 h-6 text-[var(--t-accent-green)]" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">
+                  Thanks! We&apos;ll be in touch shortly.
+                </h3>
+                <p className="text-xs text-[var(--t-text-muted)] max-w-xs mb-6">
+                  Our growth engineering team is preparing a customized multi-channel simulation for your brand.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="btn-primary text-xs px-6 py-2.5"
+                >
+                  Return to site
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3.5" noValidate>
+                {/* First name */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-[var(--t-text-muted)] mb-1 uppercase tracking-wider">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className={`w-full h-10 px-3.5 rounded-xl bg-black/40 border text-sm text-white outline-none transition-all placeholder:text-[var(--t-text-faint)] focus:border-white focus:bg-black/60 ${
+                      errors.firstName ? 'border-red-500' : 'border-[var(--t-border-subtle)]'
+                    }`}
+                    placeholder="Sarah"
+                  />
+                  {errors.firstName && (
+                    <p className="text-[11px] text-red-400 mt-1">{errors.firstName}</p>
+                  )}
+                </div>
+
+                {/* Business website */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-[var(--t-text-muted)] mb-1 uppercase tracking-wider">
+                    Business Website *
+                  </label>
+                  <input
+                    type="text"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    className={`w-full h-10 px-3.5 rounded-xl bg-black/40 border text-sm text-white outline-none transition-all placeholder:text-[var(--t-text-faint)] focus:border-white focus:bg-black/60 ${
+                      errors.website ? 'border-red-500' : 'border-[var(--t-border-subtle)]'
+                    }`}
+                    placeholder="yourbrand.com"
+                  />
+                  {errors.website && (
+                    <p className="text-[11px] text-red-400 mt-1">{errors.website}</p>
+                  )}
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-[var(--t-text-muted)] mb-1 uppercase tracking-wider">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className={`w-full h-10 px-3.5 rounded-xl bg-black/40 border text-sm text-white outline-none transition-all placeholder:text-[var(--t-text-faint)] focus:border-white focus:bg-black/60 ${
+                      errors.phone ? 'border-red-500' : 'border-[var(--t-border-subtle)]'
+                    }`}
+                    placeholder="+1 (555) 019-2834"
+                  />
+                  {errors.phone && (
+                    <p className="text-[11px] text-red-400 mt-1">{errors.phone}</p>
+                  )}
+                </div>
+
+                {/* Account Type Selector */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-[var(--t-text-muted)] mb-1.5 uppercase tracking-wider">
+                    Organization Type *
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {(['brand', 'agency'] as const).map((type) => {
+                      const isSelected = accountType === type;
+                      return (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => setAccountType(type)}
+                          className={`h-9 px-3 rounded-xl border text-xs font-semibold capitalize transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-white text-black border-white shadow-sm'
+                              : 'bg-black/30 border-[var(--t-border-subtle)] text-[var(--t-text-muted)] hover:border-[var(--t-border-default)] hover:text-white'
+                          }`}
+                        >
+                          {type === 'brand' ? 'D2C Brand' : 'Growth Agency'}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {errors.accountType && (
+                    <p className="text-[11px] text-red-400 mt-1">{errors.accountType}</p>
+                  )}
+                </div>
+
+                {/* Submit Button (White pill button) */}
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="btn-primary w-full h-11 mt-2 text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Submitting request...
+                    </>
+                  ) : (
+                    'Book a demo'
+                  )}
+                </button>
+
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-[var(--t-text-faint)] mt-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[var(--t-accent-green)]" />
+                  <span>No commitment required. We never share your data.</span>
+                </div>
+              </form>
+            )}
+          </div>
+
+          {/* Right Column: Prescient-style Social Proof & Highlights */}
+          <div className="hidden md:flex md:col-span-2 p-6 sm:p-8 bg-[#141416] border-l border-[var(--t-border-subtle)] flex-col justify-between">
+            <div>
+              <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--t-accent-green)] mb-3">
+                CUSTOMER VERIFIED
+              </p>
+              <blockquote className="text-xs text-[var(--t-text-secondary)] leading-relaxed italic mb-4">
+                &ldquo;We use Adventory as THE single source of truth for cross-channel ad spend. We saved \$38,000 on low-stock items in the first 30 days.&rdquo;
+              </blockquote>
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-[var(--t-icon-bg)] border border-[var(--t-border-subtle)] grid place-items-center font-bold text-xs text-white">
+                  S
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-white">Sarah Chen</p>
+                  <p className="text-[10px] text-[var(--t-text-muted)]">VP Growth, Verdant</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-[var(--t-border-subtle)] flex flex-col gap-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[var(--t-text-muted)]">Average ROAS lift</span>
+                <span className="font-mono font-bold text-[var(--t-accent-green)]">+42%</span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[var(--t-text-muted)]">Diagnosis speed</span>
+                <span className="font-mono font-bold text-white">3.2x faster</span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[var(--t-text-muted)]">Model confidence</span>
+                <span className="font-mono font-bold text-[var(--t-accent-green)]">91%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/modals/LoginModal.tsx
+   =========================================================================== */
+
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
+import { X, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { mockLogin } from '../../mocks/api';
+import { BRAND } from '../../config/brand';
+
+interface LoginModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function LoginModal({ open, onClose }: LoginModalProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [email, setEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  useFocusTrap(ref, open);
+
+  const handleClose = useCallback(() => {
+    setEmailSent(false);
+    setEmail('');
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) handleClose();
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, handleClose]);
+
+  if (!open) return null;
+
+  const handleProviderLogin = async (provider: 'google' | 'apple') => {
+    setLoading(true);
+    const result = await mockLogin(provider);
+    setLoading(false);
+    if (result.success) {
+      handleClose();
+    }
+  };
+
+  const handleMagicLink = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !email.includes('@')) return;
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 900));
+    setLoading(false);
+    setEmailSent(true);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onClick={handleClose}
+      style={{
+        background: 'rgba(5, 5, 7, 0.88)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
+      <div
+        ref={ref}
+        className="relative w-full max-w-md p-7 sm:p-8 rounded-2xl border border-[var(--t-border-subtle)] bg-[#0f0f11] shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden"
+        style={{ animation: 'prescient-modal 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-title"
+      >
+        <style>{`
+          @keyframes prescient-modal {
+            from { opacity: 0; transform: scale(0.96) translateY(6px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+        `}</style>
+
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={handleClose}
+          className="absolute top-5 right-5 w-8 h-8 rounded-full border border-[var(--t-border-subtle)] bg-white/[0.04] grid place-items-center text-[var(--t-text-muted)] hover:text-white hover:border-[var(--t-border-default)] transition-all cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Brand Icon Header */}
+        <div className="flex items-center gap-2 mb-4">
+          <svg
+            className="w-5 h-5 text-[var(--t-accent-green)]"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13H5.5L12 6.5z" />
+          </svg>
+          <span className="font-bold text-white text-lg tracking-tight">{BRAND.name}</span>
+        </div>
+
+        <h2 id="login-title" className="text-xl font-bold text-white mb-1">
+          Sign in to your console
+        </h2>
+        <p className="text-xs text-[var(--t-text-muted)] mb-6">
+          Access your autonomous advertising workspace and campaign directives.
+        </p>
+
+        {emailSent ? (
+          <div className="py-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[rgba(34,197,94,0.12)] border border-[rgba(34,197,94,0.3)] grid place-items-center">
+              <span className="text-[var(--t-accent-green)] text-xl font-bold">✓</span>
+            </div>
+            <h3 className="text-base font-semibold text-white mb-1">Magic link sent</h3>
+            <p className="text-xs text-[var(--t-text-muted)] mb-6">
+              Check your inbox at <span className="text-white font-medium">{email}</span> to sign in instantly.
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn-primary text-xs px-6 py-2"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {/* OAuth Buttons */}
+            <div className="flex flex-col gap-2.5">
+              <button
+                type="button"
+                onClick={() => handleProviderLogin('google')}
+                disabled={loading}
+                className="w-full h-11 px-4 rounded-full border border-[var(--t-border-subtle)] bg-white/[0.03] hover:bg-white/[0.08] hover:border-[var(--t-border-default)] flex items-center justify-center gap-3 text-sm font-semibold text-white transition-all cursor-pointer"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleProviderLogin('apple')}
+                disabled={loading}
+                className="w-full h-11 px-4 rounded-full border border-[var(--t-border-subtle)] bg-white/[0.03] hover:bg-white/[0.08] hover:border-[var(--t-border-default)] flex items-center justify-center gap-3 text-sm font-semibold text-white transition-all cursor-pointer"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C4.24 16.7 4.89 10.55 8.8 10.3c1.15.06 1.95.67 2.63.7.99-.2 1.94-.78 3-.66 1.27.15 2.23.72 2.85 1.73-2.62 1.57-2 4.97.55 5.93-.67 1.68-1.52 3.33-2.78 4.28zM12.04 10.2c-.13-2.37 1.87-4.42 4.08-4.6.3 2.65-2.38 4.66-4.08 4.6z" />
+                </svg>
+                <span>Continue with Apple</span>
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-1">
+              <hr className="flex-1 border-[var(--t-border-subtle)]" />
+              <span className="text-[11px] font-mono uppercase text-[var(--t-text-faint)]">
+                or work email
+              </span>
+              <hr className="flex-1 border-[var(--t-border-subtle)]" />
+            </div>
+
+            {/* Passwordless Magic Link Input */}
+            <form onSubmit={handleMagicLink} className="flex gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@brand.com"
+                className="flex-1 h-11 px-4 rounded-full bg-black/40 border border-[var(--t-border-subtle)] text-xs text-white outline-none focus:border-white transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary h-11 px-5 text-xs whitespace-nowrap cursor-pointer"
+              >
+                {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
+              </button>
+            </form>
+
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-[var(--t-text-faint)] mt-2">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--t-accent-green)]" />
+              <span>Enterprise SSO &amp; SOC2 Type II Certified</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/components/modals/SearchPalette.tsx
+   =========================================================================== */
+
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ArrowUp, ArrowDown, CornerDownLeft, X } from 'lucide-react';
+import { getAllSearchableItems } from '../../config/brand';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+
+interface SearchPaletteProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function SearchPalette({ open, onClose }: SearchPaletteProps) {
+  const [query, setQuery] = useState('');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  useFocusTrap(containerRef, open);
+
+  const allItems = useMemo(() => getAllSearchableItems(), []);
+
+  const filtered = useMemo(() => {
+    if (!query.trim()) return allItems;
+    const q = query.toLowerCase();
+    return allItems.filter(
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q)
+    );
+  }, [query, allItems]);
+
+  // Focus input when opened
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  // Prevent background scroll when opened
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  const handleClose = useCallback(() => {
+    setQuery('');
+    setActiveIndex(0);
+    onClose();
+  }, [onClose]);
+
+  const selectItem = useCallback(
+    (href: string) => {
+      navigate(href);
+      handleClose();
+    },
+    [navigate, handleClose]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveIndex((i) => Math.max(i - 1, 0));
+      }
+      if (e.key === 'Enter' && filtered[activeIndex]) {
+        e.preventDefault();
+        selectItem(filtered[activeIndex].href);
+      }
+    },
+    [filtered, activeIndex, handleClose, selectItem]
+  );
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] px-4"
+      onClick={handleClose}
+      style={{
+        background: 'rgba(7, 8, 10, 0.82)',
+        backdropFilter: 'blur(16px)',
+      }}
+    >
+      <div
+        ref={containerRef}
+        className="relative w-full max-w-xl rounded-xl border border-[var(--hairline)] bg-[var(--surface-raised)] shadow-[0_24px_60px_rgba(0,0,0,0.7)] overflow-hidden"
+        style={{ animation: 'palette-enter 0.18s ease forwards' }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search pages and platform capabilities"
+        onKeyDown={handleKeyDown}
+      >
+        <style>{`
+          @keyframes palette-enter {
+            from { opacity: 0; transform: scale(0.97) translateY(-6px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+        `}</style>
+
+        {/* Search input header */}
+        <div className="flex items-center gap-3 px-4 h-14 border-b border-[var(--hairline)]">
+          <Search className="w-4 h-4 text-[var(--muted)] flex-shrink-0" />
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
+            placeholder="Search pages and features..."
+            className="flex-1 bg-transparent text-[var(--text)] text-sm outline-none placeholder:text-[var(--muted)]"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="search-results"
+            aria-activedescendant={
+              filtered[activeIndex] ? `search-item-${activeIndex}` : undefined
+            }
+          />
+          {query ? (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              className="text-[var(--muted)] hover:text-[var(--text)] p-1"
+              aria-label="Clear query"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          ) : (
+            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(255,255,255,0.06)] border border-[var(--hairline)] text-[var(--muted)]">
+              ESC
+            </kbd>
+          )}
+        </div>
+
+        {/* Results: each result row is a bordered box (Requirement 2) */}
+        <div
+          id="search-results"
+          role="listbox"
+          className="max-h-[360px] overflow-y-auto p-3 flex flex-col gap-2"
+        >
+          {filtered.length === 0 ? (
+            <div className="text-center py-10 text-[var(--muted)] text-sm">
+              No results found for &ldquo;{query}&rdquo;
+            </div>
+          ) : (
+            filtered.map((item, i) => {
+              const isSelected = i === activeIndex;
+              return (
+                <div
+                  key={item.href}
+                  id={`search-item-${i}`}
+                  role="option"
+                  aria-selected={isSelected}
+                  className={`link-box--card cursor-pointer items-center justify-between ${
+                    isSelected ? 'link-box--active' : ''
+                  }`}
+                  onClick={() => selectItem(item.href)}
+                  onMouseEnter={() => setActiveIndex(i)}
+                >
+                  <div className="min-w-0 flex-1 pr-2">
+                    <p className="text-sm font-semibold text-[var(--text)] truncate">
+                      {item.title}
+                    </p>
+                    <p className="text-xs text-[var(--muted)] truncate mt-0.5">
+                      {item.description}
+                    </p>
+                  </div>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--muted)] bg-[rgba(255,255,255,0.05)] border border-[var(--hairline)] px-2 py-0.5 rounded flex-shrink-0">
+                    {item.category}
+                  </span>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Footer shortcuts */}
+        <div className="flex items-center gap-4 px-4 h-10 border-t border-[var(--hairline)] text-[10px] font-mono text-[var(--muted)] bg-[rgba(0,0,0,0.2)]">
+          <span className="flex items-center gap-1">
+            <ArrowUp className="w-3 h-3" />
+            <ArrowDown className="w-3 h-3" />
+            navigate
+          </span>
+          <span className="flex items-center gap-1">
+            <CornerDownLeft className="w-3 h-3" />
+            select
+          </span>
+          <span>esc to close</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/useCountUp.ts
+   =========================================================================== */
+
+import { useEffect, useState } from 'react';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
+export function useCountUp(target: number, duration = 1500, inView = false) {
+  const reduced = usePrefersReducedMotion();
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!inView || reduced) return;
+
+    let start: number | null = null;
+    let raf: number;
+    const step = (ts: number) => {
+      if (start === null) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+      setValue(Math.round(eased * target));
+      if (progress < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, inView, reduced]);
+
+  return reduced ? target : value;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/useFocusTrap.ts
+   =========================================================================== */
+
+import { useEffect, useRef, type RefObject } from 'react';
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active: boolean) {
+  const previousFocus = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!active) return;
+    previousFocus.current = document.activeElement as HTMLElement;
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Focus first focusable element
+    const first = container.querySelector<HTMLElement>(FOCUSABLE);
+    first?.focus();
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusable = container.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (focusable.length === 0) return;
+      const firstEl = focusable[0];
+      const lastEl = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handler);
+    return () => {
+      document.removeEventListener('keydown', handler);
+      previousFocus.current?.focus();
+    };
+  }, [active, containerRef]);
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/useInView.ts
+   =========================================================================== */
+
+import { useEffect, useRef, useState } from 'react';
+
+export function useInView<T extends HTMLElement = HTMLElement>(
+  options: IntersectionObserverInit = { threshold: 0.15 }
+) {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  const { threshold = 0.15, rootMargin, root } = options;
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold, rootMargin, root }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold, rootMargin, root]);
+
+  return { ref, inView };
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/useKeyboard.ts
+   =========================================================================== */
+
+import { useEffect } from 'react';
+
+export function useKeyboard(key: string, callback: () => void, meta = false) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (meta && !(e.metaKey || e.ctrlKey)) return;
+      if (e.key.toLowerCase() === key.toLowerCase()) {
+        e.preventDefault();
+        callback();
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [key, callback, meta]);
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/usePrefersReducedMotion.ts
+   =========================================================================== */
+
+import { useEffect, useState } from 'react';
+
+export function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  return reduced;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/hooks/useTypewriter.ts
+   =========================================================================== */
+
+import { useEffect, useState } from 'react';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
+export function useTypewriter(messages: readonly string[], intervalMs = 3000) {
+  const reduced = usePrefersReducedMotion();
+  const [index, setIndex] = useState(0);
+  const [displayed, setDisplayed] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    if (reduced) return;
+
+    const msg = messages[index];
+    if (isTyping) {
+      if (displayed.length < msg.length) {
+        const timer = setTimeout(() => setDisplayed(msg.slice(0, displayed.length + 1)), 35);
+        return () => clearTimeout(timer);
+      } else {
+        const timer = setTimeout(() => setIsTyping(false), intervalMs);
+        return () => clearTimeout(timer);
+      }
+    } else {
+      if (displayed.length > 0) {
+        const timer = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 20);
+        return () => clearTimeout(timer);
+      } else {
+        const timer = setTimeout(() => {
+          setIndex((i) => (i + 1) % messages.length);
+          setIsTyping(true);
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [messages, index, displayed, isTyping, intervalMs, reduced]);
+
+  return reduced ? messages[0] : displayed;
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/data/scenario.ts
+   =========================================================================== */
+
+/** Decision Scenario mock data — seeded, deterministic */
+
+export const CHANNELS = ['Meta', 'Google', 'Amazon', 'TikTok'] as const;
+export type Channel = typeof CHANNELS[number];
+
+export interface SKU {
+  id: string;
+  name: string;
+  channel: Channel;
+  margin: number; // percentage
+  stockCover: number; // days
+  roas: number;
+  spend: number;
+  revenue: number;
+}
+
+export const SKUS: SKU[] = [
+  { id: 'SKU-1001', name: 'Vitamin C Serum 30ml', channel: 'Meta', margin: 68, stockCover: 45, roas: 4.2, spend: 3200, revenue: 13440 },
+  { id: 'SKU-1012', name: 'Retinol Night Cream', channel: 'Meta', margin: 72, stockCover: 30, roas: 3.8, spend: 2800, revenue: 10640 },
+  { id: 'SKU-1042', name: 'Hyaluronic Moisturiser', channel: 'Meta', margin: 45, stockCover: 5, roas: 1.4, spend: 4100, revenue: 5740 },
+  { id: 'SKU-2010', name: 'SPF50 Sunscreen', channel: 'Google', margin: 55, stockCover: 60, roas: 5.1, spend: 1800, revenue: 9180 },
+  { id: 'SKU-2044', name: 'Niacinamide Toner', channel: 'Google', margin: 62, stockCover: 22, roas: 3.2, spend: 2100, revenue: 6720 },
+  { id: 'SKU-2091', name: 'AHA/BHA Exfoliant', channel: 'Google', margin: 38, stockCover: 3, roas: 1.1, spend: 3400, revenue: 3740 },
+  { id: 'SKU-3005', name: 'Cleansing Balm', channel: 'Amazon', margin: 42, stockCover: 35, roas: 3.5, spend: 2500, revenue: 8750 },
+  { id: 'SKU-3021', name: 'Eye Cream Peptide', channel: 'Amazon', margin: 70, stockCover: 50, roas: 4.8, spend: 1600, revenue: 7680 },
+  { id: 'SKU-3038', name: 'Lip Treatment Oil', channel: 'Amazon', margin: 75, stockCover: 40, roas: 5.5, spend: 900, revenue: 4950 },
+  { id: 'SKU-4002', name: 'Glow Mist Spray', channel: 'TikTok', margin: 58, stockCover: 28, roas: 3.9, spend: 3000, revenue: 11700 },
+  { id: 'SKU-4015', name: 'Acne Spot Patches', channel: 'TikTok', margin: 80, stockCover: 55, roas: 6.2, spend: 1200, revenue: 7440 },
+  { id: 'SKU-4030', name: 'Salicylic Wash', channel: 'TikTok', margin: 35, stockCover: 8, roas: 1.8, spend: 2600, revenue: 4680 },
+];
+
+/** 30-day ROAS trend with an anomaly dip at day 18-22 */
+export function generateRoasTrend(): { day: number; roas: number }[] {
+  const data: { day: number; roas: number }[] = [];
+  for (let d = 1; d <= 30; d++) {
+    let roas: number;
+    if (d <= 17) {
+      roas = 3.4 + Math.sin(d * 0.3) * 0.4 + (d * 0.02);
+    } else if (d <= 22) {
+      // anomaly dip
+      const dip = Math.max(0, 1 - Math.abs(d - 20) * 0.3);
+      roas = 3.4 - dip * 1.8 + Math.sin(d * 0.3) * 0.2;
+    } else {
+      // recovery
+      roas = 2.8 + (d - 22) * 0.15 + Math.sin(d * 0.3) * 0.3;
+    }
+    data.push({ day: d, roas: Math.round(roas * 100) / 100 });
+  }
+  return data;
+}
+
+export const ROAS_TREND = generateRoasTrend();
+
+/** Diagnosed root-cause drivers ranked by contribution */
+export interface Driver {
+  label: string;
+  contribution: number; // percentage
+  evidence: string;
+  type: 'negative' | 'neutral';
+}
+
+export const DIAGNOSED_DRIVERS: Driver[] = [
+  { label: 'Meta CPM spike (+34%)', contribution: 42, evidence: 'CPM rose from $8.20 to $11.00 on Meta during days 18-22, coinciding with competitor auction surge', type: 'negative' },
+  { label: 'SKU-1042 stock depleting', contribution: 28, evidence: 'Hyaluronic Moisturiser dropped to 5 days cover; conversion rate fell 60% as out-of-stock notices appeared', type: 'negative' },
+  { label: 'Google broad match decay', contribution: 18, evidence: 'Broad match keywords on Google Shopping saw irrelevant clicks rise 2.3x, diluting ROAS', type: 'negative' },
+  { label: 'TikTok creative fatigue', contribution: 12, evidence: 'Top TikTok ad creative hit 3.2 frequency; CTR declined from 2.1% to 0.9%', type: 'negative' },
+];
+
+/** Recommended budget reallocations */
+export interface Reallocation {
+  from: string;
+  to: string;
+  amount: number;
+  confidence: number;
+  expectedProfit: number;
+  constraints: string[];
+}
+
+export const REALLOCATIONS: Reallocation[] = [
+  { from: 'Meta / SKU-1042', to: 'Meta / SKU-1001', amount: 2800, confidence: 92, expectedProfit: 4200, constraints: ['Margin > 50%', 'Stock > 30d'] },
+  { from: 'Google / SKU-2091', to: 'Google / SKU-2010', amount: 2200, confidence: 88, expectedProfit: 3100, constraints: ['Margin > 50%', 'Stock > 30d'] },
+  { from: 'TikTok / SKU-4030', to: 'TikTok / SKU-4015', amount: 1500, confidence: 85, expectedProfit: 2400, constraints: ['Margin > 50%', 'Stock > 30d', 'New creative ready'] },
+];
+
+/** Predicted vs actual outcomes for the Learn step */
+export const LEARNING_DATA = {
+  predicted: [3.2, 3.4, 3.7, 4.0, 4.2, 4.3, 4.4],
+  actual: [3.1, 3.3, 3.6, 3.9, 4.1, 4.3, 4.5],
+  days: ['D+1', 'D+3', 'D+5', 'D+7', 'D+10', 'D+14', 'D+21'],
+  confidenceBefore: 78,
+  confidenceAfter: 91,
+};
+
+/** Steps for the scenario stepper */
+export const SCENARIO_STEPS = ['Detect', 'Diagnose', 'Decide', 'Execute', 'Learn'] as const;
+export type ScenarioStep = typeof SCENARIO_STEPS[number];
+
+
+
+
+/* ===========================================================================
+   FILE: src/pages/HomePage.tsx
+   =========================================================================== */
+
+/**
+ * HomePage.tsx — Assembles all home page sections in skeleton rhythm order.
+ */
+import { useState } from 'react';
+import { Hero } from '../components/home/Hero';
+import { TrustedBy } from '../components/home/TrustedBy';
+import { FeatureCards } from '../components/home/FeatureCards';
+import { ProblemSection } from '../components/home/ProblemSection';
+import { DecisionScenario } from '../components/home/DecisionScenario';
+import { MetricsStrip } from '../components/home/MetricsStrip';
+import { Testimonials } from '../components/home/Testimonials';
+import { CtaBanner } from '../components/home/CtaBanner';
+import { Footer } from '../components/footer/Footer';
+import { DemoModal } from '../components/modals/DemoModal';
+
+export function HomePage() {
+  const [demoOpen, setDemoOpen] = useState(false);
+
+  return (
+    <>
+      <Hero onDemoClick={() => setDemoOpen(true)} />
+      <TrustedBy />
+      <FeatureCards />
+      <ProblemSection />
+      <DecisionScenario />
+      <MetricsStrip />
+      <Testimonials />
+      <CtaBanner onDemoClick={() => setDemoOpen(true)} />
+      <Footer />
+
+      {/* Modal triggered from within the page */}
+      <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
+    </>
+  );
+}
+
+
+
+
+/* ===========================================================================
+   FILE: src/pages/PlaceholderPage.tsx
+   =========================================================================== */
+
+import { useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { useInView } from '../hooks/useInView';
+import { MEGA_MENUS, BRAND } from '../config/brand';
+import { DemoModal } from '../components/modals/DemoModal';
+import { Footer } from '../components/footer/Footer';
+
+export function PlaceholderPage() {
+  const location = useLocation();
+  const [demoOpen, setDemoOpen] = useState(false);
+  const { ref, inView } = useInView();
+
+  // Find the matching menu item for this route
+  let pageTitle = 'Platform Feature';
+  let pageDescription = '';
+  let pageCategory = 'Product';
+
+  for (const menu of MEGA_MENUS) {
+    for (const col of menu.columns) {
+      for (const item of col.items) {
+        if (item.href === location.pathname) {
+          pageTitle = item.title;
+          pageDescription = item.description;
+          pageCategory = menu.label;
+          break;
+        }
+      }
+    }
+  }
+
+  return (
+    <>
+      <section ref={ref} className="relative pt-20 lg:pt-28 pb-20 lg:pb-24 px-4 lg:px-8 min-h-[65vh] flex flex-col justify-center">
+        <div className={`max-w-[var(--maxw)] mx-auto w-full relative z-1 page-enter reveal-line ${inView ? 'in' : ''}`}>
+          <div className="max-w-3xl flex flex-col gap-6">
+            {/* Eyebrow with brag pill */}
+            <div className="flex items-center gap-3">
+              <div className="brag-pill">
+                <span className="brag-pill-dot" />
+                <span>{BRAND.name} / {pageCategory}</span>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-white">
+              {pageTitle}
+            </h1>
+
+            {/* Description */}
+            <p className="text-xl text-neutral-300 font-normal leading-relaxed" style={{ textWrap: 'pretty' }}>
+              {pageDescription ||
+                `Explore ${pageTitle} and see how Adventory replaces guesswork with autonomous advertising decisions.`}
+            </p>
+
+            <p className="text-sm text-neutral-400 leading-relaxed max-w-2xl" style={{ textWrap: 'pretty' }}>
+              Adventory continuously monitors cross-channel performance signals, isolating causal factors and executing high-confidence adjustments directly via platform APIs.
+            </p>
+
+            {/* CTAs using the Prescient pill system */}
+            <div className="flex flex-wrap items-center gap-4 pt-4">
+              <button
+                type="button"
+                onClick={() => setDemoOpen(true)}
+                className="btn-primary h-12 px-8 text-sm font-bold cursor-pointer flex items-center gap-2"
+              >
+                <span>Book a 1-on-1 demo</span>
+                <span className="text-black font-mono">→</span>
+              </button>
+              <Link
+                to="/"
+                className="btn-secondary h-12 px-7 text-sm font-medium cursor-pointer flex items-center justify-center"
+              >
+                Back to home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
+    </>
+  );
+}
+
+
+

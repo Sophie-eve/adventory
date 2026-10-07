@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Environment Variables
+.env
+
+# System & OS
+.DS_Store
+Thumbs.db
+
+# Databases & Temporary archives
+*.db
+*.sqlite
+*.sqlite3
+*.zip
+*.bak
+scratch/
