@@ -224,8 +224,8 @@ Adventory strictly enforces institutional access for authorized analysts:
 
 | Analyst | Institutional Identifier | Assigned Sector | Accessible Inventory |
 |---|---|---|---|
-| **Shailja Singh** | `shailja@vitstudent.ac.in`<br>`23bce11019@vitstudent.ac.in` | **Footwear** | 14 Footwear SKUs (`FW-1002` to `FW-1015`) |
-| **Sandru S** | `sandru@vitstudent.ac.in`<br>`26bmv1087@vitstudent.ac.in`<br>`23bce11513@vitstudent.ac.in` | **Apparel** | 15 Apparel SKUs (`AP-2001` to `AP-2015`) |
+| **Shailja Singh** | `shailja@vitstudent.ac.in`<br> | **Footwear** | 14 Footwear SKUs (`FW-1002` to `FW-1015`) |
+| **Sandru S** | `sandru@vitstudent.ac.in`<br> | **Apparel** | 15 Apparel SKUs (`AP-2001` to `AP-2015`) |
 
 > ⚠️ **Access Guard**: Any non-institutional email (e.g., standard `@gmail.com`) or unauthorized VIT student account will be rejected with an `Unauthorized user` alert.
 
