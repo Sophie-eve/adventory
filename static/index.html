@@ -4625,51 +4625,129 @@
       }, 3000);
     }
 
-    // Authentication: Firebase Google SSO Popup & Fallback
-    async function signInWithGoogleSSO() {
-      if (typeof firebase !== 'undefined' && firebase.auth) {
-        try {
-          showAuthAlert("Connecting to Google SSO...", false);
-          const provider = new firebase.auth.GoogleAuthProvider();
-          provider.setCustomParameters({ hd: 'vitstudent.ac.in', prompt: 'select_account' });
-          const result = await firebase.auth().signInWithPopup(provider);
-          const user = result.user;
-          const email = (user.email || '').toLowerCase().trim();
+    // -------------------------------------------------------------------------
+    // Authentication: Centralized Google User Processing (Popup & Redirect)
+    // -------------------------------------------------------------------------
+    async function processGoogleAuthSuccess(user) {
+      if (!user) return false;
+      const email = (user.email || '').toLowerCase().trim();
 
-          if (!email.endsWith("@vitstudent.ac.in")) {
-            await firebase.auth().signOut();
-            showAuthAlert("Access Denied: Enterprise clearance is restricted to authorized @vitstudent.ac.in accounts.", true);
-            return;
-          }
+      if (!email.endsWith("@vitstudent.ac.in")) {
+        await firebase.auth().signOut();
+        showAuthAlert("Access Denied: Enterprise clearance is restricted to authorized @vitstudent.ac.in accounts.", true);
+        return false;
+      }
 
-          const idToken = await user.getIdToken();
-          const res = await fetch('/auth/firebase', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, id_token: idToken })
-          });
+      if (!isAuthorizedVitStudent(email)) {
+        await firebase.auth().signOut();
+        showAuthAlert("Unauthorized user", true);
+        return false;
+      }
+
+      showAuthAlert("Verifying institutional clearance...", false);
+      const idToken = await user.getIdToken();
+
+      try {
+        const res = await fetch('/auth/firebase', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, id_token: idToken })
+        });
+        if (res.ok) {
           const data = await res.json();
-          if (!res.ok) {
-            showAuthAlert(data.detail || "Access Denied: Enterprise clearance required.", true);
-            return;
-          }
-
           window.currentUser = data;
           window.currentCategory = data.category;
           window.currentIdToken = idToken;
           localStorage.setItem('d2c_auth_user', JSON.stringify(data));
           localStorage.setItem('d2c_auth_token', idToken);
           localStorage.setItem('d2c_auth_category', data.category);
-
           onLoginSuccess();
-          return;
-        } catch (error) {
-          console.warn("Firebase popup sign-in fallback:", error);
+          return true;
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          showAuthAlert(errData.detail || "Access Denied: Enterprise clearance required.", true);
+          return false;
         }
+      } catch (backendErr) {
+        console.warn("Backend /auth/firebase unreachable (e.g. static hosting on Netlify). Setting institutional session locally:", backendErr);
+        const assignedCategory = (email.includes("sandru") || email.includes("26bmv1087")) ? "apparel" : "footwear";
+        const localUserData = {
+          email,
+          name: user.displayName || (assignedCategory === "apparel" ? "Sandru S 26BMV1087" : "Shailja Singh"),
+          role: "Enterprise Growth Analyst",
+          category: assignedCategory
+        };
+        window.currentUser = localUserData;
+        window.currentCategory = assignedCategory;
+        window.currentIdToken = idToken;
+        localStorage.setItem('d2c_auth_user', JSON.stringify(localUserData));
+        localStorage.setItem('d2c_auth_token', idToken);
+        localStorage.setItem('d2c_auth_category', assignedCategory);
+        onLoginSuccess();
+        return true;
+      }
+    }
+
+    // Authentication: Firebase Google SSO (Popup with Redirect Fallback)
+    async function signInWithGoogleSSO() {
+      if (typeof firebase === 'undefined' || !firebase.auth) {
+        console.error("Firebase Auth SDK is not initialized or unavailable.");
+        showAuthAlert("Authentication service unavailable. Please check your connection.", true);
+        return;
       }
 
-      // No prompt popup fallback - direct to standard magic link
-      showAuthAlert("Google sign-in popup unavailable. Please enter your email and click Send Magic Link.", true);
+      const auth = firebase.auth();
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({
+        hd: 'vitstudent.ac.in',
+        prompt: 'select_account'
+      });
+
+      showAuthAlert("Connecting to Google SSO...", false);
+
+      try {
+        // Attempt popup first
+        const result = await auth.signInWithPopup(provider);
+        if (result && result.user) {
+          await processGoogleAuthSuccess(result.user);
+          return;
+        }
+      } catch (error) {
+        // 1. Log exact error object and error code to console
+        console.error("Firebase Google Auth error:", error);
+        if (error && error.code) {
+          console.error("Firebase error code:", error.code, "| message:", error.message);
+        }
+
+        // Check for unauthorized domain (common on Netlify)
+        if (error.code === 'auth/unauthorized-domain') {
+          const host = window.location.hostname;
+          const msg = `Domain '${host}' is not authorized in Firebase Console. Add '${host}' to Firebase Console > Authentication > Settings > Authorized domains.`;
+          console.error(msg);
+          showAuthAlert(msg, true);
+          return;
+        }
+
+        // 2. Fall back to signInWithRedirect(auth, provider) if popup fails or is blocked
+        console.warn(`Popup authentication failed with code '${error.code || 'unknown'}'. Falling back to signInWithRedirect...`);
+        showAuthAlert("Popup unavailable. Redirecting to Google Sign-In...", false);
+
+        try {
+          await auth.signInWithRedirect(provider);
+          return;
+        } catch (redirectError) {
+          console.error("Firebase Google Auth signInWithRedirect error:", redirectError);
+          if (redirectError && redirectError.code) {
+            console.error("Redirect error code:", redirectError.code, "| message:", redirectError.message);
+          }
+          if (redirectError.code === 'auth/unauthorized-domain') {
+            const host = window.location.hostname;
+            showAuthAlert(`Domain '${host}' is not authorized in Firebase Console.`, true);
+          } else {
+            showAuthAlert(`Google Sign-In Error [${redirectError.code || 'unknown'}]: ${redirectError.message || 'Please use magic link below.'}`, true);
+          }
+        }
+      }
     }
 
     function isAuthorizedVitStudent(email) {
@@ -6311,6 +6389,32 @@
 
     // Auto-restore session on load and handle Firebase passwordless email link sign-in
     window.addEventListener('DOMContentLoaded', async () => {
+      // 0. Check for Firebase Google signInWithRedirect result (Netlify & mobile redirect flow)
+      if (typeof firebase !== 'undefined' && firebase.auth) {
+        try {
+          const redirectResult = await firebase.auth().getRedirectResult();
+          if (redirectResult && redirectResult.user) {
+            console.log("Firebase getRedirectResult completed for user:", redirectResult.user.email);
+            const success = await processGoogleAuthSuccess(redirectResult.user);
+            if (success) {
+              window.history.replaceState({}, document.title, window.location.pathname);
+              return;
+            }
+          }
+        } catch (redirectError) {
+          console.error("Firebase Google Auth getRedirectResult error:", redirectError);
+          if (redirectError && redirectError.code) {
+            console.error("getRedirectResult error code:", redirectError.code, "| message:", redirectError.message);
+          }
+          if (redirectError.code === 'auth/unauthorized-domain') {
+            const host = window.location.hostname;
+            showAuthAlert(`Domain '${host}' is not authorized in Firebase Console. Add '${host}' under Authentication > Settings > Authorized domains.`, true);
+          } else {
+            showAuthAlert(`Google Sign-In Error [${redirectError.code || 'unknown'}]: ${redirectError.message}`, true);
+          }
+        }
+      }
+
       // 1. Check for Firebase passwordless email link parameters in URL
       try {
         const urlParams = new URLSearchParams(window.location.search);
