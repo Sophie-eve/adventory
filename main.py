@@ -102,9 +102,9 @@ def resolve_user_sector(email: str, name: str = "") -> str | None:
     """
     e = (email or "").strip().lower()
     n = (name or "").strip().lower()
-    if "sandru" in e or "sandru" in n or "26bmv1087" in e or "26bmv1087" in n:
+    if "sandru" in e or "sandru" in n or "26bmv1087" in e or "26bmv1087" in n or "23bce11513" in e or "23bce11513" in n:
         return "apparel"
-    if "shailja" in e or "shailja" in n:
+    if "shailja" in e or "shailja" in n or "23bce11019" in e or "23bce11019" in n or "singh2026" in e or "singh2026" in n:
         return "footwear"
     return None
 
@@ -128,8 +128,8 @@ def validate_user_access(email: str, name: str = "") -> tuple[str, str]:
         )
 
     # 2. VIT Student Authorization Check: Only Shailja and Sandru
-    is_sandru = ("sandru" in e) or ("sandru" in n) or ("26bmv1087" in e) or ("26bmv1087" in n)
-    is_shailja = ("shailja" in e) or ("shailja" in n)
+    is_sandru = ("sandru" in e) or ("sandru" in n) or ("26bmv1087" in e) or ("26bmv1087" in n) or ("23bce11513" in e) or ("23bce11513" in n)
+    is_shailja = ("shailja" in e) or ("shailja" in n) or ("23bce11019" in e) or ("23bce11019" in n) or ("singh2026" in e) or ("singh2026" in n)
 
     if is_sandru:
         return "apparel", name if name else "Sandru S 26BMV1087"
