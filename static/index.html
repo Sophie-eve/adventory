@@ -2109,6 +2109,146 @@
       margin-bottom: 1.25rem;
     }
 
+  
+    /* -------------------------------------------------------------------------
+       ENTERPRISE DATA MANAGEMENT HUB & ULTRA-READABLE DATA TABLES
+       ------------------------------------------------------------------------- */
+    .data-hub-card {
+      background: rgba(13, 17, 23, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.5rem;
+    }
+
+    .data-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .data-tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .data-tab-btn.active {
+      background: #10b981;
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .data-count-pill {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.1rem 0.45rem;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .filter-pills-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.2rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-pill {
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-pill:hover {
+      color: #ffffff;
+    }
+
+    .filter-pill.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Spacious, Highly Readable Table Wrapper & Cells */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 14, 20, 0.6);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: rgba(22, 27, 34, 0.98);
+      padding: 0.85rem 1.15rem;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    th.th-num {
+      text-align: right;
+    }
+
+    td {
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+      color: #e2e8f0;
+      white-space: nowrap;
+      vertical-align: middle;
+      transition: background-color 0.15s ease;
+    }
+
+    td.td-num {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 0.84rem;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    tbody tr:hover td {
+      background: rgba(16, 185, 129, 0.05) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -3391,42 +3531,6 @@
         </button>
       </div>
 
-      <!-- 6-Month Touch-to-Order Attribution Analytics (Animated Charts) -->
-      <div id="historicalAttributionSection" class="panel" style="display: none; border-color: rgba(99, 102, 241, 0.35);">
-        <div class="panel-header">
-          <div class="panel-title">
-            <span>6-Month Touch-to-Order Attribution Progression (May 2026 – Oct 2026)</span>
-            <span class="brand-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">MRC Standard Certified</span>
-          </div>
-          <div style="display: flex; gap: 0.45rem; align-items: center;">
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Avg. Touches to Order: <strong style="color: #f1f5f9;">3.4 touches</strong></span>
-            <button class="btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="toggleHistoricalAnalytics()">Close</button>
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem;">
-          <div style="background: rgba(0, 0, 0, 0.3); padding: 0.75rem; border-radius: 9px; border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.76rem; font-weight: 700; color: #818cf8; margin-bottom: 0.35rem;">Spend vs Attributed Revenue Growth</div>
-            <div style="height: 180px; position: relative;">
-              <canvas id="chartSpendRev"></canvas>
-            </div>
-          </div>
-
-          <div style="background: rgba(0, 0, 0, 0.3); padding: 0.75rem; border-radius: 9px; border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.76rem; font-weight: 700; color: #34d399; margin-bottom: 0.35rem;">Served vs MRC Viewable Impressions (50% 1s)</div>
-            <div style="height: 180px; position: relative;">
-              <canvas id="chartImpressions"></canvas>
-            </div>
-          </div>
-
-          <div style="background: rgba(0, 0, 0, 0.3); padding: 0.75rem; border-radius: 9px; border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.76rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.35rem;">Touch-to-Order Conversion Funnel</div>
-            <div id="funnelMetricsBox" style="padding: 0.35rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; line-height: 1.7; color: #cbd5e1;">
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- TOP EXECUTIVE SECTION: (Core KPIs on Left, Autonomous Diagnosis & Saved Briefings on Right) -->
       <div class="top-executive-grid">
 
@@ -3491,9 +3595,53 @@
               <div class="metric-sub sub-good" id="metricCvr">CVR: 0.0% | CPM: ₹0</div>
             </div>
           </div>
-        </div>
+        
+          <!-- EXECUTIVE GRAPHS DIRECTLY UNDER METRIC KPI CARDS -->
+          <div id="historicalAttributionSection" class="panel graph-under-cards" style="display: block; margin-top: 0.85rem; border-color: rgba(99, 102, 241, 0.25); background: rgba(13, 17, 23, 0.94); border-radius: 16px; padding: 1.15rem;">
+            <div class="panel-header" style="margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+              <div class="panel-title">
+                <span style="font-size: 0.88rem; font-weight: 700; color: #ffffff;">Attribution & Impression Analytics (Under Metric KPIs)</span>
+                <span class="brand-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">MRC Standard Certified</span>
+              </div>
+              <div style="display: flex; gap: 0.65rem; align-items: center;">
+                <span style="font-size: 0.74rem; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">Avg. Touches: <strong style="color: #38bdf8;">3.4x</strong></span>
+                <button class="btn-secondary" style="padding: 0.2rem 0.55rem; font-size: 0.72rem;" onclick="loadHistoricalAnalytics()">Refresh Graph</button>
+              </div>
+            </div>
 
-        <!-- Right: Autonomous Google Gemini 3.8 Flash Diagnosis & Saved Briefings -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem;">
+              <!-- Graph 1: Daily Ad Spend vs Attributed Revenue -->
+              <div style="background: rgba(10, 14, 20, 0.65); padding: 0.85rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #ffffff;">Daily Spend vs Attributed Revenue</span>
+                  <span style="font-size: 0.7rem; color: #10b981; font-family: 'JetBrains Mono', monospace; font-weight: 700;">+77.6% 6M Yield</span>
+                </div>
+                <div style="height: 190px; position: relative;">
+                  <canvas id="chartSpendRev"></canvas>
+                </div>
+              </div>
+
+              <!-- Graph 2: Served vs MRC Viewable Impressions -->
+              <div style="background: rgba(10, 14, 20, 0.65); padding: 0.85rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #ffffff;">Served vs MRC Viewable Imp</span>
+                  <span style="font-size: 0.7rem; color: #34d399; font-family: 'JetBrains Mono', monospace; font-weight: 700;">78% Viewability</span>
+                </div>
+                <div style="height: 190px; position: relative;">
+                  <canvas id="chartImpressions"></canvas>
+                </div>
+              </div>
+
+              <!-- Stage 3: Touch-to-Order Conversion Funnel -->
+              <div style="background: rgba(10, 14, 20, 0.65); padding: 0.85rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                <div style="font-size: 0.78rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.45rem;">Touch-to-Order Conversion Funnel</div>
+                <div id="funnelMetricsBox" style="padding: 0.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; line-height: 1.85; color: #cbd5e1;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- Right: Autonomous Google Gemini 3.8 Flash Diagnosis & Saved Briefings -->
         <div class="top-ai-wrapper">
           <!-- Autonomous Diagnosis -->
           <div class="panel" style="margin-bottom: 0; padding: 0.8rem;">
@@ -3549,17 +3697,61 @@
       <div style="display: flex; flex-direction: column; gap: 1rem;">
 
         <!-- Multi-Platform Campaigns -->
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">
-              <span>Multi-Platform Campaigns (Meta, Google, Amazon, TikTok)</span>
-            </div>
-            <div style="display: flex; gap: 0.4rem;">
-              <button class="btn-secondary" style="color: #f43f5e;" onclick="executeAnomalyAction()">Pause Wasted Ad</button>
-              <button class="btn-secondary" onclick="loadDashboard()">Refresh</button>
-            </div>
+        <!-- ENTERPRISE DATA MANAGEMENT HUB (Clean, Readable, Segmented View) -->
+      <div class="data-hub-card">
+        <!-- Top Navigation & Controls Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem;">
+          <!-- Left: Segmented View Selector -->
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(255, 255, 255, 0.04); padding: 0.25rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
+            <button id="btnViewCampaigns" class="data-tab-btn active" onclick="switchDataView('campaigns')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>Live Ad Campaigns</span>
+              <span class="data-count-pill" id="campCountPill">12</span>
+            </button>
+            <button id="btnViewInventory" class="data-tab-btn" onclick="switchDataView('inventory')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span>Product Inventory & Margins</span>
+              <span class="data-count-pill" id="invCountPill">12</span>
+            </button>
+            <button id="btnViewBoth" class="data-tab-btn" onclick="switchDataView('both')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <span>View Both</span>
+            </button>
           </div>
 
+          <!-- Right: Search & Action Toolbar -->
+          <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+            <!-- Global Search -->
+            <div style="position: relative; min-width: 250px;">
+              <svg style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #64748b; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="globalDataSearch" placeholder="Search SKU, product, or campaign..." oninput="handleGlobalDataSearch(this.value)" class="input-text" style="padding-left: 2.1rem; height: 38px; font-size: 0.82rem; border-radius: 9px; width: 100%;">
+            </div>
+
+            <!-- Quick Platform Filter -->
+            <div class="filter-pills-bar" id="platformFilterBar">
+              <button class="filter-pill active" onclick="filterPlatform('all')">All</button>
+              <button class="filter-pill" onclick="filterPlatform('Meta')">Meta</button>
+              <button class="filter-pill" onclick="filterPlatform('Google')">Google</button>
+              <button class="filter-pill" onclick="filterPlatform('Amazon')">Amazon</button>
+              <button class="filter-pill" onclick="filterPlatform('TikTok')">TikTok</button>
+            </div>
+
+            <button class="btn-secondary" style="height: 38px; padding: 0 0.85rem; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.35rem;" onclick="loadDashboard()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. Live Ad Campaigns Table Container -->
+        <div id="campaignsTableContainer" class="data-table-container">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+              <span>Multi-Platform Ad Delivery Telemetry</span>
+              <span class="brand-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Real-Time</span>
+            </div>
+            <button class="btn-secondary" style="color: #f43f5e; font-size: 0.76rem; padding: 0.25rem 0.65rem;" onclick="executeAnomalyAction()">Pause 0-Stock Wasted Ads</button>
+          </div>
           <div class="table-wrapper">
             <table>
               <thead>
@@ -3567,15 +3759,15 @@
                   <th>Platform</th>
                   <th>Campaign & SKU</th>
                   <th>Stock Status</th>
-                  <th>Served Imp</th>
-                  <th>Viewable Imp</th>
-                  <th>Reach</th>
-                  <th>Clicks</th>
-                  <th>CPM</th>
-                  <th>Orders</th>
-                  <th>Daily Spend</th>
-                  <th>Revenue</th>
-                  <th>Status</th>
+                  <th class="th-num">Served Imp</th>
+                  <th class="th-num">Viewable Imp</th>
+                  <th class="th-num">Reach</th>
+                  <th class="th-num">Clicks</th>
+                  <th class="th-num">CPM</th>
+                  <th class="th-num">Orders</th>
+                  <th class="th-num">Daily Spend</th>
+                  <th class="th-num">Revenue</th>
+                  <th style="text-align: center;">Status</th>
                 </tr>
               </thead>
               <tbody id="campaignsTableBody"></tbody>
@@ -3583,19 +3775,15 @@
           </div>
         </div>
 
-        <!-- Product Inventory & Margins (Clean Table with Inspect Button) -->
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">
-              <span>Product Inventory & Profit Margins</span>
+        <!-- 2. Product Inventory & Margins Table Container -->
+        <div id="inventoryTableContainer" class="data-table-container" style="display: none; margin-top: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+              <span>Product Inventory, Pricing & Gross Margins</span>
               <span class="brand-badge" id="inventoryCountBadge">Catalog</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <input type="text" id="inventorySearch" placeholder="Search SKU or product..." oninput="filterInventoryDisplay()" class="input-text" style="padding: 0.28rem 0.55rem; width: 170px; font-size: 0.74rem;">
-              <button class="btn-secondary" onclick="loadDashboard()">Refresh</button>
-            </div>
+            <span style="font-size: 0.75rem; color: #94a3b8;">Click &bull; Inspect SKU for unit profitability & 6-month curves</span>
           </div>
-
           <div class="table-wrapper">
             <table>
               <thead>
@@ -3603,20 +3791,20 @@
                   <th>SKU</th>
                   <th>Product Name</th>
                   <th>Stock Status</th>
-                  <th>Unit Cost</th>
-                  <th>Selling Price</th>
-                  <th>Offer</th>
-                  <th>Gross Margin</th>
-                  <th>Daily Ad Spend</th>
-                  <th>Action</th>
+                  <th class="th-num">Unit Cost</th>
+                  <th class="th-num">Selling Price</th>
+                  <th class="th-num">Offer</th>
+                  <th class="th-num">Gross Margin</th>
+                  <th class="th-num">Daily Ad Spend</th>
+                  <th style="text-align: center;">Action</th>
                 </tr>
               </thead>
               <tbody id="inventoryTableBody"></tbody>
             </table>
           </div>
         </div>
-
       </div>
+</div>
 
     </section>
 
@@ -5370,9 +5558,78 @@
       }
     }
 
+    
+    // --- Data Hub Tab & Search Controllers ---
+    window.currentDataView = 'campaigns';
+    window.currentPlatformFilter = 'all';
+
+    function switchDataView(view) {
+      window.currentDataView = view;
+      const bCamp = document.getElementById('btnViewCampaigns');
+      const bInv = document.getElementById('btnViewInventory');
+      const bBoth = document.getElementById('btnViewBoth');
+      const cCont = document.getElementById('campaignsTableContainer');
+      const iCont = document.getElementById('inventoryTableContainer');
+
+      if (bCamp) bCamp.classList.remove('active');
+      if (bInv) bInv.classList.remove('active');
+      if (bBoth) bBoth.classList.remove('active');
+
+      if (view === 'campaigns') {
+        if (bCamp) bCamp.classList.add('active');
+        if (cCont) cCont.style.display = 'block';
+        if (iCont) iCont.style.display = 'none';
+      } else if (view === 'inventory') {
+        if (bInv) bInv.classList.add('active');
+        if (cCont) cCont.style.display = 'none';
+        if (iCont) iCont.style.display = 'block';
+      } else {
+        if (bBoth) bBoth.classList.add('active');
+        if (cCont) cCont.style.display = 'block';
+        if (iCont) iCont.style.display = 'block';
+      }
+    }
+
+    function handleGlobalDataSearch(query) {
+      const q = (query || '').toLowerCase().trim();
+
+      // Filter Campaigns
+      const filteredCamps = (window.currentSectorCampaigns || []).filter(c => {
+        const matchText = !q || c.campaign_name.toLowerCase().includes(q) || c.sku.toLowerCase().includes(q) || c.platform.toLowerCase().includes(q);
+        const matchPlat = window.currentPlatformFilter === 'all' || c.platform.toLowerCase().includes(window.currentPlatformFilter.toLowerCase());
+        return matchText && matchPlat;
+      });
+      renderCampaignsTable(filteredCamps);
+
+      // Filter Inventory
+      const filteredProds = (window.currentInventoryList || []).filter(p => {
+        const skuVal = (p.sku || p.id || '').toLowerCase();
+        const nameVal = (p.name || '').toLowerCase();
+        return !q || skuVal.includes(q) || nameVal.includes(q);
+      });
+      renderInventoryTable(filteredProds);
+    }
+
+    function filterPlatform(plat) {
+      window.currentPlatformFilter = plat;
+      const buttons = document.querySelectorAll('#platformFilterBar .filter-pill');
+      buttons.forEach(btn => {
+        if (btn.textContent.trim().toLowerCase() === plat.toLowerCase()) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      const q = (document.getElementById('globalDataSearch')?.value || '').trim();
+      handleGlobalDataSearch(q);
+    }
+
     function renderCampaignsTable(campaigns) {
       const campBody = document.getElementById('campaignsTableBody');
+      if (!campBody) return;
       campBody.innerHTML = '';
+      const pill = document.getElementById('campCountPill');
+      if (pill) pill.textContent = campaigns.length;
 
       campaigns.forEach(c => {
         const row = document.createElement('tr');
@@ -5385,31 +5642,33 @@
 
         const prod = currentInventoryList.find(p => (p.sku || p.id) === c.sku);
         const stock = prod ? (prod.stock_count ?? prod.unit_stock ?? 0) : 0;
-        let stockStatusTag = '<span class="badge-healthy">In Stock</span>';
+        let stockStatusTag = '<span class="badge-healthy" style="padding: 0.25rem 0.65rem; border-radius: 9999px; font-weight: 700; font-size: 0.74rem;">In Stock</span>';
         if (stock <= 0) {
-          stockStatusTag = '<span class="badge-out-of-stock">0 Stock</span>';
+          stockStatusTag = '<span class="badge-out-of-stock" style="padding: 0.25rem 0.65rem; border-radius: 9999px; font-weight: 800; font-size: 0.74rem; box-shadow: 0 0 10px rgba(244,63,94,0.3);">0 Stock Alert</span>';
         } else if (stock <= 30) {
-          stockStatusTag = `<span class="badge-about-sold-out">${stock} left</span>`;
+          stockStatusTag = `<span class="badge-about-sold-out" style="padding: 0.25rem 0.65rem; border-radius: 9999px; font-weight: 700; font-size: 0.74rem;">${stock} left</span>`;
         }
 
         row.innerHTML = `
           <td><span class="platform-pill ${platClass}">${c.platform}</span></td>
           <td>
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <span class="sku-badge">${c.sku}</span>
-              <span style="font-weight: 600;">${c.campaign_name}</span>
+            <div style="display: flex; flex-direction: column; gap: 0.2rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <span class="sku-badge" style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem;">${c.sku}</span>
+                <span style="font-weight: 700; color: #ffffff; font-size: 0.86rem;">${c.campaign_name}</span>
+              </div>
             </div>
           </td>
           <td>${stockStatusTag}</td>
-          <td>${(c.served_impressions || 0).toLocaleString()}</td>
-          <td style="color: #34d399; font-weight: 600;">${(c.viewable_impressions || 0).toLocaleString()}</td>
-          <td>${(c.unique_reach || 0).toLocaleString()}</td>
-          <td style="color: #38bdf8; font-weight: 600;">${(c.clicks || 0).toLocaleString()}</td>
-          <td>₹${c.cpm || 0}</td>
-          <td style="color: #ec4899; font-weight: 600;">${(c.conversions || 0).toLocaleString()}</td>
-          <td style="font-weight: 600; color: #f43f5e;">₹${c.daily_spend.toLocaleString()}</td>
-          <td style="color: #10b981; font-weight: 700;">₹${c.revenue_generated.toLocaleString()}</td>
-          <td>
+          <td class="td-num" style="color: #cbd5e1;">${(c.served_impressions || 0).toLocaleString()}</td>
+          <td class="td-num" style="color: #34d399; font-weight: 700;">${(c.viewable_impressions || 0).toLocaleString()}</td>
+          <td class="td-num" style="color: #94a3b8;">${(c.unique_reach || 0).toLocaleString()}</td>
+          <td class="td-num" style="color: #38bdf8; font-weight: 700;">${(c.clicks || 0).toLocaleString()}</td>
+          <td class="td-num" style="color: #cbd5e1;">₹${Number(c.cpm || 0).toLocaleString()}</td>
+          <td class="td-num" style="color: #ec4899; font-weight: 700;">${(c.conversions || 0).toLocaleString()}</td>
+          <td class="td-num" style="font-weight: 700; color: #f43f5e;">₹${Number(c.daily_spend).toLocaleString()}</td>
+          <td class="td-num" style="color: #10b981; font-weight: 800;">₹${Number(c.revenue_generated).toLocaleString()}</td>
+          <td style="text-align: center;">
             <button class="status-pill ${isPaused ? 'status-paused' : 'status-active'}" onclick="toggleCampaign(${c.id})">
               ${isPaused ? 'PAUSED' : 'ACTIVE'}
             </button>
