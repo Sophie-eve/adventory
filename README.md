@@ -248,6 +248,6 @@ This project is configured out of the box for continuous deployment on **Netlify
 
 ## 📄 License & Attribution
 
-Developed by **Shailja Singh** & **Sandru S**  
+Developed by **Kushaanth M**, **Sandru S**, **Varun S**, and **Shailja Singh**  
 Vellore Institute of Technology (VIT).  
 All rights reserved &copy; 2026 Adventory AI.
