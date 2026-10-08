@@ -982,39 +982,37 @@
       background: rgba(0, 0, 0, 0.25);
     }
 
-    /* Enterprise Invoice Paper Styles (Pure black characters, zero shadows) */
+    /* Enterprise Invoice Paper Styles (White characters matching Obsidian theme, PDF printable) */
     .invoice-paper {
-      background: #ffffff !important;
-      color: #000000 !important;
-      box-shadow: none !important;
+      background: #0d1117 !important;
+      color: #ffffff !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
       text-shadow: none !important;
-      border: 1px solid #cbd5e1 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
     }
     .invoice-paper *,
     .invoice-paper *::before,
     .invoice-paper *::after {
-      box-shadow: none !important;
       text-shadow: none !important;
-      filter: none !important;
     }
     .invoice-paper h2,
     .invoice-paper h3,
     .invoice-paper h4 {
-      color: #000000 !important;
+      color: #ffffff !important;
     }
     .invoice-paper table {
-      color: #000000 !important;
+      color: #ffffff !important;
       border-collapse: collapse !important;
     }
     .invoice-paper th {
-      color: #000000 !important;
-      background: #f1f5f9 !important;
+      color: #ffffff !important;
+      background: #161b22 !important;
       font-weight: 700 !important;
-      border-bottom: 2px solid #000000 !important;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
     }
     .invoice-paper td {
-      color: #000000 !important;
-      border-bottom: 1px solid #e2e8f0 !important;
+      color: #ffffff !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
 
     /* Print Styles (Pure Black Characters, Zero Shadows on PDF/Print) */
@@ -1434,7 +1432,7 @@
 .channel-tab-val {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--t-text-main);
+  color: #ffffff !important;
   letter-spacing: -0.02em;
 }
 
@@ -1837,15 +1835,46 @@
        ------------------------------------------------------------------------- */
     .auth-card {
       position: relative;
-      border-radius: 16px;
-      padding: 2.25rem;
-      background: rgba(14, 17, 23, 0.94);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 3rem 2.85rem;
+      background: rgba(13, 17, 23, 0.96);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       width: 100%;
-      max-width: 460px;
+      max-width: 560px;
       z-index: 10;
+    }
+    .auth-card h2 {
+      font-size: 1.85rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+    .auth-card p {
+      font-size: 0.9rem !important;
+      margin-bottom: 1.75rem !important;
+      color: var(--text-muted);
+    }
+    .auth-card .btn-google {
+      height: 52px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+    .auth-card .input-text {
+      height: 50px;
+      font-size: 0.96rem;
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+    }
+    .auth-card #btnSendMagicLink {
+      height: 50px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      border-radius: 12px;
     }
 
     /* Widen Search Palette Modal */
@@ -1853,15 +1882,264 @@
       max-width: 740px !important;
     }
 
+  
+    /* -------------------------------------------------------------------------
+       REACT BITS: SQUISH SWITCH COMPONENT (JavaScript + CSS + Motion Physics)
+       ------------------------------------------------------------------------- */
+    .squish-switch-root {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .squish-switch {
+      --ss-w: 76px;
+      --ss-h: 38px;
+      --ss-inset: 4px;
+      --ss-thumb: 30px;
+      --ss-r: 19px;
+      --ss-thumb-r: 15px;
+      --ss-track: #27272a;
+      --ss-track-on: #10b981;
+      --ss-thumb-color: #64748b;
+      --ss-thumb-on: #ffffff;
+      --ss-fade: 320ms;
+
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      outline: none;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .squish-switch::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+    }
+
+    .squish-switch[data-held] {
+      cursor: grabbing;
+    }
+
+    .squish-switch[aria-disabled='true'] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .squish-switch__track {
+      position: relative;
+      display: block;
+      width: var(--ss-w);
+      height: var(--ss-h);
+      border-radius: var(--ss-r);
+      background: var(--ss-track);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+      transition: background-color var(--ss-fade) ease, box-shadow var(--ss-fade) ease;
+    }
+
+    .squish-switch[data-on] .squish-switch__track {
+      background: var(--ss-track-on);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .squish-switch__thumb {
+      position: absolute;
+      top: var(--ss-inset);
+      left: 0;
+      width: var(--ss-thumb);
+      height: var(--ss-thumb);
+      border-radius: var(--ss-thumb-r);
+      background: var(--ss-thumb-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      transition: background-color var(--ss-fade) ease;
+      will-change: transform;
+    }
+
+    .squish-switch[data-on] .squish-switch__thumb {
+      background: var(--ss-thumb-on);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 6px rgba(255, 255, 255, 0.6);
+    }
+
+    .squish-switch__label {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    /* -------------------------------------------------------------------------
+       REACT BITS: CURSOR GRID COMPONENT (Interactive Canvas 2D)
+       ------------------------------------------------------------------------- */
+    .cursor-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cursor-grid__canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* -------------------------------------------------------------------------
+       LEFT SIDE PAGE PROGRESSION RAIL (Matching Emerald & Obsidian Theme)
+       ------------------------------------------------------------------------- */
+    .left-progress-rail {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.35rem;
+      padding: 1rem 0.5rem;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.08);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    @media (max-width: 1100px) {
+      .left-progress-rail {
+        display: none !important;
+      }
+    }
+
+    .left-progress-track {
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .left-progress-fill {
+      width: 100%;
+      height: 0%;
+      background: linear-gradient(180deg, #10b981, #3ddc97);
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      transition: height 0.15s ease-out;
+    }
+
+    .left-progress-node {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+    }
+
+    .left-progress-node.active {
+      background: #10b981;
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.9);
+      transform: scale(1.25);
+    }
+
+    .left-progress-node:hover {
+      border-color: #3ddc97;
+      transform: scale(1.3);
+    }
+
+    .left-progress-tooltip {
+      position: absolute;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      color: #f1f5f9;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .left-progress-node:hover .left-progress-tooltip {
+      opacity: 1;
+      transform: translateY(-50%) translateX(4px);
+    }
+
+    /* Card Squish Switch Row */
+    .card-switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1.15rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--t-border-subtle);
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+    }
+
   </style>
 </head>
 <body>
-  <!-- MicroSlats Interactive WebGL Background -->
-  <div id="slicedWavesBackground"></div>
+  <!-- React Bits: CursorGrid Interactive 2D Canvas Background -->
+  <div id="cursorGridContainer" class="cursor-grid">
+    <canvas id="cursorGridCanvas" class="cursor-grid__canvas"></canvas>
+  </div>
 
 
   <!-- Navigation Bar -->
-    <!-- Global Navigation Header with Prescient AI MegaMenu -->
+    
+  <!-- Left Side Page Progression Rail (Interactive Obsidian/Emerald Theme) -->
+  <aside id="leftProgressRail" class="left-progress-rail" aria-label="Page Progression">
+    <div class="left-progress-track">
+      <div id="leftProgressFill" class="left-progress-fill"></div>
+    </div>
+    <div class="left-progress-node active" id="railNode0" onclick="jumpToSection('heroSection')">
+      <span class="left-progress-tooltip">01 &bull; Overview Hero</span>
+    </div>
+    <div class="left-progress-node" id="railNode1" onclick="jumpToSection('bentoGridSection')">
+      <span class="left-progress-tooltip">02 &bull; Bento Architecture</span>
+    </div>
+    <div class="left-progress-node" id="railNode2" onclick="jumpToSection('problemSection')">
+      <span class="left-progress-tooltip">03 &bull; Decision Scenario</span>
+    </div>
+    <div class="left-progress-node" id="railNode3" onclick="jumpToSection('metricsStrip')">
+      <span class="left-progress-tooltip">04 &bull; Directives & Audit</span>
+    </div>
+  </aside>
+
+  <!-- Global Navigation Header with Prescient AI MegaMenu -->
   <header id="mainAppHeader">
     <div style="display: flex; align-items: center; gap: 1.5rem;">
       <!-- Brand Logo -->
@@ -2055,10 +2333,11 @@
         <kbd style="font-size: 0.7rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 0.12rem 0.38rem; color: #cbd5e1; font-family: monospace;">Ctrl K</kbd>
       </button>
 
-      <!-- View Switcher Pills -->
-      <div style="display: flex; align-items: center; gap: 0.35rem; background: rgba(255,255,255,0.04); padding: 0.2rem; border-radius: 9999px;">
-        <button id="pillOverview" class="nav-view-pill active" onclick="showView('landing')">Overview</button>
-        <button id="pillDashboard" class="nav-view-pill" onclick="showView('dashboard')">Portal</button>
+      <!-- SquishSwitch View Switcher: Overview <-> Portal (React Bits) -->
+      <div class="nav-squish-container" style="display: flex; align-items: center; gap: 0.65rem; background: rgba(255,255,255,0.035); padding: 0.3rem 0.75rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.08);">
+        <span id="navLabelOverview" style="font-size: 0.8rem; font-weight: 700; color: #ffffff; cursor: pointer; transition: color 0.2s;" onclick="showView('landing')">Overview</span>
+        <span id="navSquishMount"></span>
+        <span id="navLabelPortal" style="font-size: 0.8rem; font-weight: 600; color: #64748b; cursor: pointer; transition: color 0.2s;" onclick="showView('dashboard')">Portal</span>
       </div>
 
       <!-- Authenticated Sector Badge & User Profile -->
@@ -2596,10 +2875,10 @@
                 <div style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--t-border-subtle); background: rgba(255,255,255,0.02);">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <span style="font-size: 0.92rem; font-weight: 600; color: #ffffff;">Meta CPM spike (+34%)</span>
-                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 0.2rem 0.5rem; border-radius: 9999px;">42% contribution</span>
+                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #3ddc97; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.5rem; border-radius: 9999px; box-shadow: 0 0 10px rgba(16,185,129,0.15);">42% contribution</span>
                   </div>
-                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 0.5rem;">
-                    <div style="height: 100%; width: 42%; background: #f59e0b; border-radius: 9999px;"></div>
+                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.07); overflow: hidden; margin-bottom: 0.5rem;">
+                    <div style="height: 100%; width: 42%; background: linear-gradient(90deg, #10b981, #3ddc97); border-radius: 9999px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);"></div>
                   </div>
                   <p style="font-size: 0.8rem; color: var(--t-text-muted);">CPM rose from $8.20 to $11.00 on Meta during days 18&ndash;22, coinciding with competitor auction surge.</p>
                 </div>
@@ -2607,10 +2886,10 @@
                 <div style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--t-border-subtle); background: rgba(255,255,255,0.02);">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <span style="font-size: 0.92rem; font-weight: 600; color: #ffffff;">SKU-1042 stock depleting</span>
-                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 0.2rem 0.5rem; border-radius: 9999px;">28% contribution</span>
+                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #3ddc97; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.5rem; border-radius: 9999px; box-shadow: 0 0 10px rgba(16,185,129,0.15);">28% contribution</span>
                   </div>
-                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 0.5rem;">
-                    <div style="height: 100%; width: 28%; background: #f59e0b; border-radius: 9999px;"></div>
+                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.07); overflow: hidden; margin-bottom: 0.5rem;">
+                    <div style="height: 100%; width: 28%; background: linear-gradient(90deg, #10b981, #3ddc97); border-radius: 9999px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);"></div>
                   </div>
                   <p style="font-size: 0.8rem; color: var(--t-text-muted);">Hyaluronic Moisturiser dropped to 5 days cover; conversion rate fell 60% as out-of-stock notices appeared.</p>
                 </div>
@@ -2618,10 +2897,10 @@
                 <div style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--t-border-subtle); background: rgba(255,255,255,0.02);">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <span style="font-size: 0.92rem; font-weight: 600; color: #ffffff;">Google broad match decay</span>
-                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 0.2rem 0.5rem; border-radius: 9999px;">18% contribution</span>
+                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #3ddc97; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.5rem; border-radius: 9999px; box-shadow: 0 0 10px rgba(16,185,129,0.15);">18% contribution</span>
                   </div>
-                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 0.5rem;">
-                    <div style="height: 100%; width: 18%; background: #f59e0b; border-radius: 9999px;"></div>
+                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.07); overflow: hidden; margin-bottom: 0.5rem;">
+                    <div style="height: 100%; width: 18%; background: linear-gradient(90deg, #10b981, #3ddc97); border-radius: 9999px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);"></div>
                   </div>
                   <p style="font-size: 0.8rem; color: var(--t-text-muted);">Broad match keywords on Google Shopping saw irrelevant search terms rise 2.3x, diluting ROAS.</p>
                 </div>
@@ -2629,10 +2908,10 @@
                 <div style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--t-border-subtle); background: rgba(255,255,255,0.02);">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <span style="font-size: 0.92rem; font-weight: 600; color: #ffffff;">TikTok creative fatigue</span>
-                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 0.2rem 0.5rem; border-radius: 9999px;">12% contribution</span>
+                    <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #3ddc97; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.5rem; border-radius: 9999px; box-shadow: 0 0 10px rgba(16,185,129,0.15);">12% contribution</span>
                   </div>
-                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 0.5rem;">
-                    <div style="height: 100%; width: 12%; background: #f59e0b; border-radius: 9999px;"></div>
+                  <div style="height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.07); overflow: hidden; margin-bottom: 0.5rem;">
+                    <div style="height: 100%; width: 12%; background: linear-gradient(90deg, #10b981, #3ddc97); border-radius: 9999px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);"></div>
                   </div>
                   <p style="font-size: 0.8rem; color: var(--t-text-muted);">Top TikTok ad creative hit 3.2 frequency; CTR declined from 2.1% to 0.9%.</p>
                 </div>
@@ -2646,8 +2925,14 @@
                   <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; color: var(--t-accent-green); font-weight: 700; display: block; margin-bottom: 0.4rem;">STEP 03 / AUTONOMOUS REALLOCATION</span>
                   <h3 style="font-size: 1.6rem; font-weight: 700; color: #ffffff;">Recommended budget directives</h3>
                 </div>
-                <div style="padding: 0.35rem 0.85rem; border-radius: 9999px; background: rgba(61,220,151,0.1); border: 1px solid rgba(61,220,151,0.3); color: var(--t-accent-green); font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
-                  +$9,700 Expected Net Profit Lift
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                  <div class="card-switch-row" style="margin-bottom: 0; padding: 0.35rem 0.85rem; border-radius: 9999px;">
+                    <span id="directiveAutoLabel" style="font-size: 0.76rem; font-family: 'JetBrains Mono', monospace; color: #3ddc97; font-weight: 600;">Autopilot API Sync:</span>
+                    <span id="directiveSquishMount"></span>
+                  </div>
+                  <div style="padding: 0.35rem 0.85rem; border-radius: 9999px; background: rgba(61,220,151,0.1); border: 1px solid rgba(61,220,151,0.3); color: var(--t-accent-green); font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+                    +$9,700 Expected Net Profit Lift
+                  </div>
                 </div>
               </div>
               <p style="font-size: 0.92rem; color: var(--t-text-secondary); max-width: 680px; line-height: 1.6; margin-bottom: 2rem;">
@@ -3666,49 +3951,49 @@
     </div>
   </div>
 
-  <!-- Printable Cost Bill & Official Quotation Modal (Pure Black Characters, Zero Shadows) -->
+  <!-- Printable Cost Bill & Official Quotation Modal (White Characters Matching Obsidian Theme) -->
   <div id="printableInvoiceModal" class="modal-overlay" style="display: none; z-index: 9999;">
-    <div class="modal-content invoice-paper" style="max-width: 840px; max-height: 90vh; overflow-y: auto; background: #ffffff !important; color: #000000 !important; box-shadow: none !important; border: 1px solid #cbd5e1 !important; padding: 1.5rem;">
-      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.65rem;">
+    <div class="modal-content invoice-paper" style="max-width: 860px; max-height: 90vh; overflow-y: auto; background: #0d1117 !important; color: #ffffff !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; padding: 1.75rem; border-radius: 16px;">
+      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.65rem;">
         <div>
-          <h3 style="margin: 0; color: #000000; font-weight: 800;">Enterprise Cost Quotation & Ad Invoice</h3>
-          <span style="font-size: 0.74rem; color: #475569;">Formatted for official audit, clear printing, and PDF export (Black text, No shadows)</span>
+          <h3 style="margin: 0; color: #ffffff; font-weight: 800;">Enterprise Cost Quotation & Ad Invoice</h3>
+          <span style="font-size: 0.74rem; color: #94a3b8;">Formatted for official audit and PDF export (White characters matching theme)</span>
         </div>
-        <div style="display: flex; gap: 0.35rem;">
-          <button class="btn-primary" style="width: auto; background: #0f172a; color: #ffffff; border: none; box-shadow: none;" onclick="window.print()">Print / Save as PDF</button>
-          <button class="btn-secondary" style="color: #0f172a; border-color: #cbd5e1; box-shadow: none;" onclick="closeQuotationBillModal()">Close</button>
+        <div style="display: flex; gap: 0.45rem;">
+          <button class="btn-primary" style="width: auto; background: #10b981; color: #ffffff; border: none; font-weight: 600; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);" onclick="window.print()">Print / Save as PDF</button>
+          <button class="btn-secondary" style="color: #cbd5e1; border-color: rgba(255, 255, 255, 0.2);" onclick="closeQuotationBillModal()">Close</button>
         </div>
       </div>
 
-      <div id="invoicePrintArea" style="padding: 0.4rem 0; color: #000000; background: #ffffff;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.15rem; border-bottom: 2px solid #000000; padding-bottom: 0.75rem;">
+      <div id="invoicePrintArea" style="padding: 0.4rem 0; color: #ffffff; background: #0d1117;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.15rem; border-bottom: 2px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.75rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.2rem;">
               <img src="/static/favicon.png" style="width: 26px; height: 26px; border-radius: 4px;">
-              <h2 style="margin: 0; font-size: 1.3rem; font-weight: 900; color: #000000; letter-spacing: -0.02em;">ADVENTORY AI</h2>
+              <h2 style="margin: 0; font-size: 1.3rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">ADVENTORY AI</h2>
             </div>
-            <div style="font-size: 0.76rem; color: #334155; font-weight: 500;">Autonomous Advertising & Inventory Intelligence Engine</div>
-            <div style="font-size: 0.72rem; color: #64748b;">Enterprise Division &bull; Sector Intelligence</div>
+            <div style="font-size: 0.76rem; color: #cbd5e1; font-weight: 500;">Autonomous Advertising & Inventory Intelligence Engine</div>
+            <div style="font-size: 0.72rem; color: #94a3b8;">Enterprise Division &bull; Sector Intelligence</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 1rem; font-weight: 900; color: #000000;" id="invNumber">ADV-2026-INV</div>
-            <div style="font-size: 0.74rem; color: #334155;">Issue Date: <span id="invDate" style="color: #000000; font-weight: 700;">October 07, 2026</span></div>
-            <div style="font-size: 0.74rem; color: #0f172a; font-weight: 800; text-transform: uppercase;" id="invSector">SECTOR INTELLIGENCE</div>
+            <div style="font-size: 1rem; font-weight: 900; color: #ffffff;" id="invNumber">ADV-2026-INV</div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">Issue Date: <span id="invDate" style="color: #ffffff; font-weight: 700;">October 08, 2026</span></div>
+            <div style="font-size: 0.74rem; color: #38bdf8; font-weight: 800; text-transform: uppercase;" id="invSector">SECTOR INTELLIGENCE</div>
           </div>
         </div>
 
         <div style="overflow-x: auto; margin-bottom: 1.15rem;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.74rem; color: #000000;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.74rem; color: #ffffff;">
             <thead>
-              <tr style="border-bottom: 2px solid #000000; border-top: 1px solid #cbd5e1; text-align: left; background: #f8fafc; color: #000000;">
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">SKU / Platform</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Product</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Stock</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Served Imp</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Viewable (MRC)</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Daily Spend</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">Daily Revenue</th>
-                <th style="padding: 0.5rem; color: #000000; font-weight: 700;">ROAS</th>
+              <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.2); border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: left; background: #161b22; color: #ffffff;">
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">SKU / Platform</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Product</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Stock</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Served Imp</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Viewable (MRC)</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Daily Spend</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">Daily Revenue</th>
+                <th style="padding: 0.5rem; color: #ffffff; font-weight: 700;">ROAS</th>
               </tr>
             </thead>
             <tbody id="invoiceTableBody"></tbody>
@@ -3716,22 +4001,22 @@
         </div>
 
         <div style="display: flex; justify-content: flex-end;">
-          <div id="invoiceSummaryBox" class="invoice-summary-box" style="width: 290px; background: #f8fafc; padding: 0.85rem; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.78rem; line-height: 1.75; color: #000000; box-shadow: none;">
-            <div style="display: flex; justify-content: space-between; color: #334155;">
+          <div id="invoiceSummaryBox" class="invoice-summary-box" style="width: 310px; background: #161b22; padding: 0.95rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.8rem; line-height: 1.75; color: #ffffff;">
+            <div style="display: flex; justify-content: space-between; color: #cbd5e1;">
               <span>Subtotal Ad Spend:</span>
-              <span id="invSubtotal" style="font-weight: 700; color: #000000;">₹0.00</span>
+              <span id="invSubtotal" style="font-weight: 700; color: #ffffff;">₹0.00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; color: #334155;">
+            <div style="display: flex; justify-content: space-between; color: #cbd5e1;">
               <span>GST Tax (18%):</span>
-              <span id="invGst" style="font-weight: 700; color: #000000;">₹0.00</span>
+              <span id="invGst" style="font-weight: 700; color: #ffffff;">₹0.00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 0.3rem; margin-top: 0.3rem;">
-              <span style="font-weight: 800; color: #000000;">Total Daily Investment:</span>
-              <span id="invTotalInvestment" style="font-weight: 900; color: #000000;">₹0.00</span>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 0.35rem; margin-top: 0.35rem;">
+              <span style="font-weight: 800; color: #ffffff;">Total Daily Investment:</span>
+              <span id="invTotalInvestment" style="font-weight: 900; color: #ffffff;">₹0.00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 0.3rem; margin-top: 0.3rem;">
-              <span style="font-weight: 800; color: #000000;">Projected Monthly Profit:</span>
-              <span id="invMonthlyProfit" style="font-weight: 900; color: #000000;">₹0.00</span>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 0.35rem; margin-top: 0.35rem;">
+              <span style="font-weight: 800; color: #10b981;">Projected Monthly Profit:</span>
+              <span id="invMonthlyProfit" style="font-weight: 900; color: #10b981;">₹0.00</span>
             </div>
           </div>
         </div>
@@ -5801,6 +6086,17 @@
         gradSpend.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
         gradSpend.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
 
+        // Modern Ultra-Sleek Gradient & Halos
+        const gradRevModern = ctx1.createLinearGradient(0, 0, 0, 240);
+        gradRevModern.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
+        gradRevModern.addColorStop(0.7, 'rgba(16, 185, 129, 0.08)');
+        gradRevModern.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+        const gradSpendModern = ctx1.createLinearGradient(0, 0, 0, 240);
+        gradSpendModern.addColorStop(0, 'rgba(56, 189, 248, 0.45)');
+        gradSpendModern.addColorStop(0.7, 'rgba(56, 189, 248, 0.08)');
+        gradSpendModern.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
         spendChartInstance = new Chart(ctx1, {
           type: 'line',
           data: {
@@ -5810,44 +6106,94 @@
                 label: 'Revenue (₹)',
                 data: revData,
                 borderColor: '#10b981',
-                backgroundColor: gradRev,
+                backgroundColor: gradRevModern,
                 fill: true,
-                tension: 0.4,
+                tension: 0.42,
                 pointRadius: 0,
-                pointHoverRadius: 5,
-                pointBackgroundColor: '#10b981',
-                borderWidth: 2
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: '#ffffff',
+                pointHoverBorderColor: '#10b981',
+                pointHoverBorderWidth: 3,
+                borderWidth: 2.6
               },
               {
                 label: 'Spend (₹)',
                 data: spendData,
-                borderColor: '#6366f1',
-                backgroundColor: gradSpend,
+                borderColor: '#38bdf8',
+                backgroundColor: gradSpendModern,
                 fill: true,
-                tension: 0.4,
+                tension: 0.42,
                 pointRadius: 0,
-                pointHoverRadius: 5,
-                pointBackgroundColor: '#6366f1',
-                borderWidth: 2
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: '#ffffff',
+                pointHoverBorderColor: '#38bdf8',
+                pointHoverBorderWidth: 3,
+                borderWidth: 2.6
               }
             ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
             animation: { duration: 1200, easing: 'easeOutQuart' },
             scales: {
-              x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { size: 9.5 } } },
-              y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { size: 9.5 } } }
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.035)', borderDash: [4, 4] },
+                ticks: { color: '#64748b', font: { family: "'JetBrains Mono', monospace", size: 10 } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.035)', borderDash: [4, 4] },
+                ticks: {
+                  color: '#64748b',
+                  font: { family: "'JetBrains Mono', monospace", size: 10 },
+                  callback: val => '₹' + (val >= 1000000 ? (val/1000000).toFixed(1) + 'M' : (val >= 1000 ? (val/1000).toFixed(0) + 'k' : val))
+                }
+              }
             },
             plugins: {
-              legend: { labels: { color: '#cbd5e1', font: { size: 9.5 } } }
+              tooltip: {
+                backgroundColor: 'rgba(10, 14, 22, 0.94)',
+                titleColor: '#ffffff',
+                bodyColor: '#e2e8f0',
+                borderColor: 'rgba(255, 255, 255, 0.12)',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 10,
+                boxPadding: 6,
+                usePointStyle: true,
+                titleFont: { family: "'Plus Jakarta Sans', sans-serif", weight: '700', size: 12 },
+                bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
+                callbacks: {
+                  label: ctx => ` ${ctx.dataset.label}: ₹${Number(ctx.parsed.y).toLocaleString()}`
+                }
+              },
+              legend: {
+                position: 'top',
+                align: 'end',
+                labels: {
+                  color: '#cbd5e1',
+                  font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' },
+                  usePointStyle: true,
+                  pointStyle: 'circle',
+                  boxWidth: 8,
+                  padding: 14
+                }
+              }
             }
           }
         });
 
         const ctx2 = document.getElementById('chartImpressions').getContext('2d');
         if (impChartInstance) impChartInstance.destroy();
+
+        const gradBarServed = ctx2.createLinearGradient(0, 0, 0, 200);
+        gradBarServed.addColorStop(0, 'rgba(99, 102, 241, 0.9)');
+        gradBarServed.addColorStop(1, 'rgba(99, 102, 241, 0.25)');
+
+        const gradBarViewable = ctx2.createLinearGradient(0, 0, 0, 200);
+        gradBarViewable.addColorStop(0, 'rgba(16, 185, 129, 0.95)');
+        gradBarViewable.addColorStop(1, 'rgba(16, 185, 129, 0.3)');
 
         impChartInstance = new Chart(ctx2, {
           type: 'bar',
@@ -5857,27 +6203,67 @@
               {
                 label: 'Served Imp',
                 data: servedData,
-                backgroundColor: 'rgba(99, 102, 241, 0.65)',
-                borderRadius: 4
+                backgroundColor: gradBarServed,
+                borderRadius: 6,
+                borderSkipped: false
               },
               {
                 label: 'MRC Viewable',
                 data: viewableData,
-                backgroundColor: 'rgba(16, 185, 129, 0.75)',
-                borderRadius: 4
+                backgroundColor: gradBarViewable,
+                borderRadius: 6,
+                borderSkipped: false
               }
             ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
             animation: { duration: 1200, easing: 'easeOutQuart' },
             scales: {
-              x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { size: 9.5 } } },
-              y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { size: 9.5 } } }
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.035)', borderDash: [4, 4] },
+                ticks: { color: '#64748b', font: { family: "'JetBrains Mono', monospace", size: 10 } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.035)', borderDash: [4, 4] },
+                ticks: {
+                  color: '#64748b',
+                  font: { family: "'JetBrains Mono', monospace", size: 10 },
+                  callback: val => val >= 1000000 ? (val/1000000).toFixed(1) + 'M' : (val >= 1000 ? (val/1000).toFixed(0) + 'k' : val)
+                }
+              }
             },
             plugins: {
-              legend: { labels: { color: '#cbd5e1', font: { size: 9.5 } } }
+              tooltip: {
+                backgroundColor: 'rgba(10, 14, 22, 0.94)',
+                titleColor: '#ffffff',
+                bodyColor: '#e2e8f0',
+                borderColor: 'rgba(255, 255, 255, 0.12)',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 10,
+                boxPadding: 6,
+                usePointStyle: true,
+                titleFont: { family: "'Plus Jakarta Sans', sans-serif", weight: '700', size: 12 },
+                bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
+                callbacks: {
+                  label: ctx => ` ${ctx.dataset.label}: ${Number(ctx.parsed.y).toLocaleString()}`
+                }
+              },
+              legend: {
+                position: 'top',
+                align: 'end',
+                labels: {
+                  color: '#cbd5e1',
+                  font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' },
+                  usePointStyle: true,
+                  pointStyle: 'rectRounded',
+                  boxWidth: 10,
+                  padding: 14
+                }
+              }
             }
           }
         });
@@ -6407,17 +6793,17 @@
         tb.innerHTML = '';
         (d.line_items || []).forEach(item => {
           const r = document.createElement('tr');
-          r.style.borderBottom = '1px solid #cbd5e1';
-          r.style.color = '#000000';
+          r.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
+          r.style.color = '#ffffff';
           r.innerHTML = `
-            <td style="padding: 0.45rem; color: #000000; font-weight: 700;">${item.sku} &bull; ${item.platform}</td>
-            <td style="padding: 0.45rem; color: #000000;">${item.item_name}</td>
-            <td style="padding: 0.45rem; color: #000000; text-align: center;">${item.stock_count}</td>
-            <td style="padding: 0.45rem; color: #000000; text-align: right;">${(item.served_impressions || 0).toLocaleString()}</td>
-            <td style="padding: 0.45rem; color: #000000; text-align: right;">${(item.viewable_impressions || 0).toLocaleString()}</td>
-            <td style="padding: 0.45rem; color: #000000; font-weight: 700; text-align: right;">₹${Number(item.daily_ad_spend).toLocaleString()}</td>
-            <td style="padding: 0.45rem; color: #000000; text-align: right;">₹${Number(item.daily_revenue).toLocaleString()}</td>
-            <td style="padding: 0.45rem; font-weight: 800; color: #000000; text-align: right;">${item.roas}x</td>
+            <td style="padding: 0.45rem; color: #ffffff; font-weight: 700;">${item.sku} &bull; ${item.platform}</td>
+            <td style="padding: 0.45rem; color: #ffffff;">${item.item_name}</td>
+            <td style="padding: 0.45rem; color: #ffffff; text-align: center;">${item.stock_count}</td>
+            <td style="padding: 0.45rem; color: #ffffff; text-align: right;">${(item.served_impressions || 0).toLocaleString()}</td>
+            <td style="padding: 0.45rem; color: #ffffff; text-align: right;">${(item.viewable_impressions || 0).toLocaleString()}</td>
+            <td style="padding: 0.45rem; color: #ffffff; font-weight: 700; text-align: right;">₹${Number(item.daily_ad_spend).toLocaleString()}</td>
+            <td style="padding: 0.45rem; color: #ffffff; text-align: right;">₹${Number(item.daily_revenue).toLocaleString()}</td>
+            <td style="padding: 0.45rem; font-weight: 800; color: #ffffff; text-align: right;">${item.roas}x</td>
           `;
           tb.appendChild(r);
         });
@@ -6868,6 +7254,541 @@
   </div>
 
 
+  
+  <!-- -------------------------------------------------------------------------
+       REACT BITS ENGINES: SQUISH SWITCH & CURSOR GRID + INTERACTIVE RAILS
+       ------------------------------------------------------------------------- -->
+  <script>
+    // --- REACT BITS: CursorGrid Component Engine (Canvas 2D Interactive Lattice) ---
+    (function initCursorGridEngine() {
+      const FALLOFF_CURVES = {
+        linear: t => t,
+        smooth: t => t * t * (3 - 2 * t),
+        sharp: t => t * t * t
+      };
+
+      function hexToRgb(hex) {
+        const h = hex.replace('#', '');
+        const v = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+        const num = parseInt(v.slice(0, 6), 16);
+        return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+      }
+
+      window.initCursorGrid = function(containerId, options = {}) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const canvas = container.querySelector('canvas') || container;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const config = Object.assign({
+          cellSize: 70,
+          color: '#10B981',
+          radius: 140,
+          falloff: 'smooth',
+          holdTime: 200,
+          fadeDuration: 350,
+          lineWidth: 1.2,
+          maxOpacity: 1,
+          fillOpacity: 0.04,
+          gridOpacity: 0.035,
+          cellRadius: 4,
+          clickPulse: true,
+          pulseSpeed: 450
+        }, options);
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let cols = 0, rows = 0, offX = 0, offY = 0;
+        let alphas = new Float32Array(0);
+        let touched = new Float64Array(0);
+        let w = 0, h = 0;
+        const pulses = [];
+        let raf = 0;
+        let running = false;
+        let lastFrame = 0;
+
+        function rebuild() {
+          w = window.innerWidth;
+          h = window.innerHeight;
+          canvas.width = Math.max(1, Math.round(w * dpr));
+          canvas.height = Math.max(1, Math.round(h * dpr));
+          canvas.style.width = w + 'px';
+          canvas.style.height = h + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          cols = Math.ceil(w / config.cellSize) + 1;
+          rows = Math.ceil(h / config.cellSize) + 1;
+          offX = (w - cols * config.cellSize) / 2;
+          offY = (h - rows * config.cellSize) / 2;
+          alphas = new Float32Array(cols * rows);
+          touched = new Float64Array(cols * rows);
+        }
+
+        function cellCenter(i) {
+          const cx = offX + (i % cols) * config.cellSize + config.cellSize / 2;
+          const cy = offY + Math.floor(i / cols) * config.cellSize + config.cellSize / 2;
+          return [cx, cy];
+        }
+
+        function energize(x, y, boost) {
+          const r = Math.max(config.radius, 1);
+          const ease = FALLOFF_CURVES[config.falloff] || FALLOFF_CURVES.smooth;
+          const now = performance.now();
+          const minCol = Math.max(0, Math.floor((x - r - offX) / config.cellSize));
+          const maxCol = Math.min(cols - 1, Math.floor((x + r - offX) / config.cellSize));
+          const minRow = Math.max(0, Math.floor((y - r - offY) / config.cellSize));
+          const maxRow = Math.min(rows - 1, Math.floor((y + r - offY) / config.cellSize));
+
+          for (let cRow = minRow; cRow <= maxRow; cRow++) {
+            for (let cCol = minCol; cCol <= maxCol; cCol++) {
+              const i = cRow * cols + cCol;
+              const [cx, cy] = cellCenter(i);
+              const dist = Math.hypot(cx - x, cy - y);
+              if (dist > r) continue;
+              const level = ease(1 - dist / r) * config.maxOpacity * (boost || 1);
+              if (level > alphas[i]) {
+                alphas[i] = level;
+                touched[i] = now;
+              } else if (level > 0) {
+                touched[i] = now;
+              }
+            }
+          }
+        }
+
+        function draw(now) {
+          const dt = Math.min(now - lastFrame, 50);
+          lastFrame = now;
+          ctx.clearRect(0, 0, w, h);
+          const [cr, cg, cb] = hexToRgb(config.color);
+
+          // Always visible subtle lattice
+          if (config.gridOpacity > 0) {
+            ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${config.gridOpacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for (let cCol = 0; cCol <= cols; cCol++) {
+              const x = Math.round(offX + cCol * config.cellSize) + 0.5;
+              ctx.moveTo(x, 0);
+              ctx.lineTo(x, h);
+            }
+            for (let cRow = 0; cRow <= rows; cRow++) {
+              const y = Math.round(offY + cRow * config.cellSize) + 0.5;
+              ctx.moveTo(0, y);
+              ctx.lineTo(w, y);
+            }
+            ctx.stroke();
+          }
+
+          // Expanding click pulses
+          for (let pi = pulses.length - 1; pi >= 0; pi--) {
+            const pulse = pulses[pi];
+            const age = (now - pulse.t0) / 1000;
+            const ringR = age * config.pulseSpeed;
+            if (ringR > Math.hypot(w, h)) {
+              pulses.splice(pi, 1);
+              continue;
+            }
+            const band = config.cellSize;
+            const minCol = Math.max(0, Math.floor((pulse.x - ringR - band - offX) / config.cellSize));
+            const maxCol = Math.min(cols - 1, Math.floor((pulse.x + ringR + band - offX) / config.cellSize));
+            const minRow = Math.max(0, Math.floor((pulse.y - ringR - band - offY) / config.cellSize));
+            const maxRow = Math.min(rows - 1, Math.floor((pulse.y + ringR + band - offY) / config.cellSize));
+
+            for (let cRow = minRow; cRow <= maxRow; cRow++) {
+              for (let cCol = minCol; cCol <= maxCol; cCol++) {
+                const i = cRow * cols + cCol;
+                const [cx, cy] = cellCenter(i);
+                const dist = Math.hypot(cx - pulse.x, cy - pulse.y);
+                if (Math.abs(dist - ringR) < band / 2 && config.maxOpacity > alphas[i]) {
+                  alphas[i] = config.maxOpacity;
+                  touched[i] = now;
+                }
+              }
+            }
+          }
+
+          let anyVisible = pulses.length > 0;
+          const fadeStep = dt / Math.max(config.fadeDuration, 16);
+          const half = config.cellSize / 2;
+
+          for (let i = 0; i < alphas.length; i++) {
+            let a = alphas[i];
+            if (a <= 0) continue;
+            if (now - touched[i] > config.holdTime) {
+              a = Math.max(0, a - fadeStep);
+              alphas[i] = a;
+              if (a <= 0) continue;
+            }
+            anyVisible = true;
+
+            const [cx, cy] = cellCenter(i);
+            const gradient = ctx.createRadialGradient(cx, cy, half * 0.1, cx, cy, config.cellSize);
+            gradient.addColorStop(0, `rgba(${cr}, ${cg}, ${cb}, ${a})`);
+            gradient.addColorStop(1, `rgba(${cr}, ${cg}, ${cb}, 0)`);
+
+            const x = cx - half + 0.5;
+            const y = cy - half + 0.5;
+            const s = config.cellSize - 1;
+
+            ctx.beginPath();
+            if (config.cellRadius > 0 && typeof ctx.roundRect === 'function') {
+              ctx.roundRect(x, y, s, s, config.cellRadius);
+            } else {
+              ctx.rect(x, y, s, s);
+            }
+            if (config.fillOpacity > 0) {
+              ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${a * config.fillOpacity})`;
+              ctx.fill();
+            }
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = config.lineWidth;
+            ctx.stroke();
+          }
+
+          if (anyVisible) {
+            raf = requestAnimationFrame(draw);
+          } else {
+            running = false;
+          }
+        }
+
+        function wake() {
+          if (running) return;
+          running = true;
+          lastFrame = performance.now();
+          raf = requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('pointermove', e => {
+          energize(e.clientX, e.clientY);
+          wake();
+        }, { passive: true });
+
+        window.addEventListener('pointerdown', e => {
+          if (config.clickPulse) {
+            pulses.push({ x: e.clientX, y: e.clientY, t0: performance.now() });
+            wake();
+          }
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+          rebuild();
+          wake();
+        });
+
+        rebuild();
+        wake();
+      };
+    })();
+
+    // --- REACT BITS: SquishSwitch Component Engine (Motion Physics + Spring + Velocity Stretch) ---
+    (function initSquishSwitchEngine() {
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const FLOW_SPRING = { stiffness: 320, damping: 40, mass: 0.6 };
+      const SWELL_SPRING = { stiffness: 520, damping: 34, mass: 0.6 };
+      const MAX_STRETCH = 0.4;
+      const STRETCH_SPEED = 600;
+      const TAP_SLOP = { fine: 4, coarse: 8 };
+
+      window.createSquishSwitch = function(mountEl, options = {}) {
+        if (!mountEl) return null;
+
+        const config = Object.assign({
+          checked: false,
+          onChange: null,
+          label: '',
+          disabled: false,
+          trackColor: '#1e222b',
+          trackOnColor: '#10b981',
+          thumbColor: '#475569',
+          thumbOnColor: '#ffffff',
+          width: 58,
+          height: 30,
+          radius: 15,
+          speed: 50,
+          stretch: 36,
+          hoverScale: 1.035,
+          colorDuration: 320,
+          id: 'ss_' + Math.random().toString(36).substring(2, 9)
+        }, options);
+
+        const inset = Math.max(3, Math.round(config.height * 0.11));
+        const thumb = config.height - inset * 2;
+        const min = inset;
+        const max = config.width - inset - thumb;
+        const mid = (min + max) / 2;
+        const trackRadius = Math.min(config.radius, config.height / 2);
+        const thumbRadius = Math.max(2, trackRadius - inset);
+
+        let on = !!config.checked;
+        let dragging = false;
+        let grip = null;
+        let skipClick = false;
+        let swell = 1;
+        let velocityX = 0;
+        let lastX = on ? max : min;
+        let lastTime = performance.now();
+        let animRaf = 0;
+        let currentX = on ? max : min;
+
+        // Create Root Element
+        const root = document.createElement('span');
+        root.className = 'squish-switch-root';
+
+        const btn = document.createElement('button');
+        btn.id = config.id;
+        btn.type = 'button';
+        btn.role = 'switch';
+        btn.setAttribute('aria-checked', on ? 'true' : 'false');
+        btn.className = 'squish-switch';
+        if (on) btn.setAttribute('data-on', '');
+
+        btn.style.setProperty('--ss-w', `${config.width}px`);
+        btn.style.setProperty('--ss-h', `${config.height}px`);
+        btn.style.setProperty('--ss-inset', `${inset}px`);
+        btn.style.setProperty('--ss-thumb', `${thumb}px`);
+        btn.style.setProperty('--ss-r', `${trackRadius}px`);
+        btn.style.setProperty('--ss-thumb-r', `${thumbRadius}px`);
+        btn.style.setProperty('--ss-track', config.trackColor);
+        btn.style.setProperty('--ss-track-on', config.trackOnColor);
+        btn.style.setProperty('--ss-thumb-color', config.thumbColor);
+        btn.style.setProperty('--ss-thumb-on', config.thumbOnColor);
+        btn.style.setProperty('--ss-fade', `${config.colorDuration}ms`);
+
+        const track = document.createElement('span');
+        track.className = 'squish-switch__track';
+
+        const thumbEl = document.createElement('span');
+        thumbEl.className = 'squish-switch__thumb';
+        thumbEl.style.transform = `translateX(${currentX}px)`;
+
+        track.appendChild(thumbEl);
+        btn.appendChild(track);
+        root.appendChild(btn);
+
+        if (config.label) {
+          const lbl = document.createElement('label');
+          lbl.htmlFor = config.id;
+          lbl.className = 'squish-switch__label';
+          lbl.textContent = config.label;
+          root.appendChild(lbl);
+        }
+
+        mountEl.innerHTML = '';
+        mountEl.appendChild(root);
+
+        function updateTransform(xPos, stretchVel = 0) {
+          const gain = clamp(config.stretch, 0, 100) / 100;
+          const stretchFactor = 1 + Math.min(MAX_STRETCH, Math.abs(stretchVel) / STRETCH_SPEED) * gain;
+          const scaleX = stretchFactor * swell;
+          const scaleY = swell / stretchFactor;
+          thumbEl.style.transform = `translateX(${xPos}px) scale(${scaleX}, ${scaleY})`;
+        }
+
+        function springAnimateTo(target) {
+          cancelAnimationFrame(animRaf);
+          let pos = currentX;
+          let vel = velocityX;
+          const stiffness = 170 - (50 - clamp(config.speed, 0, 100)) * 1.1;
+          const damping = 21.5;
+          const mass = 0.9;
+          let lastT = performance.now();
+
+          function step(now) {
+            const dt = Math.min((now - lastT) / 1000, 0.032);
+            lastT = now;
+            const force = -stiffness * (pos - target) - damping * vel;
+            const accel = force / mass;
+            vel += accel * dt;
+            pos += vel * dt;
+            currentX = pos;
+            updateTransform(pos, vel);
+
+            if (Math.abs(pos - target) < 0.05 && Math.abs(vel) < 0.1) {
+              currentX = target;
+              updateTransform(target, 0);
+              return;
+            }
+            animRaf = requestAnimationFrame(step);
+          }
+          animRaf = requestAnimationFrame(step);
+        }
+
+        function commit(nextState) {
+          if (on === nextState) return;
+          on = nextState;
+          if (on) {
+            btn.setAttribute('data-on', '');
+            btn.setAttribute('aria-checked', 'true');
+          } else {
+            btn.removeAttribute('data-on');
+            btn.setAttribute('aria-checked', 'false');
+          }
+          springAnimateTo(on ? max : min);
+          if (typeof config.onChange === 'function') {
+            config.onChange(on);
+          }
+        }
+
+        function getLocalX(clientX) {
+          const rect = track.getBoundingClientRect();
+          const scale = rect.width / (track.offsetWidth || rect.width) || 1;
+          return (clientX - rect.left) / scale;
+        }
+
+        btn.addEventListener('pointerdown', e => {
+          if (config.disabled || grip || e.button !== 0) return;
+          grip = {
+            id: e.pointerId,
+            grab: null,
+            moved: false,
+            startX: e.clientX,
+            onAtPress: on,
+            slop: e.pointerType === 'touch' ? TAP_SLOP.coarse : TAP_SLOP.fine
+          };
+          try { btn.setPointerCapture(e.pointerId); } catch(err) {}
+          dragging = true;
+          btn.setAttribute('data-held', '');
+          cancelAnimationFrame(animRaf);
+          lastX = currentX;
+          lastTime = performance.now();
+        });
+
+        btn.addEventListener('pointermove', e => {
+          if (!grip || grip.id !== e.pointerId) return;
+          const lx = getLocalX(e.clientX);
+          if (grip.grab === null) {
+            grip.grab = lx - currentX;
+            return;
+          }
+          if (!grip.moved && Math.abs(e.clientX - grip.startX) > grip.slop) grip.moved = true;
+          if (!grip.moved) return;
+
+          const now = performance.now();
+          const dt = (now - lastTime) / 1000;
+          if (dt > 0.005) {
+            velocityX = (currentX - lastX) / dt;
+            lastX = currentX;
+            lastTime = now;
+          }
+
+          const nx = clamp(lx - grip.grab, min, max);
+          currentX = nx;
+          updateTransform(nx, velocityX);
+          commit(nx > mid);
+        });
+
+        function handlePointerUp(e, cancelled) {
+          if (!grip || grip.id !== e.pointerId) return;
+          try { btn.releasePointerCapture(e.pointerId); } catch(err) {}
+          btn.removeAttribute('data-held');
+          if (cancelled) {
+            commit(grip.onAtPress);
+          } else if (!grip.moved) {
+            commit(!on);
+          } else {
+            springAnimateTo(on ? max : min);
+          }
+          grip = null;
+          dragging = false;
+          skipClick = true;
+          setTimeout(() => { skipClick = false; }, 0);
+        }
+
+        btn.addEventListener('pointerup', e => handlePointerUp(e, false));
+        btn.addEventListener('pointercancel', e => handlePointerUp(e, true));
+
+        btn.addEventListener('pointerenter', e => {
+          if (e.pointerType === 'mouse' && !config.disabled) {
+            swell = config.hoverScale;
+            updateTransform(currentX, 0);
+          }
+        });
+
+        btn.addEventListener('pointerleave', () => {
+          swell = 1;
+          updateTransform(currentX, 0);
+        });
+
+        btn.addEventListener('click', () => {
+          if (skipClick) return;
+          commit(!on);
+        });
+
+        return {
+          setChecked(val) {
+            if (val === on) return;
+            on = !!val;
+            if (on) {
+              btn.setAttribute('data-on', '');
+              btn.setAttribute('aria-checked', 'true');
+            } else {
+              btn.removeAttribute('data-on');
+              btn.setAttribute('aria-checked', 'false');
+            }
+            springAnimateTo(on ? max : min);
+          },
+          getChecked() {
+            return on;
+          }
+        };
+      };
+    })();
+
+    // --- LEFT-SIDE SCROLL PROGRESSION ENGINE ---
+    window.initLeftProgressRail = function() {
+      const rail = document.getElementById('leftProgressRail');
+      const fill = document.getElementById('leftProgressFill');
+      if (!rail || !fill) return;
+
+      const nodes = [
+        { id: 'railNode0', target: 'heroSection' },
+        { id: 'railNode1', target: 'bentoGridSection' },
+        { id: 'railNode2', target: 'problemSection' },
+        { id: 'railNode3', target: 'metricsStrip' }
+      ];
+
+      function updateRail() {
+        if (window.currentAppView !== 'landing') {
+          rail.style.display = 'none';
+          return;
+        }
+        rail.style.display = 'flex';
+
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+        fill.style.height = `${progress}%`;
+
+        // Highlight nearest active node
+        const scrollMiddle = scrollTop + window.innerHeight * 0.35;
+        let activeIdx = 0;
+        nodes.forEach((n, idx) => {
+          const el = document.getElementById(n.target);
+          if (el && el.offsetTop <= scrollMiddle) {
+            activeIdx = idx;
+          }
+        });
+
+        nodes.forEach((n, idx) => {
+          const nodeEl = document.getElementById(n.id);
+          if (nodeEl) {
+            if (idx === activeIdx) {
+              nodeEl.classList.add('active');
+            } else {
+              nodeEl.classList.remove('active');
+            }
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateRail, { passive: true });
+      window.addEventListener('resize', updateRail);
+      setTimeout(updateRail, 100);
+    };
+  </script>
+
   <!-- FRONTEND PLATFORM INTERACTIVE SCRIPTS -->
   <script>
     // --- 1. View Management & Navigation ---
@@ -6890,6 +7811,13 @@
         dash.style.display = 'none';
         if (pillOverview) pillOverview.className = 'nav-view-pill active';
         if (pillDashboard) pillDashboard.className = 'nav-view-pill';
+        if (window.navSquishSwitch) window.navSquishSwitch.setChecked(false);
+        const lOv = document.getElementById('navLabelOverview');
+        const lPo = document.getElementById('navLabelPortal');
+        if (lOv) lOv.style.color = '#ffffff';
+        if (lPo) lPo.style.color = '#64748b';
+        const rail = document.getElementById('leftProgressRail');
+        if (rail) rail.style.display = 'flex';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (view === 'auth' || (view === 'dashboard' && !isAuth)) {
         landing.style.display = 'none';
@@ -6897,12 +7825,26 @@
         dash.style.display = 'none';
         if (pillOverview) pillOverview.className = 'nav-view-pill';
         if (pillDashboard) pillDashboard.className = 'nav-view-pill active';
+        if (window.navSquishSwitch) window.navSquishSwitch.setChecked(true);
+        const lOv = document.getElementById('navLabelOverview');
+        const lPo = document.getElementById('navLabelPortal');
+        if (lOv) lOv.style.color = '#64748b';
+        if (lPo) lPo.style.color = '#10b981';
+        const rail = document.getElementById('leftProgressRail');
+        if (rail) rail.style.display = 'none';
       } else if (view === 'dashboard' && isAuth) {
         landing.style.display = 'none';
         auth.style.display = 'none';
         dash.style.display = 'block';
         if (pillOverview) pillOverview.className = 'nav-view-pill';
         if (pillDashboard) pillDashboard.className = 'nav-view-pill active';
+        if (window.navSquishSwitch) window.navSquishSwitch.setChecked(true);
+        const lOv = document.getElementById('navLabelOverview');
+        const lPo = document.getElementById('navLabelPortal');
+        if (lOv) lOv.style.color = '#64748b';
+        if (lPo) lPo.style.color = '#10b981';
+        const rail = document.getElementById('leftProgressRail');
+        if (rail) rail.style.display = 'none';
       }
     }
 
@@ -7309,42 +8251,91 @@
     // On DOM load, ensure correct view initialized
     window.addEventListener('DOMContentLoaded', () => {
 
-    // Initialize SlicedWaves WebGL Interactive Background (Minimalist Dark Slate Palette)
+    // Initialize React Bits: CursorGrid Canvas 2D Interactive Lattice
     try {
-      const wavesContainer = document.getElementById('slicedWavesBackground');
-      if (wavesContainer && typeof window.initSlicedWaves === 'function') {
-        window.initSlicedWaves(wavesContainer, {
-          color1: '#262d3a',   // subtle muted slate-grey highlight
-          color2: '#080a0f',   // deep matte charcoal base
-          color3: '#131722',   // soft dark obsidian accent
-          columns: 14,
-          rows: 8,
-          barThickness: 0.1,
-          speed: 0.28,
-          travel: 0.65,
-          waveSpread: 0.85,
-          rowOffset: 1.0,
-          softness: 0.05,
-          glow: 0,
-          brightness: 1.0,
-          contrast: 1.0,
-          opacity: 0.38,       // clean, minimalist, non-distracting
-          orientation: 'horizontal',
-          alternate: false,
-          mouseInteraction: true,
-          mouseStrength: 0.8,
-          mouseRadius: 0.3,
-          grain: true,
-          grainIntensity: 0.04
+      if (typeof window.initCursorGrid === 'function') {
+        window.initCursorGrid('cursorGridContainer', {
+          cellSize: 70,
+          color: '#10B981',
+          radius: 140,
+          falloff: 'smooth',
+          holdTime: 200,
+          fadeDuration: 350,
+          lineWidth: 1.2,
+          maxOpacity: 1,
+          fillOpacity: 0.04,
+          gridOpacity: 0.035,
+          cellRadius: 4,
+          clickPulse: true,
+          pulseSpeed: 450
         });
-        console.log("SlicedWaves WebGL initialized successfully.");
+        console.log("CursorGrid 2D Canvas initialized successfully.");
       }
     } catch (e) {
-      console.warn("SlicedWaves WebGL initialization note:", e);
+      console.warn("CursorGrid initialization note:", e);
     }
 
+    // Initialize React Bits: SquishSwitch for Overview <-> Portal
+    try {
+      const navMount = document.getElementById('navSquishMount');
+      if (navMount && typeof window.createSquishSwitch === 'function') {
+        window.navSquishSwitch = window.createSquishSwitch(navMount, {
+          checked: window.currentAppView !== 'landing',
+          width: 58,
+          height: 30,
+          radius: 15,
+          trackColor: '#1e222b',
+          trackOnColor: '#10b981',
+          thumbColor: '#475569',
+          thumbOnColor: '#ffffff',
+          speed: 50,
+          stretch: 36,
+          onChange: function(isOn) {
+            if (isOn) {
+              showView('dashboard');
+            } else {
+              showView('landing');
+            }
+          }
+        });
+      }
 
-      const token = localStorage.getItem('d2c_auth_token');
+      // Initialize Card Section SquishSwitch in Scenario Panel 2
+      const directiveMount = document.getElementById('directiveSquishMount');
+      if (directiveMount && typeof window.createSquishSwitch === 'function') {
+        window.directiveSquishSwitch = window.createSquishSwitch(directiveMount, {
+          checked: true,
+          width: 52,
+          height: 26,
+          radius: 13,
+          trackColor: '#1e222b',
+          trackOnColor: '#10b981',
+          thumbColor: '#475569',
+          thumbOnColor: '#ffffff',
+          speed: 55,
+          stretch: 32,
+          onChange: function(isOn) {
+            const lbl = document.getElementById('directiveAutoLabel');
+            if (lbl) {
+              lbl.textContent = isOn ? 'Autopilot API Sync [ON]:' : 'Manual Approval Mode:';
+              lbl.style.color = isOn ? '#3ddc97' : '#94a3b8';
+            }
+            if (typeof showToast === 'function') {
+              showToast(isOn ? 'Autonomous Direct Execution Autopilot Armed' : 'Switched to Manual Approval Safeguard');
+            }
+          }
+        });
+      }
+
+      // Initialize Left-side Page Progression Rail
+      if (typeof window.initLeftProgressRail === 'function') {
+        window.initLeftProgressRail();
+      }
+    } catch (e) {
+      console.warn("SquishSwitch & Progress Rail initialization note:", e);
+    }
+
+    const token = localStorage.getItem('d2c_auth_token');
       const headerLoginBtn = document.getElementById('headerLoginBtn');
       if (headerLoginBtn) headerLoginBtn.style.display = token ? 'none' : 'inline-flex';
       if (token) {
