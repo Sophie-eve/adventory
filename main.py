@@ -37,6 +37,51 @@ app.add_middleware(
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "qwen/qwen3.8-27b")
+
+def query_groq_api(prompt: str, system_prompt: str = "") -> str | None:
+    """Interrogates Groq Cloud LLM endpoint with intelligent model fallbacks."""
+    if not GROQ_API_KEY:
+        return None
+    try:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        # Try primary model, followed by fallback models
+        models_to_try = [GROQ_MODEL, "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
+        for m in models_to_try:
+            try:
+                res = requests.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {GROQ_API_KEY}",
+                        "Content-Type": "application/json"
+                    },
+                    json={
+                        "model": m,
+                        "messages": messages,
+                        "max_tokens": 1024,
+                        "temperature": 0.3
+                    },
+                    timeout=10
+                )
+                if res.status_code == 200:
+                    data = res.json()
+                    choices = data.get("choices", [])
+                    if choices:
+                        msg = choices[0].get("message", {})
+                        reply = msg.get("content") or msg.get("reasoning") or ""
+                        if reply and len(reply.strip()) > 5:
+                            return reply.strip()
+            except Exception as m_err:
+                print(f"Groq model {m} attempt notice: {m_err}")
+                continue
+    except Exception as e:
+        print("Groq API error:", e)
+    return None
 
 def query_gemini_api(prompt: str) -> str | None:
     try:
@@ -896,15 +941,25 @@ def get_quotation_cost_bill(
     }
 
 def run_llama_or_heuristic(context_data: dict, category: str) -> str:
-    # 1. Query Google Gemini 3.8 Flash with key
+    system_prompt = (
+        "You are an autonomous D2C advertising intelligence engine powered by Groq and Google Gemini. "
+        "Review the inventory and ad campaigns below. Detect root-cause bottlenecks "
+        "(e.g., spending ads on out-of-stock items, or under-allocating budget to high-margin stock). "
+        "Provide a concise executive summary in under 80 words explaining what to pause and where to scale."
+    )
+    user_data = f"Data:\n{json.dumps(context_data)}"
+
+    # 1. Query Groq Cloud LLM (Qwen / Llama)
     try:
-        system_prompt = (
-            "You are an autonomous D2C advertising intelligence engine powered by Google Gemini. "
-            "Review the inventory and ad campaigns below. Detect root-cause bottlenecks "
-            "(e.g., spending ads on out-of-stock items, or under-allocating budget to high-margin stock). "
-            "Provide a concise executive summary in under 80 words explaining what to pause and where to scale."
-        )
-        gemini_res = query_gemini_api(f"{system_prompt}\nData:\n{json.dumps(context_data)}")
+        groq_res = query_groq_api(user_data, system_prompt)
+        if groq_res and len(groq_res.strip()) > 10:
+            return groq_res.strip()
+    except Exception:
+        pass
+
+    # 2. Query Google Gemini 3.8 Flash with key
+    try:
+        gemini_res = query_gemini_api(f"{system_prompt}\n{user_data}")
         if gemini_res and len(gemini_res.strip()) > 10:
             return gemini_res.strip()
     except Exception:
@@ -1449,24 +1504,37 @@ def autonomous_llama_chat(
     top_campaigns = sorted(campaigns, key=lambda c: c.roas, reverse=True)[:3]
     wasted_campaigns = [c for c in campaigns if (c.sku in [p.id for p in out_of_stock] or c.revenue_generated == 0) and c.status == "ACTIVE"]
 
-    # 1. Query Google Gemini 3.8 Flash
+    sys_context = (
+        f"You are the Adventory AI Autonomous Analyst for the {allowed_sector.upper()} sector.\n"
+        f"Current Database Stats:\n"
+        f"- Daily Ad Spend: ₹{total_spend:,.2f}\n"
+        f"- Attributed Revenue: ₹{total_rev:,.2f}\n"
+        f"- Net Profit: ₹{total_profit:,.2f}\n"
+        f"- Blended ROAS: {net_roas}x\n"
+        f"- MRC Viewability Rate: {view_rate}%\n"
+        f"- Out of Stock SKUs: {[p.id for p in out_of_stock]}\n"
+        f"- Low Stock SKUs: {[f'{p.id} ({p.unit_stock} left)' for p in low_stock]}\n"
+        f"- Top Margin Products: {[f'{p.id}: {p.name} ({p.margin_percent}%)' for p in high_margin]}\n"
+        f"- Top ROAS Campaigns: {[f'{c.campaign_name} ({c.roas}x)' for c in top_campaigns]}\n"
+        f"- Wasted Spend Campaigns: {[f'{c.campaign_name} (₹{c.daily_spend}/day)' for c in wasted_campaigns]}\n\n"
+        f"Answer the user query concisely with real numbers and tactical recommendations.\n"
+        f"User Question: {user_msg}"
+    )
+
+    # 1. Query Groq Cloud Intelligence
     try:
-        sys_context = (
-            f"You are the Adventory AI Autonomous Gemini 3.8 Flash Analyst for the {allowed_sector.upper()} sector.\n"
-            f"Current Database Stats:\n"
-            f"- Daily Ad Spend: ₹{total_spend:,.2f}\n"
-            f"- Attributed Revenue: ₹{total_rev:,.2f}\n"
-            f"- Net Profit: ₹{total_profit:,.2f}\n"
-            f"- Blended ROAS: {net_roas}x\n"
-            f"- MRC Viewability Rate: {view_rate}%\n"
-            f"- Out of Stock SKUs: {[p.id for p in out_of_stock]}\n"
-            f"- Low Stock SKUs: {[f'{p.id} ({p.unit_stock} left)' for p in low_stock]}\n"
-            f"- Top Margin Products: {[f'{p.id}: {p.name} ({p.margin_percent}%)' for p in high_margin]}\n"
-            f"- Top ROAS Campaigns: {[f'{c.campaign_name} ({c.roas}x)' for c in top_campaigns]}\n"
-            f"- Wasted Spend Campaigns: {[f'{c.campaign_name} (₹{c.daily_spend}/day)' for c in wasted_campaigns]}\n\n"
-            f"Answer the user query concisely with real numbers and tactical recommendations.\n"
-            f"User Question: {user_msg}"
-        )
+        groq_reply = query_groq_api(user_msg, sys_context)
+        if groq_reply and len(groq_reply.strip()) > 5:
+            return {
+                "source": f"Groq Cloud Intelligence ({GROQ_MODEL})",
+                "reply": groq_reply.strip(),
+                "relevant_skus": [p.id for p in out_of_stock + low_stock][:5]
+            }
+    except Exception:
+        pass
+
+    # 2. Query Google Gemini 3.8 Flash
+    try:
         gemini_reply = query_gemini_api(sys_context)
         if gemini_reply and len(gemini_reply.strip()) > 5:
             return {

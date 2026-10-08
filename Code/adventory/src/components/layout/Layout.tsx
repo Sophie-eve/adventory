@@ -7,7 +7,7 @@ import { LoginModal } from '../modals/LoginModal';
 import { DemoModal } from '../modals/DemoModal';
 import { ThemeToggle } from '../ThemeToggle';
 import { useKeyboard } from '../../hooks/useKeyboard';
-import { MicroSlats } from '../ui/MicroSlats';
+import { CursorGrid } from '../ui/CursorGrid';
 
 export function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -20,33 +20,26 @@ export function Layout() {
 
   return (
     <div className="min-h-screen bg-[var(--t-surface-base)] flex flex-col relative text-[var(--t-text-primary)]">
-      {/* Full-Website Interactive MicroSlats Ground Field */}
+      {/* Full-Website Interactive CursorGrid Ground Field */}
       <div
         className="fixed inset-0 w-full h-full pointer-events-none overflow-hidden"
         style={{ zIndex: 0 }}
         aria-hidden="true"
       >
-        <MicroSlats
-          preset="swell"
-          color="#1e1922"
-          glintColor="#ffffff"
-          backgroundColor="#000000"
-          slatWidth={10}
-          slatHeight={27}
-          gap={6}
-          roundness={0.65}
-          interactive
-          cursorStrength={1}
-          cursorSize={40}
-          swirl={0}
-          trail={1.4}
-          lean={0}
-          intro
-          speed={0.35}
-          stretch={0.2}
-          glint={1.05}
-          contrast={1.35}
-          paused
+        <CursorGrid
+          cellSize={70}
+          color="#6a7d77"
+          radius={140}
+          falloff="smooth"
+          holdTime={200}
+          fadeDuration={350}
+          lineWidth={1.2}
+          maxOpacity={1}
+          fillOpacity={0}
+          gridOpacity={0}
+          cellRadius={0}
+          clickPulse
+          pulseSpeed={450}
           style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
         />
         {/* Soft atmospheric gradient to ground the canvas smoothly */}

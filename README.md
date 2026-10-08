@@ -5,7 +5,7 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![Firebase](https://img.shields.io/badge/Auth-Firebase_v10-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com)
-[![WebGL](https://img.shields.io/badge/Graphics-WebGL_OGL-990000?style=flat-square&logo=webgl&logoColor=white)](https://github.com/oframe/ogl)
+[![Groq](https://img.shields.io/badge/LLM-Groq_Cloud-f55036?style=flat-square)](https://groq.com)
 [![Gemini](https://img.shields.io/badge/AI-Google_Gemini_3.8-8E75C2?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev/)
 [![ElevenLabs](https://img.shields.io/badge/Voice-ElevenLabs_TTS-black?style=flat-square)](https://elevenlabs.io/)
 [![Netlify](https://img.shields.io/badge/Deploy-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://netlify.com)
@@ -69,7 +69,7 @@ Modern Direct-to-Consumer (D2C) brands bleed millions annually because **adverti
   - **Continuous Performance Curves**: Multi-timeframe trendlines (Monthly, Weekly, Daily).
 
 ### 7. 🎙️ AI Executive Diagnosis & Neural Voice Narration
-- **Autonomous Audit Diagnosis**: Powered by **Google Gemini 3.8 Flash**, analyzing cross-platform anomalies and inventory health.
+- **Autonomous Audit Diagnosis & Chat**: Powered by **Groq Cloud LLM** (Qwen / Llama) with high-speed inference and **Google Gemini 3.8 Flash** fallback, analyzing cross-platform anomalies, ROAS, and inventory health.
 - **Voice Briefing**: Powered by **ElevenLabs Neural Voice API** (`JBFqnCBsd6RMkjVDRZzb` persona) with real-time waveform visualizer and browser SpeechSynthesis fallback.
 - **Saved Briefings Log**: Historical archive of generated audits with timestamps and profit snapshots.
 
@@ -78,9 +78,10 @@ Modern Direct-to-Consumer (D2C) brands bleed millions annually because **adverti
 - Dynamic calculation of daily ad expenditure, 18% GST tax, total daily investment, and 30-day projected net profit.
 - Clean printable CSS format designed for corporate finance and audit review.
 
-### 9. 🌊 Generative WebGL SlicedWaves Canvas
-- Interactive procedural shader background rendered at 60 FPS using **OGL (WebGL 2.0 / GLSL ES 3.0)**.
-- High-contrast enterprise obsidian theme with subtle animated wave dynamics and cursor-following physics.
+### 9. 🌐 React Bits Interactive <CursorGrid /> Background
+- Powered by the open-source **React Bits `<CursorGrid />`** component engine.
+- Interactive canvas 2D lattice lighting up cells around the cursor with smooth falloff (`color: #6a7d77`, `cellSize: 70px`, `radius: 140px`) and emitting click pulse expanding wave dynamics (`pulseSpeed: 450px/s`).
+- Dark minimalist aesthetic perfectly harmonized with the Obsidian and Emerald enterprise theme.
 
 ### 10. ⚡ Dual-Mode Deployment Architecture
 - **Full-Stack Mode**: Python FastAPI backend + SQLite / Supabase PostgreSQL database + static assets.
@@ -193,7 +194,11 @@ Edit `.env` with your credentials:
 # Optional Supabase Database (defaults automatically to local SQLite d2c_engine.db)
 DATABASE_URL=sqlite:///./d2c_engine.db
 
-# Google Gemini API Key (for Autonomous AI Diagnostics)
+# Groq Cloud API Configuration (for High-Speed Autonomous AI Reasoning)
+GROQ_API_KEY=your-groq-api-key
+GROQ_MODEL=qwen/qwen3.8-27b
+
+# Google Gemini API Key (for Fallback Autonomous AI Diagnostics)
 GEMINI_API_KEY=your-gemini-api-key
 
 # ElevenLabs Configuration (for Neural Audio Narration)
